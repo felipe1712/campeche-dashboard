@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Head, router } from '@inertiajs/react';
-import { Container, Row, Col, Card, Form, Table, Button, Collapse } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Table, Button, Collapse, Tabs, Tab } from 'react-bootstrap';
 import Layout from '../../Layouts';
 import DynamicChart from './DynamicChart';
 import ErrorBoundary from '../../Components/ErrorBoundary';
+import CampecheMap from './CampecheMap';
 
-const IndicatorRow = ({ indicator }: any) => {
+const IndicatorRow = ({ indicator, selectedMunicipio }: any) => {
     const [open, setOpen] = useState(false);
     const dynamicData = indicator.metadata_dinamica || [];
+
+    // Filter indicator to show only if it is municipal and municipality is selected, or if no municipality selected
+    if (selectedMunicipio && !indicator.desglose_municipal) {
+        return null;
+    }
 
     return (
         <React.Fragment>
@@ -67,6 +73,8 @@ const IndicatorRow = ({ indicator }: any) => {
                                             <DynamicChart
                                                 dynamicData={dynamicData}
                                                 indicatorTitulo={indicator.titulo}
+                                                selectedMunicipio={selectedMunicipio}
+                                                isMunicipal={indicator.desglose_municipal}
                                             />
                                         </ErrorBoundary>
                                     </Card.Body>
@@ -113,6 +121,15 @@ const IndicatorRow = ({ indicator }: any) => {
 };
 
 export default function DashboardIndex({ indicators, temas, subtemas, dependencias, filters }: any) {
+    const [selectedMunicipio, setSelectedMunicipio] = useState<string | null>(null);
+    const [showMapTab, setShowMapTab] = useState<boolean>(true);
+
+    useEffect(() => {
+        const handleToggle = () => setShowMapTab(prev => !prev);
+        window.addEventListener('toggleMapTab', handleToggle);
+        return () => window.removeEventListener('toggleMapTab', handleToggle);
+    }, []);
+
     const handleFilterChange = (field: string, value: any) => {
         router.get(route('dashboard.index'), {
             ...filters,
@@ -137,159 +154,300 @@ export default function DashboardIndex({ indicators, temas, subtemas, dependenci
                         </Col>
                     </Row>
 
-                    {/* Filters Row */}
-                    <Row>
-                        <Col lg={12}>
-                            <Card>
-                                <Card.Header>
-                                    <h5 className="card-title mb-0"><i className="ri-filter-3-line align-middle me-1"></i> Búsqueda y Filtros</h5>
-                                </Card.Header>
-                                <Card.Body>
-                                    <Row className="g-3">
-                                        <Col md={2}>
-                                            <Form.Label>Año</Form.Label>
-                                            <Form.Select 
-                                                value={filters.año} 
-                                                onChange={e => handleFilterChange('año', e.target.value)}
-                                            >
-                                                {[2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030].map(y => (
-                                                    <option key={y} value={y}>{y}</option>
-                                                ))}
-                                            </Form.Select>
-                                        </Col>
-                                        <Col md={2}>
-                                            <Form.Label>Misión</Form.Label>
-                                            <Form.Select 
-                                                value={filters.mision} 
-                                                onChange={e => handleFilterChange('mision', e.target.value)}
-                                            >
-                                                <option value="1">Misión 1</option>
-                                                <option value="2">Misión 2</option>
-                                                <option value="3">Misión 3</option>
-                                                <option value="4">Misión 4</option>
-                                                <option value="5">Misión 5</option>
-                                            </Form.Select>
-                                        </Col>
-                                        <Col md={2}>
-                                            <Form.Label>Tema</Form.Label>
-                                            <Form.Select 
-                                                value={filters.tema_id || ''} 
-                                                onChange={e => {
-                                                    // Reset subtema if tema changes
-                                                    router.get(route('dashboard.index'), {
-                                                        ...filters,
-                                                        tema_id: e.target.value,
-                                                        subtema_id: ''
-                                                    }, { preserveState: true, preserveScroll: true });
-                                                }}
-                                            >
-                                                <option value="">Todos los temas</option>
-                                                {temas.map((tema: any) => (
-                                                    <option key={tema.id} value={tema.id}>{tema.nombre}</option>
-                                                ))}
-                                            </Form.Select>
-                                        </Col>
-                                        <Col md={2}>
-                                            <Form.Label>Subtema</Form.Label>
-                                            <Form.Select 
-                                                value={filters.subtema_id || ''} 
-                                                onChange={e => handleFilterChange('subtema_id', e.target.value)}
-                                                disabled={!filters.tema_id}
-                                            >
-                                                <option value="">Todos</option>
-                                                {subtemas.map((sub: any) => (
-                                                    <option key={sub.id} value={sub.id}>{sub.nombre}</option>
-                                                ))}
-                                            </Form.Select>
-                                        </Col>
-                                        <Col md={3}>
-                                            <Form.Label>Dependencia</Form.Label>
-                                            <Form.Select 
-                                                value={filters.dependencia || ''} 
-                                                onChange={e => handleFilterChange('dependencia', e.target.value)}
-                                            >
-                                                <option value="">Todas</option>
-                                                {dependencias.map((dep: any, i: number) => (
-                                                    <option key={i} value={dep}>{dep}</option>
-                                                ))}
-                                            </Form.Select>
-                                        </Col>
-                                        <Col md={1} className="d-flex align-items-end">
-                                            <Button variant="light" className="w-100" onClick={() => router.get(route('dashboard.index'))}>
-                                                <i className="ri-refresh-line"></i>
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
+                    <Tabs defaultActiveKey="graficas" id="dashboard-tabs" className="mb-4" variant="pills">
+                        <Tab eventKey="graficas" title={<><i className="ri-bar-chart-2-line"></i> Gráficas Globales</>}>
+                            {/* Filters Row */}
+                            <Row>
+                                <Col lg={12}>
+                                    <Card>
+                                        <Card.Header>
+                                            <h5 className="card-title mb-0"><i className="ri-filter-3-line align-middle me-1"></i> Búsqueda y Filtros</h5>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <Row className="g-3">
+                                                <Col md={2}>
+                                                    <Form.Label>Año</Form.Label>
+                                                    <Form.Select 
+                                                        value={filters.año} 
+                                                        onChange={e => handleFilterChange('año', e.target.value)}
+                                                    >
+                                                        {[2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030].map(y => (
+                                                            <option key={y} value={y}>{y}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </Col>
+                                                <Col md={2}>
+                                                    <Form.Label>Misión</Form.Label>
+                                                    <Form.Select 
+                                                        value={filters.mision} 
+                                                        onChange={e => handleFilterChange('mision', e.target.value)}
+                                                    >
+                                                        <option value="1">Misión 1</option>
+                                                        <option value="2">Misión 2</option>
+                                                        <option value="3">Misión 3</option>
+                                                        <option value="4">Misión 4</option>
+                                                        <option value="5">Misión 5</option>
+                                                    </Form.Select>
+                                                </Col>
+                                                <Col md={2}>
+                                                    <Form.Label>Tema</Form.Label>
+                                                    <Form.Select 
+                                                        value={filters.tema_id || ''} 
+                                                        onChange={e => {
+                                                            // Reset subtema if tema changes
+                                                            router.get(route('dashboard.index'), {
+                                                                ...filters,
+                                                                tema_id: e.target.value,
+                                                                subtema_id: ''
+                                                            }, { preserveState: true, preserveScroll: true });
+                                                        }}
+                                                    >
+                                                        <option value="">Todos los temas</option>
+                                                        {temas.map((tema: any) => (
+                                                            <option key={tema.id} value={tema.id}>{tema.nombre}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </Col>
+                                                <Col md={2}>
+                                                    <Form.Label>Subtema</Form.Label>
+                                                    <Form.Select 
+                                                        value={filters.subtema_id || ''} 
+                                                        onChange={e => handleFilterChange('subtema_id', e.target.value)}
+                                                        disabled={!filters.tema_id}
+                                                    >
+                                                        <option value="">Todos</option>
+                                                        {subtemas.map((sub: any) => (
+                                                            <option key={sub.id} value={sub.id}>{sub.nombre}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </Col>
+                                                <Col md={3}>
+                                                    <Form.Label>Dependencia</Form.Label>
+                                                    <Form.Select 
+                                                        value={filters.dependencia || ''} 
+                                                        onChange={e => handleFilterChange('dependencia', e.target.value)}
+                                                    >
+                                                        <option value="">Todas</option>
+                                                        {dependencias.map((dep: any, i: number) => (
+                                                            <option key={i} value={dep}>{dep}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </Col>
+                                                <Col md={1} className="d-flex align-items-end">
+                                                    <Button variant="light" className="w-100" onClick={() => router.get(route('dashboard.index'))}>
+                                                        <i className="ri-refresh-line"></i>
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            </Row>
 
-                    {/* Data Table Row */}
-                    <Row>
-                        <Col lg={12}>
-                            <Card>
-                                <Card.Header className="d-flex justify-content-between align-items-center">
-                                    <h5 className="card-title mb-0">Resultados ({indicators.total} indicadores)</h5>
-                                </Card.Header>
-                                <Card.Body className="p-0">
-                                    <div style={{ overflowX: 'auto' }}>
-                                        <Table className="mb-0 align-middle" style={{ tableLayout: 'fixed', width: '100%' }}>
-                                            <colgroup>
-                                                <col style={{ width: '90px' }} />
-                                                <col style={{ width: '40%' }} />
-                                                <col />
-                                                <col />
-                                                <col style={{ width: '80px' }} />
-                                            </colgroup>
-                                            <thead className="table-light">
-                                                <tr>
-                                                    <th>Clave</th>
-                                                    <th style={{ width: '40%' }}>Título</th>
-                                                    <th>Dependencia</th>
-                                                    <th>Tema</th>
-                                                    <th>Gráfica</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {indicators.data.length > 0 ? (
-                                                    indicators.data.map((indicator: any) => (
-                                                        <IndicatorRow key={indicator.id} indicator={indicator} />
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan={5} className="text-center py-4 text-muted">
-                                                            No se encontraron indicadores para los filtros seleccionados.
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                        </Table>
-                                    </div>
-                                </Card.Body>
-                                <Card.Footer>
-                                    {/* Simple Pagination info */}
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <span className="text-muted">
-                                            Mostrando {indicators.from || 0} a {indicators.to || 0} de {indicators.total} resultados
-                                        </span>
-                                        <div>
-                                            {indicators.links.map((link: any, index: number) => (
-                                                <Button 
-                                                    key={index}
-                                                    variant={link.active ? 'primary' : 'light'}
-                                                    className="me-1 btn-sm"
-                                                    disabled={!link.url}
-                                                    onClick={() => link.url && router.get(link.url, {}, { preserveScroll: true })}
-                                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                </Card.Footer>
-                            </Card>
-                        </Col>
-                    </Row>
+                            {/* Data Table Row */}
+                            <Row>
+                                <Col lg={12}>
+                                    <Card>
+                                        <Card.Header className="d-flex justify-content-between align-items-center">
+                                            <h5 className="card-title mb-0">Resultados ({indicators.total} indicadores)</h5>
+                                        </Card.Header>
+                                        <Card.Body className="p-0">
+                                            <div style={{ overflowX: 'auto' }}>
+                                                <Table className="mb-0 align-middle" style={{ tableLayout: 'fixed', width: '100%' }}>
+                                                    <colgroup>
+                                                        <col style={{ width: '90px' }} />
+                                                        <col style={{ width: '40%' }} />
+                                                        <col />
+                                                        <col />
+                                                        <col style={{ width: '80px' }} />
+                                                    </colgroup>
+                                                    <thead className="table-light">
+                                                        <tr>
+                                                            <th>Clave</th>
+                                                            <th style={{ width: '40%' }}>Título</th>
+                                                            <th>Dependencia</th>
+                                                            <th>Tema</th>
+                                                            <th>Gráfica</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {indicators.data.length > 0 ? (
+                                                            indicators.data.map((indicator: any) => (
+                                                                <IndicatorRow key={indicator.id} indicator={indicator} selectedMunicipio={null} />
+                                                            ))
+                                                        ) : (
+                                                            <tr>
+                                                                <td colSpan={5} className="text-center py-4 text-muted">
+                                                                    No se encontraron indicadores para los filtros seleccionados.
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </Table>
+                                            </div>
+                                        </Card.Body>
+                                        <Card.Footer>
+                                            {/* Simple Pagination info */}
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <span className="text-muted">
+                                                    Mostrando {indicators.from || 0} a {indicators.to || 0} de {indicators.total} resultados
+                                                </span>
+                                                <div>
+                                                    {indicators.links.map((link: any, index: number) => (
+                                                        <Button 
+                                                            key={index}
+                                                            variant={link.active ? 'primary' : 'light'}
+                                                            className="me-1 btn-sm"
+                                                            disabled={!link.url}
+                                                            onClick={() => link.url && router.get(link.url, {}, { preserveScroll: true })}
+                                                            dangerouslySetInnerHTML={{ __html: link.label }}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </Card.Footer>
+                                    </Card>
+                                </Col>
+                            </Row>
+                        </Tab>
+                        {showMapTab && (
+                            <Tab eventKey="mapa" title={<><i className="ri-map-pin-line"></i> Mapa de Municipios</>}>
+                            <Row>
+                                <Col lg={6} className="mb-4">
+                                    <Card className="h-100">
+                                        <Card.Body className="p-1">
+                                            <CampecheMap 
+                                                onMunicipioSelect={setSelectedMunicipio} 
+                                                selectedMunicipio={selectedMunicipio}
+                                            />
+                                            {selectedMunicipio && (
+                                                <div className="alert alert-primary mt-3 mx-2 mb-2">
+                                                    <i className="ri-information-line me-2"></i>
+                                                    Mostrando gráficas filtradas para el municipio de <strong>{selectedMunicipio}</strong>
+                                                </div>
+                                            )}
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                                <Col lg={6} className="mb-4">
+                                    <Card className="h-100">
+                                        <Card.Header>
+                                            <h5 className="card-title mb-0"><i className="ri-filter-3-line align-middle me-1"></i> Búsqueda y Filtros</h5>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <div className="mb-3">
+                                                <Form.Label>Año</Form.Label>
+                                                <Form.Select 
+                                                    value={filters.año} 
+                                                    onChange={e => handleFilterChange('año', e.target.value)}
+                                                >
+                                                    {[2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030].map(y => (
+                                                        <option key={y} value={y}>{y}</option>
+                                                    ))}
+                                                </Form.Select>
+                                            </div>
+                                            <div className="mb-3">
+                                                <Form.Label>Misión</Form.Label>
+                                                <Form.Select 
+                                                    value={filters.mision} 
+                                                    onChange={e => handleFilterChange('mision', e.target.value)}
+                                                >
+                                                    <option value="1">Misión 1</option>
+                                                    <option value="2">Misión 2</option>
+                                                    <option value="3">Misión 3</option>
+                                                    <option value="4">Misión 4</option>
+                                                    <option value="5">Misión 5</option>
+                                                </Form.Select>
+                                            </div>
+                                            <div className="mb-3">
+                                                <Form.Label>Tema</Form.Label>
+                                                <Form.Select 
+                                                    value={filters.tema_id || ''} 
+                                                    onChange={e => {
+                                                        router.get(route('dashboard.index'), {
+                                                            ...filters,
+                                                            tema_id: e.target.value,
+                                                            subtema_id: ''
+                                                        }, { preserveState: true, preserveScroll: true });
+                                                    }}
+                                                >
+                                                    <option value="">Todos los temas</option>
+                                                    {temas.map((tema: any) => (
+                                                        <option key={tema.id} value={tema.id}>{tema.nombre}</option>
+                                                    ))}
+                                                </Form.Select>
+                                            </div>
+                                            <div className="mb-3">
+                                                <Form.Label>Subtema</Form.Label>
+                                                <Form.Select 
+                                                    value={filters.subtema_id || ''} 
+                                                    onChange={e => handleFilterChange('subtema_id', e.target.value)}
+                                                    disabled={!filters.tema_id}
+                                                >
+                                                    <option value="">Todos</option>
+                                                    {subtemas.map((sub: any) => (
+                                                        <option key={sub.id} value={sub.id}>{sub.nombre}</option>
+                                                    ))}
+                                                </Form.Select>
+                                            </div>
+                                            <div className="mb-3">
+                                                <Form.Label>Dependencia</Form.Label>
+                                                <Form.Select 
+                                                    value={filters.dependencia || ''} 
+                                                    onChange={e => handleFilterChange('dependencia', e.target.value)}
+                                                >
+                                                    <option value="">Todas</option>
+                                                    {dependencias.map((dep: any, i: number) => (
+                                                        <option key={i} value={dep}>{dep}</option>
+                                                    ))}
+                                                </Form.Select>
+                                            </div>
+                                            <div className="d-flex justify-content-end mt-4">
+                                                <Button variant="light" onClick={() => router.get(route('dashboard.index'))}>
+                                                    <i className="ri-refresh-line me-1"></i> Limpiar Filtros
+                                                </Button>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                                
+                                <Col lg={12}>
+                                    <Card>
+                                        <Card.Header className="bg-light">
+                                            <h5 className="card-title mb-0">Indicadores Municipales {selectedMunicipio ? `- ${selectedMunicipio}` : ''}</h5>
+                                        </Card.Header>
+                                        <Card.Body className="p-0">
+                                            <Table className="mb-0 align-middle" style={{ tableLayout: 'fixed', width: '100%' }}>
+                                                <colgroup>
+                                                    <col style={{ width: '90px' }} />
+                                                    <col style={{ width: '40%' }} />
+                                                    <col />
+                                                    <col />
+                                                    <col style={{ width: '80px' }} />
+                                                </colgroup>
+                                                <tbody>
+                                                    {indicators.data.filter((ind: any) => ind.desglose_municipal).length > 0 ? (
+                                                        indicators.data
+                                                            .filter((ind: any) => ind.desglose_municipal)
+                                                            .map((indicator: any) => (
+                                                                <IndicatorRow key={indicator.id} indicator={indicator} selectedMunicipio={selectedMunicipio} />
+                                                            ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td colSpan={5} className="text-center py-4 text-muted">
+                                                                No se encontraron indicadores con desglose municipal.
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </Table>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            </Row>
+                        </Tab>
+                        )}
+                    </Tabs>
                 </Container>
             </div>
         </React.Fragment>

@@ -1,7 +1,96 @@
-/*
-Template Name: Velzon - Admin & Dashboard Template
-Author: Themesbrand
-Website: https://themesbrand.com/
-Contact: support@themesbrand.com
-File: Custom Css File
-*/
+/* Custom Sidebar Styling */
+.app-menu.navbar-menu {
+    /* Beautiful magenta gradient matching institutional colors */
+    background: linear-gradient(145deg, #9D2449 0%, #b31c45 40%, #c42650 70%, #d6325e 100%) !important;
+    border-right: none !important;
+    box-shadow: 4px 0px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Enhancing the hover effects slightly for a modern feel */
+.app-menu .navbar-nav .nav-link {
+    transition: all 0.3s ease !important;
+}
+
+.app-menu .navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    transform: translateX(4px) !important;
+    border-radius: 4px;
+}
+
+/* Ensure the text is perfectly white for contrast */
+.app-menu .navbar-nav .nav-link,
+.app-menu .navbar-nav .nav-link i {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.app-menu .navbar-nav .nav-link:hover,
+.app-menu .navbar-nav .nav-link:hover i {
+    color: #ffffff !important;
+}
+
+/* Subtle active state styling */
+.app-menu .navbar-nav .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-left: 3px solid #fff;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Institutional Typography Configurations */
+
+@font-face {
+    font-family: 'Averta';
+    src: url('../fonts/averta/Averta-Regular.woff2') format('woff2'),
+         url('../fonts/averta/Averta-Regular.woff') format('woff'),
+         url('../fonts/averta/Averta-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Averta';
+    src: url('../fonts/averta/Averta-Bold.woff2') format('woff2'),
+         url('../fonts/averta/Averta-Bold.woff') format('woff'),
+         url('../fonts/averta/Averta-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Global Application to Body */
+body {
+    font-family: 'Averta', sans-serif !important;
+}
+
+/* TITULO 1 */
+h1, .h1 {
+    font-family: 'Averta', sans-serif !important;
+    font-weight: 700 !important; /* Averta Bold */
+    font-size: 20pt !important;
+    text-transform: uppercase !important;
+}
+
+/* TITULO 2 */
+h2, .h2 {
+    font-family: 'Averta', sans-serif !important;
+    font-weight: 400 !important; /* Averta Regular */
+    font-size: 16pt !important;
+    text-transform: uppercase !important;
+}
+
+/* TITULO 3 */
+h3, .h3 {
+    font-family: 'Averta', sans-serif !important;
+    font-weight: 400 !important; /* Averta Regular */
+    font-size: 14pt !important;
+    text-transform: none !important; /* Altas y Bajas */
+}
+
+/* CUERPO DE TEXTO */
+p, .text-body, .body-text {
+    font-family: 'Averta', sans-serif !important;
+    font-weight: 400 !important; /* Averta Regular */
+    font-size: 12pt !important;
+    text-transform: none !important; /* Altas y Bajas */
+    line-height: 1.5 !important;
+    margin-top: 6pt !important;
+    margin-bottom: 6pt !important;
+}

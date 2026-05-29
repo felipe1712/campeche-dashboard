@@ -19,7 +19,8 @@ class Indicator extends Model
         'subtema_id',
         'metadata_dinamica',
         'fuente',
-        'notas'
+        'notas',
+        'desglose_municipal'
     ];
 
     protected $casts = [

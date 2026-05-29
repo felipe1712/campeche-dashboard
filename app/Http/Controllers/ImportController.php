@@ -70,6 +70,7 @@ class ImportController extends Controller
                             'fuente'           => $result['fuente'],
                             'titulo'           => $result['titulo'],
                             'dependencia'      => $result['dependencia'],
+                            'desglose_municipal' => $result['desglose_municipal'],
                         ]
                     );
                 }

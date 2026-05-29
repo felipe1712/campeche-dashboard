@@ -231,6 +231,11 @@ class ExcelParserService
                 'dependencia' => 'No Especificada',
             ];
 
+            $desgloseMunicipal = false;
+            if (count($headerNames) > 0 && strtolower(trim($headerNames[0])) === 'municipio') {
+                $desgloseMunicipal = true;
+            }
+
             $results[] = [
                 'clave'            => $clave,
                 'año'              => $year,
@@ -242,6 +247,7 @@ class ExcelParserService
                 'dependencia'      => $meta['dependencia'],
                 'tema_nombre'      => $meta['tema'],
                 'subtema_nombre'   => $meta['subtema'],
+                'desglose_municipal' => $desgloseMunicipal,
             ];
         }
 

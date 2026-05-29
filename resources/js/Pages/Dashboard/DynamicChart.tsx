@@ -8,9 +8,11 @@ type ChartType = 'bar' | 'line' | 'area' | 'pie' | 'donut';
 interface Props {
     dynamicData: any[];
     indicatorTitulo: string;
+    selectedMunicipio?: string | null;
+    isMunicipal?: boolean;
 }
 
-const DynamicChart = ({ dynamicData, indicatorTitulo }: Props) => {
+const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunicipal }: Props) => {
     const [chartType, setChartType] = useState<ChartType>('bar');
 
     // ── 1. Detect which column is the category label and which are numeric series ──
@@ -68,24 +70,70 @@ const DynamicChart = ({ dynamicData, indicatorTitulo }: Props) => {
         return { categoryKey, seriesKeys };
     }, [dynamicData]);
 
+    // ── 1.5 Extract real series names (e.g. multi-level headers like 2022, 2023) ──
+    const seriesNames = useMemo(() => {
+        const names: Record<string, string> = {};
+        for (const key of seriesKeys) {
+            names[key] = key; // default
+        }
+        
+        // Search first 3 rows for a sub-header row (e.g. empty category, but has years)
+        if (categoryKey) {
+            const headerRow = dynamicData.slice(0, 3).find(r => {
+                const catVal = r[categoryKey];
+                return !catVal || String(catVal).trim() === '';
+            });
+            if (headerRow) {
+                for (const key of seriesKeys) {
+                    const val = headerRow[key];
+                    if (val !== null && val !== undefined && String(val).trim() !== '') {
+                        names[key] = String(val).trim();
+                    }
+                }
+            }
+        }
+        return names;
+    }, [dynamicData, seriesKeys, categoryKey]);
+
     // ── 2. Filter out empty/header rows, and separate TOTAL rows ──
-    const { chartData, totalRow } = useMemo(() => {
-        if (!categoryKey) return { chartData: dynamicData, totalRow: null as any };
-        let totalRow: any = null;
-        const chartData = dynamicData.filter(row => {
+    const { chartData } = useMemo(() => {
+        if (!categoryKey) return { chartData: dynamicData };
+        const chartData = dynamicData.filter((row, index) => {
             const v = row[categoryKey!];
             if (v === null || v === undefined || String(v).trim() === '') return false;
-            // Detect TOTAL rows (case-insensitive, trim)
-            if (String(v).trim().toUpperCase() === 'TOTAL') {
-                totalRow = row;
-                return false; // exclude from main chart data
-            }
+            
+            // Exclude TOTAL rows from the chart data robustly
+            const hasTotal = Object.values(row).some(val => {
+                const s = String(val).trim().toUpperCase();
+                return s === 'TOTAL' || s === 'TOTALES';
+            });
+            if (hasTotal) return false;
+
             return true;
+        }).map(row => {
+            // Clean up trailing spaces from all string columns to fix messy Excel data
+            const cleanRow: any = { ...row };
+            for (const key of Object.keys(cleanRow)) {
+                if (typeof cleanRow[key] === 'string') {
+                    cleanRow[key] = cleanRow[key].trim();
+                }
+            }
+            return cleanRow;
         });
-        return { chartData, totalRow };
+        return { chartData };
     }, [dynamicData, categoryKey]);
 
-    const validData = chartData;
+    const validData = useMemo(() => {
+        if (isMunicipal && selectedMunicipio) {
+            // Find the column that holds the municipality name (usually categoryKey)
+            const muniKey = categoryKey || 'Municipio';
+            const row = chartData.find((r: any) => 
+                String(r[muniKey]).toUpperCase().trim() === selectedMunicipio.toUpperCase().trim()
+            );
+            return row ? [row] : [];
+        }
+        return chartData;
+    }, [chartData, isMunicipal, selectedMunicipio, categoryKey]);
 
     // ── 3. Detect hierarchical (pivotable) structure ──────────────────────────
     // Pattern: categoryKey has repeated values AND there's a secondary text column
@@ -138,12 +186,13 @@ const DynamicChart = ({ dynamicData, indicatorTitulo }: Props) => {
         if (isPie) {
             const key = seriesKeys[0];
             return validData.map(row => Number(row[key]) || 0);
+        } else {
+            return seriesKeys.map(key => ({
+                name: seriesNames[key] || key.replace('col_', 'Columna '),
+                data: validData.map(row => Number(row[key]) || 0)
+            }));
         }
-        return seriesKeys.map(key => ({
-            name: key.startsWith('col_') ? key.replace('col_', 'Columna ') : key,
-            data: validData.map(row => Number(row[key]) || 0),
-        }));
-    }, [validData, seriesKeys, isPie]);
+    }, [validData, seriesKeys, isPie, pivotInfo, seriesNames]);
 
     // ── 4. Guard: no data ──
     if (!validData.length || !seriesKeys.length) {
@@ -168,7 +217,12 @@ const DynamicChart = ({ dynamicData, indicatorTitulo }: Props) => {
     }
 
     // ── 5. ApexCharts options ──
-    const PALETTE = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#3b82f6'];
+    let PALETTE = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#3b82f6'];
+    
+    // Asignación de paletas dinámicas por Misión
+    if (indicatorTitulo && indicatorTitulo.startsWith('M1-')) {
+        PALETTE = ['#8D5821', '#575756', '#BE8B63', '#A86A28', '#6E6E6D', '#D1A37B', '#70461B', '#414141', '#A67956'];
+    }
 
     const options: ApexCharts.ApexOptions = {
         chart: {
@@ -286,6 +340,12 @@ const DynamicChart = ({ dynamicData, indicatorTitulo }: Props) => {
             intersect: false,
             theme: 'light',
             style: { fontSize: '12px' },
+            fixed: {
+                enabled: true,
+                position: 'topRight',
+                offsetX: -20,
+                offsetY: 20,
+            },
             y: {
                 formatter: (val: number) =>
                     val >= 1000 ? val.toLocaleString('es-MX') : String(val),
@@ -339,9 +399,9 @@ const DynamicChart = ({ dynamicData, indicatorTitulo }: Props) => {
             </Row>
 
             {/* Title */}
-            <h6 className="fw-bold mb-3 text-dark" style={{ lineHeight: '1.4' }}>
+            <h5 className="fw-bold mb-3" style={{ lineHeight: '1.4', color: '#9D2449' }}>
                 {indicatorTitulo}
-            </h6>
+            </h5>
 
             {/* Chart — key forces full remount when type changes */}
             <ReactApexChart
@@ -352,46 +412,6 @@ const DynamicChart = ({ dynamicData, indicatorTitulo }: Props) => {
                 height={400}
                 width="100%"
             />
-
-            {/* TOTAL footer — shown when the source table had a TOTAL row */}
-            {totalRow && !isPie && (
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        marginTop: '4px',
-                        padding: '8px 14px',
-                        background: 'linear-gradient(90deg, #9D2449 0%, #b31c45 100%)',
-                        borderRadius: '8px',
-                        flexWrap: 'wrap',
-                    }}
-                >
-                    <span style={{ color: '#fff', fontWeight: 700, fontSize: '12px', marginRight: '6px', flexShrink: 0 }}>
-                        TOTAL
-                    </span>
-                    {seriesKeys.map((key, idx) => {
-                        const val = Number(totalRow[key]);
-                        const label = key.startsWith('col_') ? key.replace('col_', 'Columna ') : key;
-                        return (
-                            <span
-                                key={idx}
-                                style={{
-                                    background: 'rgba(255,255,255,0.18)',
-                                    borderRadius: '6px',
-                                    padding: '2px 10px',
-                                    color: '#fff',
-                                    fontSize: '12px',
-                                    fontWeight: 600,
-                                    whiteSpace: 'nowrap',
-                                }}
-                            >
-                                {label}: {val >= 1000 ? val.toLocaleString('es-MX') : val}
-                            </span>
-                        );
-                    })}
-                </div>
-            )}
         </motion.div>
     );
 };
