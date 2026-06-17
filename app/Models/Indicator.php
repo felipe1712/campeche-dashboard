@@ -20,7 +20,8 @@ class Indicator extends Model
         'metadata_dinamica',
         'fuente',
         'notas',
-        'desglose_municipal'
+        'desglose_municipal',
+        'is_estrella'
     ];
 
     protected $casts = [

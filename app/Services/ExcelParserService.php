@@ -35,7 +35,7 @@ class ExcelParserService
                         $val = trim((string)$sheet->getCell([$col, $row])->getCalculatedValue());
                         $tempHeaders[$col] = mb_strtolower($val, 'UTF-8');
                     }
-                    if (array_search('clave', $tempHeaders) !== false || array_search('tema vinculado', $tempHeaders) !== false || array_search('tema', $tempHeaders) !== false) {
+                    if (array_search('clave', $tempHeaders) !== false || array_search('codigo', $tempHeaders) !== false || array_search('código', $tempHeaders) !== false || array_search('tema vinculado', $tempHeaders) !== false || array_search('tema', $tempHeaders) !== false) {
                         $headers = $tempHeaders;
                         $headerRowIndex = $row;
                         \Illuminate\Support\Facades\Log::info("Cabeceras encontradas en fila $row:", $headers);
@@ -55,7 +55,7 @@ class ExcelParserService
                 $colDependencia = false;
 
                 foreach ($headers as $col => $header) {
-                    if (str_contains($header, 'clave')) {
+                    if (str_contains($header, 'clave') || str_contains($header, 'codigo') || str_contains($header, 'código')) {
                         $colClave = $colClave ?: $col;
                     } elseif (str_contains($header, 'subtema')) {
                         $colSubtema = $colSubtema ?: $col;

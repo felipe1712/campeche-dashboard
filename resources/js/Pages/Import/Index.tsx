@@ -8,6 +8,7 @@ export default function ImportIndex({ flash }: any) {
         file: null as File | null,
         year: 2025,
         mision: '1',
+        is_estrella: false,
     });
 
     const submit = (e: React.FormEvent) => {
@@ -86,6 +87,17 @@ export default function ImportIndex({ flash }: any) {
                                                     </div>
                                                 </div>
                                             )}
+                                        </div>
+
+                                        <div className="mb-4">
+                                            <Form.Check 
+                                                type="switch"
+                                                id="is-estrella-switch"
+                                                label={<strong>Marcar como Indicadores Estratégicos</strong>}
+                                                checked={data.is_estrella}
+                                                onChange={(e) => setData('is_estrella', e.target.checked)}
+                                            />
+                                            <small className="text-muted">Si activas esta opción, los indicadores de este archivo aparecerán en la pantalla pública de bienvenida.</small>
                                         </div>
 
                                         <div className="text-end">

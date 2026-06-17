@@ -11,13 +11,23 @@ const CampecheMap: React.FC<CampecheMapProps> = ({ onMunicipioSelect, selectedMu
     const [mapLoaded, setMapLoaded] = useState(false);
 
     useEffect(() => {
-        fetch('/maps/campeche.geojson')
-            .then((res) => res.json())
-            .then((geoJson) => {
-                echarts.registerMap('campeche', geoJson as any);
-                setMapLoaded(true);
-            })
-            .catch((err) => console.error("Error loading Campeche GeoJSON:", err));
+        Promise.all([
+            fetch('/maps/campeche.geojson').then((res) => res.json()),
+            fetch('/maps/vecinos.geojson').then((res) => res.json())
+        ]).then(([campecheGeo, vecinosGeo]) => {
+            vecinosGeo.features.forEach((f: any) => {
+                f.properties.NOMGEO = f.properties.name;
+                f.properties.isNeighbor = true;
+            });
+            
+            const combinedGeo = {
+                type: 'FeatureCollection',
+                features: [...campecheGeo.features, ...vecinosGeo.features]
+            };
+
+            echarts.registerMap('campeche_region', combinedGeo as any);
+            setMapLoaded(true);
+        }).catch((err) => console.error("Error loading maps:", err));
     }, []);
 
     if (!mapLoaded) return <div className="text-center p-5">Cargando mapa de Campeche...</div>;
@@ -31,10 +41,11 @@ const CampecheMap: React.FC<CampecheMapProps> = ({ onMunicipioSelect, selectedMu
             {
                 name: 'Municipios',
                 type: 'map',
-                map: 'campeche',
+                map: 'campeche_region',
                 nameProperty: 'NOMGEO',
                 roam: true,
-                zoom: 1.2,
+                center: [-90.4, 19.3], // Approximate geographic center of Campeche
+                zoom: 3.5, // Zoomed in to fit Campeche, cutting off neighbors
                 itemStyle: {
                     areaColor: '#e9ecef',
                     borderColor: '#adb5bd',
@@ -70,13 +81,40 @@ const CampecheMap: React.FC<CampecheMapProps> = ({ onMunicipioSelect, selectedMu
                     fontSize: 10,
                     formatter: '{b}'
                 },
-                data: selectedMunicipio ? [{ name: selectedMunicipio, selected: true }] : []
+                data: [
+                    ...['Yucatán', 'Quintana Roo', 'Tabasco', 'Chiapas'].map(name => ({
+                        name,
+                        itemStyle: { areaColor: '#f8fafc', borderColor: '#e2e8f0', borderWidth: 1 },
+                        emphasis: { itemStyle: { areaColor: '#f8fafc', shadowBlur: 0 } },
+                        select: { disabled: true },
+                        label: { show: true, color: '#94a3b8', fontSize: 12, fontWeight: 'bold' }
+                    })),
+                    ...(selectedMunicipio ? [{ name: selectedMunicipio, selected: true }] : [])
+                ],
+                markPoint: {
+                    symbol: 'none',
+                    data: [
+                        {
+                            coord: [-91.3, 20.0],
+                            name: 'Golfo de México',
+                            label: {
+                                show: true,
+                                formatter: '{b}',
+                                color: '#60a5fa',
+                                fontSize: 16,
+                                fontStyle: 'italic',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    ]
+                }
             }
         ]
     };
 
     const onEvents = {
         click: (params: any) => {
+            if (['Yucatán', 'Quintana Roo', 'Tabasco', 'Chiapas', 'Golfo de México'].includes(params.name)) return;
             if (params.name) {
                 // Toggle logic: if clicked the same, deselect
                 if (selectedMunicipio === params.name) {

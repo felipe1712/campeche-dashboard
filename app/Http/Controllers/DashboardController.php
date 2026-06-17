@@ -19,6 +19,7 @@ class DashboardController extends Controller
         $tema_id = $request->input('tema_id');
         $subtema_id = $request->input('subtema_id');
         $dependencia = $request->input('dependencia');
+        $is_estrella = $request->input('is_estrella');
 
         $query->where('año', $año)
               ->where('mision', $mision);
@@ -34,6 +35,12 @@ class DashboardController extends Controller
         }
 
         $indicators = $query->paginate(20)->withQueryString();
+
+        $estrellas = Indicator::with('tema')
+            ->where('is_estrella', true)
+            ->where('año', $año)
+            ->where('mision', $mision)
+            ->get();
 
         $temas = Tema::orderBy('nombre')->get();
         
@@ -51,6 +58,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard/Index', [
             'indicators' => $indicators,
+            'estrellas' => $estrellas,
             'temas' => $temas,
             'subtemas' => $subtemas,
             'dependencias' => $dependencias,
@@ -60,6 +68,7 @@ class DashboardController extends Controller
                 'tema_id' => $tema_id,
                 'subtema_id' => $subtema_id,
                 'dependencia' => $dependencia,
+                'is_estrella' => $is_estrella,
             ]
         ]);
     }

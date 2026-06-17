@@ -28,7 +28,9 @@ use Inertia\Inertia;
 // });
 
 // Route::get("/apps-ecommerce-orders", [ProfileController::class, 'index'])->name('order-list');
-Route::redirect('/', '/dashboard');
+use App\Http\Controllers\LandingController;
+
+Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::middleware('auth')->group(function () {
     // Gestor de Carga (Importación de Excel)
     Route::get('import', [\App\Http\Controllers\ImportController::class, 'index'])->name('import.index');

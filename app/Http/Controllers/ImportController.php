@@ -20,19 +20,33 @@ class ImportController extends Controller
     public function store(Request $request, ExcelParserService $parser)
     {
         $request->validate([
-            'file'   => 'required|mimes:xlsx,xls|max:10240',
-            'year'   => 'required|integer',
-            'mision' => 'required|string',
+            'file'        => 'required|mimes:xlsx,xls|max:10240',
+            'year'        => 'required|integer',
+            'mision'      => 'required|string',
+            'is_estrella' => 'nullable|boolean',
         ]);
 
-        try {
-            $results = $parser->parseFile(
-                $request->file('file')->getRealPath(),
-                $request->year,
-                $request->mision
-            );
+        \Illuminate\Support\Facades\Log::info('Import Request Data: ', $request->all());
 
-            DB::transaction(function () use ($results) {
+        try {
+            $isEstrella = filter_var($request->input('is_estrella'), FILTER_VALIDATE_BOOLEAN);
+            
+            if ($isEstrella) {
+                $strategicParser = app(\App\Services\StrategicExcelParserService::class);
+                $results = $strategicParser->parseFile(
+                    $request->file('file')->getRealPath(),
+                    $request->year,
+                    $request->mision
+                );
+            } else {
+                $results = $parser->parseFile(
+                    $request->file('file')->getRealPath(),
+                    $request->year,
+                    $request->mision
+                );
+            }
+
+            DB::transaction(function () use ($results, $request, $isEstrella) {
                 foreach ($results as $result) {
 
                     // ── Crear / recuperar Tema ─────────────────────────────────
@@ -68,9 +82,10 @@ class ImportController extends Controller
                             'metadata_dinamica'=> $result['metadata_dinamica'],
                             'notas'            => $result['notas'],
                             'fuente'           => $result['fuente'],
-                            'titulo'           => $result['titulo'],
-                            'dependencia'      => $result['dependencia'],
+                            'titulo'             => $result['titulo'],
+                            'dependencia'        => $result['dependencia'],
                             'desglose_municipal' => $result['desglose_municipal'],
+                            'is_estrella'        => filter_var($request->input('is_estrella'), FILTER_VALIDATE_BOOLEAN),
                         ]
                     );
                 }
@@ -81,7 +96,7 @@ class ImportController extends Controller
                 'Archivo procesado correctamente. ' . count($results) . ' indicadores guardados.'
             );
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Error al procesar el archivo: ' . $e->getMessage());
         }
     }

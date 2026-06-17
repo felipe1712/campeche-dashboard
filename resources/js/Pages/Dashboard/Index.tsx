@@ -24,7 +24,14 @@ const IndicatorRow = ({ indicator, selectedMunicipio }: any) => {
                 className={open ? 'table-active' : ''}
             >
                 <td style={{ whiteSpace: 'nowrap' }}><strong>{indicator.clave}</strong></td>
-                <td>{indicator.titulo}</td>
+                <td>
+                    {indicator.titulo}
+                    {indicator.is_estrella === 1 && (
+                        <span className="badge bg-warning text-dark ms-2">
+                            <i className="ri-star-fill align-middle me-1"></i>Estratégico
+                        </span>
+                    )}
+                </td>
                 <td>{indicator.dependencia}</td>
                 <td>{indicator.tema ? indicator.tema.nombre : 'Sin Tema'}</td>
                 <td style={{ whiteSpace: 'nowrap', textAlign: 'center' }}>
@@ -120,9 +127,17 @@ const IndicatorRow = ({ indicator, selectedMunicipio }: any) => {
     );
 };
 
-export default function DashboardIndex({ indicators, temas, subtemas, dependencias, filters }: any) {
+export default function DashboardIndex({ 
+    indicators, 
+    estrellas,
+    temas, 
+    subtemas, 
+    dependencias, 
+    filters 
+}: any) {
     const [selectedMunicipio, setSelectedMunicipio] = useState<string | null>(null);
     const [showMapTab, setShowMapTab] = useState<boolean>(true);
+    const [activeTab, setActiveTab] = useState<string>('estrellas');
 
     useEffect(() => {
         const handleToggle = () => setShowMapTab(prev => !prev);
@@ -154,8 +169,164 @@ export default function DashboardIndex({ indicators, temas, subtemas, dependenci
                         </Col>
                     </Row>
 
-                    <Tabs defaultActiveKey="graficas" id="dashboard-tabs" className="mb-4" variant="pills">
-                        <Tab eventKey="graficas" title={<><i className="ri-bar-chart-2-line"></i> Gráficas Globales</>}>
+                    <Tabs 
+                        activeKey={activeTab} 
+                        onSelect={(k) => setActiveTab(k || 'estrellas')} 
+                        id="dashboard-tabs" 
+                        className="mb-4" 
+                        variant="pills"
+                    >
+                        <Tab eventKey="estrellas" title={<><i className="ri-star-fill text-warning"></i> Indicadores Estratégicos</>}>
+                            <Row>
+                                <Col lg={12}>
+                                    <div className="d-flex align-items-center mb-3">
+                                        <h5 className="card-title mb-0 flex-grow-1">Tablero de Indicadores Estratégicos</h5>
+                                        <div className="flex-shrink-0">
+                                            <span className="badge bg-soft-warning text-warning fs-14">
+                                                {estrellas.length} {estrellas.length === 1 ? 'Indicador' : 'Indicadores'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {estrellas.length === 0 ? (
+                                        <Card className="text-center p-5 border-0 shadow-sm">
+                                            <Card.Body>
+                                                <i className="ri-bar-chart-2-line display-4 text-muted mb-3"></i>
+                                                <h5>No hay indicadores estratégicos</h5>
+                                                <p className="text-muted">No se han marcado indicadores como estratégicos para el filtro actual.</p>
+                                            </Card.Body>
+                                        </Card>
+                                    ) : (
+                                        <div>
+                                            {/* Municipal Estrellas Section */}
+                                            {estrellas.filter((ind: any) => ind.desglose_municipal).length > 0 && (
+                                                <div className="mb-5">
+                                                    <h6 className="fw-bold mb-3" style={{ color: '#9D2449' }}>Indicadores con Desglose Municipal</h6>
+                                                    <Row className="g-4">
+                                                        <Col lg={6}>
+                                                            <Row className="g-4">
+                                                                {estrellas.filter((ind: any) => ind.desglose_municipal).map((estrella: any) => (
+                                                                    <Col lg={12} key={estrella.id}>
+                                                                        <Card className="shadow-sm border-0 h-100" style={{ borderRadius: '12px' }}>
+                                                                            <Card.Header className="bg-white border-bottom pb-2 pt-3">
+                                                                                <div className="d-flex align-items-center">
+                                                                                    <div className="flex-grow-1">
+                                                                                        <h6 className="card-title mb-1 fs-15">{estrella.titulo}</h6>
+                                                                                        <p className="text-muted mb-0 fs-13">
+                                                                                            <span className="fw-medium text-dark">{estrella.clave}</span> 
+                                                                                            {estrella.dependencia && ` | ${estrella.dependencia}`}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div className="flex-shrink-0 ms-2">
+                                                                                        <span className="badge bg-warning text-dark"><i className="ri-star-fill align-middle"></i></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </Card.Header>
+                                                                            <Card.Body className="bg-light">
+                                                                                <ErrorBoundary>
+                                                                                    <DynamicChart 
+                                                                                        dynamicData={estrella.metadata_dinamica || []}
+                                                                                        indicatorTitulo={estrella.titulo}
+                                                                                        selectedMunicipio={selectedMunicipio} 
+                                                                                        isMunicipal={estrella.desglose_municipal}
+                                                                                    />
+                                                                                </ErrorBoundary>
+                                                                                {(estrella.notas || estrella.fuente) && (
+                                                                                    <div className="mt-3 text-muted fs-12 border-top pt-2">
+                                                                                        {estrella.notas && <div className="mb-1"><strong>Notas:</strong> {estrella.notas}</div>}
+                                                                                        {estrella.fuente && <div><strong>Fuente:</strong> {estrella.fuente}</div>}
+                                                                                    </div>
+                                                                                )}
+                                                                            </Card.Body>
+                                                                        </Card>
+                                                                    </Col>
+                                                                ))}
+                                                            </Row>
+                                                        </Col>
+                                                        <Col lg={6}>
+                                                            <div className="sticky-top" style={{ top: '80px', zIndex: 10 }}>
+                                                                <Card className="bg-white text-dark shadow-sm border-0" style={{ borderRadius: '15px', overflow: 'hidden' }}>
+                                                                    <Card.Body className="p-0" style={{ height: '600px' }}>
+                                                                        <div className="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
+                                                                            <div>
+                                                                                <h6 className="mb-0 fw-bold">Mapa Interactivo</h6>
+                                                                                <small className="text-muted">Selecciona un municipio</small>
+                                                                            </div>
+                                                                            {selectedMunicipio && (
+                                                                                <span className="badge bg-primary fs-12 d-flex align-items-center">
+                                                                                    {selectedMunicipio}
+                                                                                    <button 
+                                                                                        className="btn-close btn-close-white ms-2" 
+                                                                                        style={{ width: '0.4em', height: '0.4em' }}
+                                                                                        onClick={() => setSelectedMunicipio(null)}
+                                                                                    ></button>
+                                                                                </span>
+                                                                            )}
+                                                                        </div>
+                                                                        <div style={{ height: 'calc(100% - 60px)' }}>
+                                                                            <CampecheMap 
+                                                                                selectedMunicipio={selectedMunicipio}
+                                                                                onMunicipioSelect={setSelectedMunicipio}
+                                                                            />
+                                                                        </div>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </div>
+                                                        </Col>
+                                                    </Row>
+                                                </div>
+                                            )}
+        
+                                            {/* Other Estrellas Section */}
+                                            {estrellas.filter((ind: any) => !ind.desglose_municipal).length > 0 && (
+                                                <div>
+                                                    <h6 className="fw-bold mb-3" style={{ color: '#9D2449' }}>Otros Indicadores Estratégicos</h6>
+                                                    <Row className="g-4">
+                                                        {estrellas.filter((ind: any) => !ind.desglose_municipal).map((estrella: any) => (
+                                                            <Col lg={12} key={estrella.id}>
+                                                                <Card className="shadow-sm border-0 h-100" style={{ borderRadius: '12px' }}>
+                                                                    <Card.Header className="bg-white border-bottom pb-2 pt-3">
+                                                                        <div className="d-flex align-items-center">
+                                                                            <div className="flex-grow-1">
+                                                                                <h6 className="card-title mb-1 fs-15">{estrella.titulo}</h6>
+                                                                                <p className="text-muted mb-0 fs-13">
+                                                                                    <span className="fw-medium text-dark">{estrella.clave}</span> 
+                                                                                    {estrella.dependencia && ` | ${estrella.dependencia}`}
+                                                                                </p>
+                                                                            </div>
+                                                                            <div className="flex-shrink-0 ms-2">
+                                                                                <span className="badge bg-warning text-dark"><i className="ri-star-fill align-middle"></i></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </Card.Header>
+                                                                    <Card.Body className="bg-light">
+                                                                        <ErrorBoundary>
+                                                                            <DynamicChart 
+                                                                                dynamicData={estrella.metadata_dinamica || []}
+                                                                                indicatorTitulo={estrella.titulo}
+                                                                                selectedMunicipio={null} 
+                                                                                isMunicipal={false}
+                                                                            />
+                                                                        </ErrorBoundary>
+                                                                        {(estrella.notas || estrella.fuente) && (
+                                                                            <div className="mt-3 text-muted fs-12 border-top pt-2">
+                                                                                {estrella.notas && <div className="mb-1"><strong>Notas:</strong> {estrella.notas}</div>}
+                                                                                {estrella.fuente && <div><strong>Fuente:</strong> {estrella.fuente}</div>}
+                                                                            </div>
+                                                                        )}
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        ))}
+                                                    </Row>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Col>
+                            </Row>
+                        </Tab>
+
+                        <Tab eventKey="graficas" title={<><i className="ri-bar-chart-2-line"></i> Directorio Completo</>}>
                             {/* Filters Row */}
                             <Row>
                                 <Col lg={12}>
@@ -299,7 +470,7 @@ export default function DashboardIndex({ indicators, temas, subtemas, dependenci
                                                             variant={link.active ? 'primary' : 'light'}
                                                             className="me-1 btn-sm"
                                                             disabled={!link.url}
-                                                            onClick={() => link.url && router.get(link.url, {}, { preserveScroll: true })}
+                                                            onClick={() => link.url && router.get(link.url, {}, { preserveScroll: true, preserveState: true })}
                                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                                         />
                                                     ))}
