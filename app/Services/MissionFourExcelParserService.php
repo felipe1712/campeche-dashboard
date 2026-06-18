@@ -195,7 +195,8 @@ class MissionFourExcelParserService
         for ($r = 1; $r <= $highestRow; $r++) {
             for ($c = 1; $c <= $highestCol; $c++) {
                 $val = $grid[$r][$c];
-                if (!empty($val) && preg_match('/\b' . $targetYear . '\b/', $val)) {
+                $valLower = strtolower($val);
+                if (!empty($val) && preg_match('/\b' . $targetYear . '\b/', $val) && !str_starts_with($valLower, 'fuente') && !str_starts_with($valLower, 'nota')) {
                     // Check if it's a title row (usually the row below it has headers like OBRA, MUNICIPIO, etc.)
                     $titleRow = $r;
                     $titleCol = $c;
@@ -212,6 +213,10 @@ class MissionFourExcelParserService
         // The headers are usually on the next row
         $headerRow = $titleRow + 1;
         
+        if ($headerRow > $highestRow) {
+            return ['tables' => null, 'notas' => '', 'fuente' => ''];
+        }
+
         // Find how far the headers go
         $headers = [];
         for ($c = $titleCol; $c <= $highestCol; $c++) {
