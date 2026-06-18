@@ -1,18 +1,37 @@
 import React, { useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { Table, Form, Row, Col, ButtonGroup, Button } from 'react-bootstrap';
+import { Table, Form, Row, Col, ButtonGroup, Button, Modal } from 'react-bootstrap';
 type ChartType = 'bar' | 'line' | 'area' | 'pie' | 'donut' | 'table';
 interface Props {
     dynamicData: any[];
+    metadataTabla?: any[];
     indicatorTitulo: string;
     selectedMunicipio?: string | null;
     isMunicipal?: boolean;
 }
 
-const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunicipal }: Props) => {
+const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMunicipio, isMunicipal }: Props) => {
     const [chartType, setChartType] = useState<ChartType>('bar');
     const [selectedYear, setSelectedYear] = useState<string>('Completo');
     const [selectedRightSubCat, setSelectedRightSubCat] = useState<string | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const [activeTable, setActiveTable] = useState<any>(null);
+
+    const isInvestment = useMemo(() => {
+        const lowerIndicator = indicatorTitulo?.toLowerCase() || '';
+        const lowerTable = activeTable?.title?.toLowerCase() || '';
+        return lowerIndicator.includes('inversión') || lowerIndicator.includes('inversion') || 
+               lowerTable.includes('inversión') || lowerTable.includes('inversion');
+    }, [indicatorTitulo, activeTable]);
+
+    const formatCurrency = (val: any) => {
+        if (!isInvestment || val === null || val === undefined || val === '') return val;
+        const num = Number(val);
+        if (!isNaN(num) && val.toString().trim() !== '') {
+            return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(num);
+        }
+        return val;
+    };
 
     // 1. Analyze keys to extract categories, years, and subcategories (Sedes, Sexo, etc.)
     const { categoryKey, uniqueYears, uniqueSubCats, parsedStructure } = useMemo(() => {
@@ -28,8 +47,12 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
             if (key.startsWith('col_')) continue;
             const hasTextContent = dynamicData.some(r => {
                 const rawVal = r[key];
-                if (rawVal === null || rawVal === '') return false;
+                if (rawVal === null || rawVal === '' || rawVal === undefined) return false;
                 const cleanVal = typeof rawVal === 'string' ? rawVal.replace(/,/g, '').trim() : rawVal;
+                if (typeof cleanVal === 'string') {
+                    const upper = cleanVal.toUpperCase();
+                    if (upper === '-' || upper === 'ND' || upper === 'N/A' || upper === 'NA') return false;
+                }
                 return isNaN(Number(cleanVal));
             });
             if (hasTextContent) {
@@ -95,13 +118,29 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
     }, [dynamicData]);
 
     // 2. Filter rows for municipal selection if active
-    const validData = useMemo(() => {
+    const { validData, chartNotes } = useMemo(() => {
+        const notes: string[] = [];
+        const isNote = (val: string) => /^(?:[a-zA-Z]\/|Nota:|Fuente:|\*)/i.test(val.trim());
+
+        let filtered = dynamicData.filter(r => r[categoryKey] !== null && String(r[categoryKey]).trim() !== '');
+
         if (isMunicipal && selectedMunicipio && categoryKey) {
-            return dynamicData.filter((r: any) => 
+            filtered = filtered.filter((r: any) => 
                 String(r[categoryKey]).toUpperCase().trim() === selectedMunicipio.toUpperCase().trim()
             );
         }
-        return dynamicData.filter(r => r[categoryKey] !== null && String(r[categoryKey]).trim() !== '');
+
+        const finalData = [];
+        for (const r of filtered) {
+            const catVal = String(r[categoryKey]);
+            if (isNote(catVal)) {
+                notes.push(catVal);
+            } else {
+                finalData.push(r);
+            }
+        }
+        
+        return { validData: finalData, chartNotes: notes };
     }, [dynamicData, isMunicipal, selectedMunicipio, categoryKey]);
 
     const categories = useMemo(() => {
@@ -141,9 +180,14 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
                 name: name,
                 data: validData.map(row => {
                     const rawVal = row[k.originalKey];
-                    const cleanVal = typeof rawVal === 'string' ? rawVal.replace(/,/g, '').trim() : rawVal;
-                    const val = Number(cleanVal);
-                    return isNaN(val) ? 0 : val;
+                    if (rawVal === null || rawVal === '' || rawVal === undefined) return null;
+                    const val = typeof rawVal === 'string' ? rawVal.replace(/,/g, '').trim() : rawVal;
+                    if (typeof val === 'string') {
+                        const upper = val.toUpperCase();
+                        if (upper === '-' || upper === 'ND' || upper === 'N/A' || upper === 'NA') return null;
+                    }
+                    const num = Number(val);
+                    return isNaN(num) ? null : num;
                 })
             };
         });
@@ -196,7 +240,16 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
                     yaxis: {
                         labels: {
                             style: { colors: '#94a3b8', fontSize: '11px' },
-                            formatter: (val: number) => val >= 1000 ? `${(val / 1000).toFixed(1)}k` : String(Math.round(val)),
+                            formatter: (val: number) => {
+                                if (isInvestment) {
+                                    if (val >= 1000000) return `$${(val / 1000000).toFixed(1)}M`;
+                                    if (val >= 1000) return `$${(val / 1000).toFixed(0)}k`;
+                                    return `$${val}`;
+                                }
+                                if (val >= 1000000) return (val / 1000000).toFixed(1) + 'M';
+                                if (val >= 1000) return (val / 1000).toFixed(0) + 'k';
+                                return val.toString();
+                            },
                         },
                     },
                 }
@@ -207,7 +260,9 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
                 followCursor: true,
                 shared: !isPie,
                 intersect: false,
-                y: { formatter: (val: number) => val.toLocaleString('es-MX') },
+                y: { 
+                    formatter: (val: number) => val !== null ? (isInvestment ? formatCurrency(val) : val.toLocaleString('es-MX')) : 'N/A' 
+                },
             },
         };
 
@@ -228,7 +283,7 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
                                     <td className="fw-bold">{cat}</td>
                                     {series.map((s: any) => (
                                         <td key={s.name} className="text-end">
-                                            {s.data[i] ? s.data[i].toLocaleString('es-MX') : '0'}
+                                            {s.data[i] !== null ? formatCurrency(s.data[i]) : '-'}
                                         </td>
                                     ))}
                                 </tr>
@@ -251,7 +306,81 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
         );
     };
 
-    // 4. Main render layout logic
+    const renderComplexHeaders = (headers: string[]) => {
+        const hasFofisp = headers.some(h => h.includes('FOFISP'));
+        if (!hasFofisp) {
+            return (
+                <tr>
+                    {headers.map((h: string, i: number) => <th key={i}>{h}</th>)}
+                </tr>
+            );
+        }
+
+        let topRow = [];
+        let bottomRow = [];
+        
+        for (let i = 0; i < headers.length; i++) {
+            let h = headers[i];
+            
+            if (h.includes('FASP')) {
+                const match = h.match(/\d{4}-\d{4}/);
+                const year = match ? match[0] : 'Inversión';
+                let colSpan = 1;
+                if (i + 1 < headers.length && headers[i+1].includes('FOFISP')) {
+                    colSpan = 2;
+                }
+                topRow.push(<th key={`top-${i}`} colSpan={colSpan} className="text-center bg-light border-bottom-0">{year}</th>);
+                bottomRow.push(<th key={`bot-${i}`} className="text-center bg-light text-muted" style={{fontSize: '0.85em'}}>FASP</th>);
+            } else if (h.includes('FOFISP')) {
+                bottomRow.push(<th key={`bot-${i}`} className="text-center bg-light text-muted" style={{fontSize: '0.85em'}}>FOFISP</th>);
+            } else {
+                topRow.push(<th key={`top-${i}`} rowSpan={2} className="align-middle text-center bg-light">{h}</th>);
+            }
+        }
+
+        return (
+            <>
+                <tr>{topRow}</tr>
+                {bottomRow.length > 0 && <tr>{bottomRow}</tr>}
+            </>
+        );
+    };
+
+    const renderTableModal = () => {
+        if (!activeTable) return null;
+        return (
+            <Modal show={showModal} onHide={() => setShowModal(false)} size="xl" centered>
+                <Modal.Header closeButton className="bg-light">
+                    <Modal.Title className="fs-5 text-primary">
+                        <i className="ri-table-line me-2 align-middle"></i>
+                        {indicatorTitulo} - {activeTable.year !== 'Todos' ? activeTable.year : ''}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="p-0">
+                    <div className="table-responsive">
+                        <Table striped bordered hover className="mb-0" style={{ fontSize: '13px' }}>
+                            <thead className="bg-light">
+                                {renderComplexHeaders(activeTable.headers || [])}
+                            </thead>
+                            <tbody>
+                                {activeTable.rows?.map((row: any[], i: number) => (
+                                    <tr key={i}>
+                                        {row.map((cell: any, j: number) => (
+                                            <td key={j}>{j > 0 ? formatCurrency(cell) : cell}</td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>Cerrar</Button>
+                </Modal.Footer>
+            </Modal>
+        );
+    };
+
     const renderCharts = () => {
         const totalSubCat = uniqueSubCats.find(s => s.toUpperCase() === 'TOTAL');
         const otherSubCats = uniqueSubCats.filter(s => s.toUpperCase() !== 'TOTAL');
@@ -320,6 +449,15 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
             );
         }
 
+        if (uniqueSubCats.length <= 1) {
+            const currentSubCat = uniqueSubCats[0] || 'General';
+            return (
+                <div>
+                    {renderSingleChart(currentSubCat, undefined)}
+                </div>
+            );
+        }
+
         // Sequential fallback view
         return uniqueSubCats.map((subCat) => (
             <div key={subCat} className="mb-4">
@@ -376,6 +514,83 @@ const DynamicChart = ({ dynamicData, indicatorTitulo, selectedMunicipio, isMunic
             <div className="charts-container">
                 {renderCharts()}
             </div>
+            {chartNotes.length > 0 && (
+                <div className="mt-3 text-start">
+                    {chartNotes.map((note, idx) => (
+                        <p key={idx} className="text-muted mb-1" style={{ fontSize: '0.85rem' }}>
+                            {note}
+                        </p>
+                    ))}
+                </div>
+            )}
+
+            {metadataTabla && metadataTabla.length > 0 && (
+                <div className={`mt-4 ${validData.length > 0 && categoryKey ? 'pt-3 border-top' : ''} text-center`}>
+                    {validData.length > 0 && categoryKey ? (
+                        <>
+                            <div className="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                                {metadataTabla.map((table: any, idx: number) => (
+                                    <Button 
+                                        key={idx} 
+                                        variant="outline-primary"
+                                        onClick={() => {
+                                            setActiveTable(table);
+                                            setShowModal(true);
+                                        }}
+                                    >
+                                        Ver Detalle {table.year !== 'Todos' ? table.year : ''}
+                                    </Button>
+                                ))}
+                            </div>
+                            {renderTableModal()}
+                        </>
+                    ) : (
+                        <div className="text-start">
+                            <div className="text-muted fs-13 mb-3">
+                                <i className="ri-information-line align-middle me-1"></i>
+                                Información detallada del indicador:
+                            </div>
+                            <div className="table-responsive">
+                                <Table striped bordered hover className="mb-0" style={{ fontSize: '13px' }}>
+                                    <thead className="bg-light">
+                                        {renderComplexHeaders(metadataTabla[0]?.headers || [])}
+                                    </thead>
+                                    <tbody>
+                                        {metadataTabla[0]?.rows?.map((row: any[], i: number) => (
+                                            <tr key={i}>
+                                                {row.map((cell: any, j: number) => (
+                                                    <td key={j}>{j > 0 ? formatCurrency(cell) : cell}</td>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </div>
+                            
+                            {metadataTabla.length > 1 && (
+                                <div className="mt-3 text-center">
+                                    <p className="text-muted small mb-2">Ver información de otros años:</p>
+                                    <div className="d-flex flex-wrap justify-content-center gap-2">
+                                        {metadataTabla.slice(1).map((table: any, idx: number) => (
+                                            <Button 
+                                                key={idx} 
+                                                variant="outline-primary"
+                                                onClick={() => {
+                                                    setActiveTable(table);
+                                                    setShowModal(true);
+                                                }}
+                                            >
+                                                Ver Detalle {table.year !== 'Todos' ? table.year : ''}
+                                            </Button>
+                                        ))}
+                                    </div>
+                                    {renderTableModal()}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

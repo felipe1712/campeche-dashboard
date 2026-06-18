@@ -79,6 +79,7 @@ const IndicatorRow = ({ indicator, selectedMunicipio }: any) => {
                                         <ErrorBoundary>
                                             <DynamicChart
                                                 dynamicData={dynamicData}
+                                                metadataTabla={indicator.metadata_tabla}
                                                 indicatorTitulo={indicator.titulo}
                                                 selectedMunicipio={selectedMunicipio}
                                                 isMunicipal={indicator.desglose_municipal}
@@ -168,7 +169,11 @@ export default function DashboardIndex({
                             </div>
                         </Col>
                     </Row>
+                </Container>
+            </div>
 
+            <div className="page-content pt-0">
+                <Container fluid>
                     <Tabs 
                         activeKey={activeTab} 
                         onSelect={(k) => setActiveTab(k || 'estrellas')} 
@@ -177,6 +182,44 @@ export default function DashboardIndex({
                         variant="pills"
                     >
                         <Tab eventKey="estrellas" title={<><i className="ri-star-fill text-warning"></i> Indicadores Estratégicos</>}>
+                            <Row className="mb-4">
+                                <Col lg={12}>
+                                    <Card>
+                                        <Card.Header>
+                                            <h5 className="card-title mb-0"><i className="ri-filter-3-line align-middle me-1"></i> Búsqueda y Filtros</h5>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <Row className="g-3">
+                                                <Col md={2}>
+                                                    <Form.Label>Año</Form.Label>
+                                                    <Form.Select 
+                                                        value={filters.año || ''} 
+                                                        onChange={e => handleFilterChange('año', e.target.value)}
+                                                    >
+                                                        {[2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030].map(y => (
+                                                            <option key={y} value={y}>{y}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </Col>
+                                                <Col md={2}>
+                                                    <Form.Label>Misión</Form.Label>
+                                                    <Form.Select 
+                                                        value={filters.mision || '1'} 
+                                                        onChange={e => handleFilterChange('mision', e.target.value)}
+                                                    >
+                                                        <option value="1">Misión 1</option>
+                                                        <option value="2">Misión 2</option>
+                                                        <option value="3">Misión 3</option>
+                                                        <option value="4">Misión 4</option>
+                                                        <option value="5">Misión 5</option>
+                                                    </Form.Select>
+                                                </Col>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            </Row>
+
                             <Row>
                                 <Col lg={12}>
                                     <div className="d-flex align-items-center mb-3">
@@ -225,6 +268,7 @@ export default function DashboardIndex({
                                                                                 <ErrorBoundary>
                                                                                     <DynamicChart 
                                                                                         dynamicData={estrella.metadata_dinamica || []}
+                                                                                        metadataTabla={estrella.metadata_tabla}
                                                                                         indicatorTitulo={estrella.titulo}
                                                                                         selectedMunicipio={selectedMunicipio} 
                                                                                         isMunicipal={estrella.desglose_municipal}
@@ -302,6 +346,7 @@ export default function DashboardIndex({
                                                                         <ErrorBoundary>
                                                                             <DynamicChart 
                                                                                 dynamicData={estrella.metadata_dinamica || []}
+                                                                                metadataTabla={estrella.metadata_tabla}
                                                                                 indicatorTitulo={estrella.titulo}
                                                                                 selectedMunicipio={null} 
                                                                                 isMunicipal={false}
@@ -339,7 +384,7 @@ export default function DashboardIndex({
                                                 <Col md={2}>
                                                     <Form.Label>Año</Form.Label>
                                                     <Form.Select 
-                                                        value={filters.año} 
+                                                        value={filters.año || ''} 
                                                         onChange={e => handleFilterChange('año', e.target.value)}
                                                     >
                                                         {[2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030].map(y => (
@@ -350,7 +395,7 @@ export default function DashboardIndex({
                                                 <Col md={2}>
                                                     <Form.Label>Misión</Form.Label>
                                                     <Form.Select 
-                                                        value={filters.mision} 
+                                                        value={filters.mision || '1'} 
                                                         onChange={e => handleFilterChange('mision', e.target.value)}
                                                     >
                                                         <option value="1">Misión 1</option>

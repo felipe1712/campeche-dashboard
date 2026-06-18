@@ -8,8 +8,8 @@ export default function Login({ status, canResetPassword }: any) {
 
     const [passwordShow, setPasswordShow] = useState<boolean>(false);
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: 'admin@themesbrand.com' || '',
-        password: '12345678' || '',
+        email: '',
+        password: '',
         remember: false,
     });
 

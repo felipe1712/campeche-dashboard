@@ -32,7 +32,11 @@ class ImportController extends Controller
             $isEstrella = filter_var($request->input('is_estrella'), FILTER_VALIDATE_BOOLEAN);
             
             if ($isEstrella) {
-                $strategicParser = app(\App\Services\StrategicExcelParserService::class);
+                if ($request->mision == '2') {
+                    $strategicParser = app(\App\Services\MissionTwoExcelParserService::class);
+                } else {
+                    $strategicParser = app(\App\Services\StrategicExcelParserService::class);
+                }
                 $results = $strategicParser->parseFile(
                     $request->file('file')->getRealPath(),
                     $request->year,
@@ -79,7 +83,8 @@ class ImportController extends Controller
                             'mision'           => $result['mision'],
                             'tema_id'          => $temaId,
                             'subtema_id'       => $subtemaId,
-                            'metadata_dinamica'=> $result['metadata_dinamica'],
+                            'metadata_dinamica'=> !empty($result['metadata_dinamica']) ? $result['metadata_dinamica'] : [],
+                            'metadata_tabla'   => !empty($result['metadata_tabla']) ? $result['metadata_tabla'] : null,
                             'notas'            => $result['notas'],
                             'fuente'           => $result['fuente'],
                             'titulo'             => $result['titulo'],

@@ -99,7 +99,7 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                 <Col md={6}>
                                     <Form.Label>Misión</Form.Label>
                                     <Form.Select 
-                                        value={filters.mision || ''} 
+                                        value={filters.mision || '1'} 
                                         onChange={e => handleFilterChange('mision', e.target.value)}
                                     >
                                         <option value="1">Misión 1</option>
@@ -130,6 +130,7 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                                 <Card.Body>
                                                     <DynamicChart 
                                                         dynamicData={indicator.metadata_dinamica || []}
+                                                        metadataTabla={indicator.metadata_tabla}
                                                         indicatorTitulo={indicator.titulo}
                                                         selectedMunicipio={selectedMunicipio} 
                                                         isMunicipal={indicator.desglose_municipal}
@@ -196,6 +197,7 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                         <Card.Body>
                                             <DynamicChart 
                                                 dynamicData={indicator.metadata_dinamica || []}
+                                                metadataTabla={indicator.metadata_tabla}
                                                 indicatorTitulo={indicator.titulo}
                                                 selectedMunicipio={null} 
                                                 isMunicipal={false}

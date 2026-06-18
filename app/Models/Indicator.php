@@ -18,6 +18,7 @@ class Indicator extends Model
         'tema_id',
         'subtema_id',
         'metadata_dinamica',
+        'metadata_tabla',
         'fuente',
         'notas',
         'desglose_municipal',
@@ -26,6 +27,7 @@ class Indicator extends Model
 
     protected $casts = [
         'metadata_dinamica' => 'array',
+        'metadata_tabla' => 'array',
     ];
 
     public function tema()
