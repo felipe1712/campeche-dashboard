@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Services\ExcelParserService;
+use App\Services\StrategicExcelParserService;
+use App\Services\MissionTwoExcelParserService;
+use App\Services\MissionFourExcelParserService;
 use App\Models\Indicator;
 use App\Models\Tema;
 use App\Models\Subtema;
@@ -12,12 +15,29 @@ use Illuminate\Support\Facades\DB;
 
 class ImportController extends Controller
 {
+    protected $excelParser;
+    protected $strategicParser;
+    protected $missionTwoParser;
+    protected $missionFourParser;
+
+    public function __construct(
+        ExcelParserService $excelParser, 
+        StrategicExcelParserService $strategicParser,
+        MissionTwoExcelParserService $missionTwoParser,
+        MissionFourExcelParserService $missionFourParser
+    ) {
+        $this->excelParser = $excelParser;
+        $this->strategicParser = $strategicParser;
+        $this->missionTwoParser = $missionTwoParser;
+        $this->missionFourParser = $missionFourParser;
+    }
+
     public function index()
     {
         return Inertia::render('Import/Index');
     }
 
-    public function store(Request $request, ExcelParserService $parser)
+    public function store(Request $request)
     {
         $request->validate([
             'file'        => 'required|mimes:xlsx,xls|max:10240',
@@ -33,9 +53,11 @@ class ImportController extends Controller
             
             if ($isEstrella) {
                 if ($request->mision == '2') {
-                    $strategicParser = app(\App\Services\MissionTwoExcelParserService::class);
+                    $strategicParser = $this->missionTwoParser;
+                } elseif ($request->mision == '4') {
+                    $strategicParser = $this->missionFourParser;
                 } else {
-                    $strategicParser = app(\App\Services\StrategicExcelParserService::class);
+                    $strategicParser = $this->strategicParser;
                 }
                 $results = $strategicParser->parseFile(
                     $request->file('file')->getRealPath(),
@@ -43,7 +65,7 @@ class ImportController extends Controller
                     $request->mision
                 );
             } else {
-                $results = $parser->parseFile(
+                $results = $this->excelParser->parseFile(
                     $request->file('file')->getRealPath(),
                     $request->year,
                     $request->mision
