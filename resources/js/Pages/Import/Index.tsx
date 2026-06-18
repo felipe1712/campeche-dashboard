@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, router } from '@inertiajs/react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import Layout from '../../Layouts';
 
-export default function ImportIndex({ flash }: any) {
+export default function ImportIndex({ flash, uploads }: any) {
     const { data, setData, post, processing, errors, progress } = useForm({
         file: null as File | null,
         year: 2025,
@@ -106,6 +106,85 @@ export default function ImportIndex({ flash }: any) {
                                             </Button>
                                         </div>
                                     </Form>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+
+                    {/* Tabla de archivos subidos */}
+                    <Row className="justify-content-center mt-4">
+                        <Col lg={8}>
+                            <Card>
+                                <Card.Header>
+                                    <h5 className="card-title mb-0">Archivos Importados Recientemente</h5>
+                                </Card.Header>
+                                <Card.Body>
+                                    <div className="table-responsive">
+                                        <table className="table table-hover table-centered align-middle table-nowrap mb-0">
+                                            <thead className="text-muted table-light">
+                                                <tr>
+                                                    <th>Misión</th>
+                                                    <th>Año</th>
+                                                    <th>Tipo</th>
+                                                    <th>Total Indicadores</th>
+                                                    <th>Última Actualización</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {uploads && uploads.length > 0 ? uploads.map((u: any, idx: number) => (
+                                                    <tr key={idx}>
+                                                        <td>
+                                                            <div className="d-flex align-items-center">
+                                                                <div className="avatar-xs me-2">
+                                                                    <div className="avatar-title bg-primary-subtle text-primary rounded-circle fs-16">
+                                                                        <i className="ri-file-excel-2-line"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <h6 className="mb-0">Misión {u.mision}</h6>
+                                                            </div>
+                                                        </td>
+                                                        <td>{u.año}</td>
+                                                        <td>
+                                                            {u.is_estrella 
+                                                                ? <span className="badge bg-success-subtle text-success border border-success border-opacity-25 px-2 py-1"><i className="ri-star-fill me-1"></i>Estratégicos</span> 
+                                                                : <span className="badge bg-secondary-subtle text-secondary border border-secondary border-opacity-25 px-2 py-1"><i className="ri-bar-chart-fill me-1"></i>Estándar</span>}
+                                                        </td>
+                                                        <td>{u.count}</td>
+                                                        <td>{new Date(u.last_updated).toLocaleString('es-MX')}</td>
+                                                        <td>
+                                                            <Button 
+                                                                variant="soft-danger" 
+                                                                size="sm" 
+                                                                onClick={() => {
+                                                                    if (confirm(`¿Estás seguro de eliminar los ${u.count} indicadores de la Misión ${u.mision} (${u.año})?`)) {
+                                                                        router.delete(route('import.destroyGroup'), {
+                                                                            data: {
+                                                                                mision: u.mision,
+                                                                                año: u.año,
+                                                                                is_estrella: u.is_estrella ? 1 : 0
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <i className="ri-delete-bin-line align-middle me-1"></i> Borrar
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                )) : (
+                                                    <tr>
+                                                        <td colSpan={6} className="text-center py-4 text-muted">
+                                                            <div className="mt-3 mb-2">
+                                                                <i className="ri-folder-open-line fs-3"></i>
+                                                            </div>
+                                                            No hay archivos procesados.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </Card.Body>
                             </Card>
                         </Col>

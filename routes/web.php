@@ -4,6 +4,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VelzonRoutesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImportController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -33,8 +34,9 @@ use App\Http\Controllers\LandingController;
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::middleware('auth')->group(function () {
     // Gestor de Carga (Importación de Excel)
-    Route::get('import', [\App\Http\Controllers\ImportController::class, 'index'])->name('import.index');
-    Route::post('import', [\App\Http\Controllers\ImportController::class, 'store'])->name('import.store');
+    Route::get('/import', [ImportController::class, 'index'])->name('import.index');
+    Route::post('/import', [ImportController::class, 'store'])->name('import.store');
+    Route::delete('/import/group', [ImportController::class, 'destroyGroup'])->name('import.destroyGroup');
 
     // Gestión de Catálogos (Tema/Subtema)
     Route::get('catalog', [\App\Http\Controllers\CatalogController::class, 'index'])->name('catalog.index');

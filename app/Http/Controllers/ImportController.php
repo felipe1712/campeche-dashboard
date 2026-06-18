@@ -34,7 +34,14 @@ class ImportController extends Controller
 
     public function index()
     {
-        return Inertia::render('Import/Index');
+        $uploads = Indicator::select('mision', 'año', 'is_estrella', DB::raw('count(*) as count'), DB::raw('MAX(updated_at) as last_updated'))
+            ->groupBy('mision', 'año', 'is_estrella')
+            ->orderBy('last_updated', 'desc')
+            ->get();
+
+        return Inertia::render('Import/Index', [
+            'uploads' => $uploads
+        ]);
     }
 
     public function store(Request $request)
@@ -126,5 +133,21 @@ class ImportController extends Controller
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Error al procesar el archivo: ' . $e->getMessage());
         }
+    }
+
+    public function destroyGroup(Request $request)
+    {
+        $request->validate([
+            'mision' => 'required|string',
+            'año' => 'required|integer',
+            'is_estrella' => 'required|boolean',
+        ]);
+
+        Indicator::where('mision', $request->mision)
+                 ->where('año', $request->año)
+                 ->where('is_estrella', $request->is_estrella)
+                 ->delete();
+
+        return redirect()->back()->with('success', 'Grupo de indicadores eliminado correctamente.');
     }
 }
