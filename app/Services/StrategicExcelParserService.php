@@ -80,6 +80,10 @@ class StrategicExcelParserService
             preg_match('/M\d-\d+/', $sheetTitle, $matches);
             $clave = $matches[0] ?? $sheetTitle;
 
+            if (!isset($metadataMap[$clave])) {
+                continue;
+            }
+
             $highestRow = $sheet->getHighestRow();
             $highestColumn = $sheet->getHighestColumn();
             $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn);
@@ -262,16 +266,10 @@ class StrategicExcelParserService
             // Clean up fill-down for first column if there are empty groups
             $lastRowKey = null;
             $cleanData = [];
+            $meta = $metadataMap[$clave];
             foreach ($mergedData as $key => $rowData) {
                 $cleanData[] = $rowData;
             }
-
-            $meta = $metadataMap[$clave] ?? [
-                'tema'        => 'Sin Tema',
-                'subtema'     => '',
-                'titulo'      => 'Indicador ' . $clave,
-                'dependencia' => 'No Especificada',
-            ];
 
             $desgloseMunicipal = false;
             if (count($cleanData) > 0) {

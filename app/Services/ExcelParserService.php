@@ -108,6 +108,10 @@ class ExcelParserService
             preg_match('/M\d-\d+/', $sheetTitle, $matches);
             $clave = $matches[0] ?? $sheetTitle;
 
+            if (!isset($metadataMap[$clave])) {
+                continue;
+            }
+
             $highestRow = $sheet->getHighestRow();
             $highestColumn = $sheet->getHighestColumn();
             $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn);
@@ -224,12 +228,7 @@ class ExcelParserService
                 }
                 unset($rowRef);
             }
-            $meta = $metadataMap[$clave] ?? [
-                'tema'        => 'Sin Tema',
-                'subtema'     => '',
-                'titulo'      => 'Indicador ' . $clave,
-                'dependencia' => 'No Especificada',
-            ];
+            $meta = $metadataMap[$clave];
 
             $desgloseMunicipal = false;
             if (count($headerNames) > 0 && strtolower(trim($headerNames[0])) === 'municipio') {

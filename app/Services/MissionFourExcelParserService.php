@@ -94,13 +94,11 @@ class MissionFourExcelParserService
             preg_match('/M\d-\d+/', $sheetTitle, $matches);
             $clave = $matches[0] ?? $sheetTitle;
             
-            $meta = $metadataMap[$clave] ?? [
-                'tema'        => 'Sin Tema',
-                'subtema'     => '',
-                'titulo'      => 'Indicador ' . $clave,
-                'dependencia' => 'No Especificada',
-                'v2023' => 0, 'v2024' => 0, 'v2025' => 0
-            ];
+            if (!isset($metadataMap[$clave])) {
+                continue;
+            }
+
+            $meta = $metadataMap[$clave];
 
             $isInversion = stripos($meta['titulo'], 'inversión') !== false || stripos($meta['titulo'], 'inversiones') !== false;
 
