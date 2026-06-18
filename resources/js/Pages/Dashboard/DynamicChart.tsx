@@ -197,18 +197,18 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
             finalSeries = series.length > 0 ? series[0].data : [];
         }
 
-        const options: ApexCharts.ApexOptions = {
+        const getChartOptions = (chartTitle: string, cats: string[], isPieChart: boolean): ApexCharts.ApexOptions => ({
             chart: {
                 type: chartType,
                 height: 350,
-                toolbar: { show: !isPie },
+                toolbar: { show: !isPieChart },
                 zoom: { enabled: false },
                 animations: { enabled: true, speed: 500 },
                 fontFamily: 'Inter, system-ui, sans-serif',
             },
             colors: PALETTE,
             title: {
-                text: title,
+                text: chartTitle,
                 align: 'left',
                 style: { fontSize: '14px', fontWeight: 600, color: '#334155' }
             },
@@ -219,21 +219,21 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                     borderRadius: 4,
                 },
             },
-            fill: isPie
+            fill: isPieChart
                 ? { type: 'gradient', gradient: { shade: 'dark', type: 'diagonal2', opacityFrom: 1, opacityTo: 0.8, stops: [0, 100] } }
                 : chartType === 'line'
                     ? { type: 'solid' }
                     : { type: 'gradient', gradient: { shade: 'light', type: 'vertical', opacityFrom: 0.85, opacityTo: 0.25, stops: [0, 100] } },
             dataLabels: { enabled: false },
             stroke: chartType === 'bar' ? { show: false } : { show: true, curve: 'smooth', width: 2.5 },
-            ...(isPie
-                ? { labels: categories }
+            ...(isPieChart
+                ? { labels: cats }
                 : {
                     xaxis: {
-                        categories,
+                        categories: cats,
                         labels: {
                             style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 500 },
-                            rotate: categories.length > 6 ? -30 : 0,
+                            rotate: cats.length > 6 ? -30 : 0,
                             trim: true,
                         },
                     },
@@ -258,13 +258,15 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
             tooltip: {
                 theme: 'light',
                 followCursor: true,
-                shared: !isPie,
+                shared: !isPieChart,
                 intersect: false,
                 y: { 
-                    formatter: (val: number) => val !== null ? (isInvestment ? formatCurrency(val) : val.toLocaleString('es-MX')) : 'N/A' 
+                    formatter: (val: number) => val !== null && val !== undefined ? (isInvestment ? `$${val.toLocaleString('es-MX')}` : val.toLocaleString('es-MX')) : 'N/A' 
                 },
             },
-        };
+        });
+
+        const options = getChartOptions(title || '', categories, isPie);
 
         if (chartType === 'table') {
             return (
@@ -283,7 +285,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                                     <td className="fw-bold">{cat}</td>
                                     {series.map((s: any) => (
                                         <td key={s.name} className="text-end">
-                                            {s.data[i] !== null ? formatCurrency(s.data[i]) : '-'}
+                                            {s.data[i] !== null && s.data[i] !== undefined ? (isInvestment ? `$${s.data[i].toLocaleString('es-MX')}` : s.data[i].toLocaleString('es-MX')) : '-'}
                                         </td>
                                     ))}
                                 </tr>
@@ -301,8 +303,98 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                 series={finalSeries}
                 options={options}
                 height={350}
-                width="100%"
             />
+        );
+    };
+
+    const renderMunicipalTransposed = () => {
+        const target = selectedMunicipio ? selectedMunicipio.toUpperCase().trim() : 'ESTADO';
+        const totalRowRegex = /^(TOTAL|ESTADO|TOTAL ESTATAL)$/i;
+        
+        const targetRow = dynamicData.find(r => {
+            if (!r[categoryKey]) return false;
+            const val = String(r[categoryKey]).toUpperCase().trim();
+            return selectedMunicipio ? val === target : totalRowRegex.test(val);
+        });
+
+        if (!targetRow) {
+            return (
+                <div className="alert alert-warning py-1 px-2 mb-2" style={{ fontSize: '12px' }}>
+                    <i className="ri-alert-line me-1" /> No se encontró la fila {target}.
+                </div>
+            );
+        }
+
+        const cats = Array.from(uniqueSubCats);
+        const filteredYears = selectedYear === 'Completo' ? Array.from(uniqueYears) : [selectedYear];
+        
+        const series = filteredYears.map(year => {
+            const name = year === 'General' ? (selectedMunicipio || 'TOTAL ESTATAL') : year;
+            return {
+                name,
+                data: cats.map(subCat => {
+                    const p = parsedStructure.find(ps => ps.year === year && ps.subCat === subCat);
+                    if (!p) return null;
+                    const rawVal = targetRow[p.originalKey];
+                    if (rawVal === null || rawVal === '' || rawVal === undefined) return null;
+                    const val = typeof rawVal === 'string' ? rawVal.replace(/,/g, '').trim() : rawVal;
+                    if (typeof val === 'string') {
+                        const upper = val.toUpperCase();
+                        if (upper === '-' || upper === 'ND' || upper === 'N/A' || upper === 'NA') return null;
+                    }
+                    const num = Number(val);
+                    return isNaN(num) ? null : num;
+                })
+            };
+        });
+
+        const isPie = chartType === 'pie' || chartType === 'donut';
+        let finalSeries: any = series;
+        if (isPie) {
+            finalSeries = series.length > 0 ? series[0].data : [];
+        }
+
+        const chartTitle = selectedMunicipio || 'TOTAL ESTATAL';
+        const options = getChartOptions(chartTitle, cats, isPie);
+
+        if (chartType === 'table') {
+            return (
+                <div className="table-responsive mt-3">
+                    <h6 className="mb-3 text-muted">{chartTitle}</h6>
+                    <Table striped bordered hover size="sm" className="mb-0 text-muted" style={{ fontSize: '13px' }}>
+                        <thead className="bg-light">
+                            <tr>
+                                <th>Concepto</th>
+                                {series.map((s: any) => <th key={s.name} className="text-end">{s.name}</th>)}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cats.map((cat: string, i: number) => (
+                                <tr key={cat}>
+                                    <td className="fw-bold">{cat}</td>
+                                    {series.map((s: any) => (
+                                        <td key={s.name} className="text-end">
+                                            {s.data[i] !== null && s.data[i] !== undefined ? (isInvestment ? `$${s.data[i].toLocaleString('es-MX')}` : s.data[i].toLocaleString('es-MX')) : '-'}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </div>
+            );
+        }
+
+        return (
+            <div className="bg-white rounded border border-slate-100 p-4 shadow-sm mb-4">
+                <ReactApexChart
+                    key={`municipal-transposed-${selectedMunicipio || 'total'}-${selectedYear}`}
+                    type={chartType as any}
+                    series={finalSeries}
+                    options={options}
+                    height={350}
+                />
+            </div>
         );
     };
 
@@ -459,11 +551,15 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
         }
 
         // Sequential fallback view
-        return uniqueSubCats.map((subCat) => (
-            <div key={subCat} className="mb-4">
-                {renderSingleChart(subCat, subCat !== 'General' ? subCat : undefined)}
-            </div>
-        ));
+        return isMunicipal ? (
+                renderMunicipalTransposed()
+            ) : (
+                uniqueSubCats.map(subCat => (
+                    <div key={subCat} className="bg-white rounded border border-slate-100 p-4 shadow-sm mb-4">
+                        {renderSingleChart(subCat, indicatorTitulo ? undefined : subCat)}
+                    </div>
+                ))
+            );
     };
 
     return (
