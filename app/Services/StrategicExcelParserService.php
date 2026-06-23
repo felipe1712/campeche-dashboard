@@ -276,9 +276,30 @@ class StrategicExcelParserService
                 $firstHeader = array_keys($cleanData[0])[0];
                 if (strtolower(trim($firstHeader)) === 'municipio') {
                     $desgloseMunicipal = true;
+                    $lastRow = end($cleanData);
+                    $lastVal = strtolower(trim($lastRow[$firstHeader] ?? ''));
+                    if (!in_array($lastVal, ['estado', 'total', 'total estatal'])) {
+                        $sumRow = [$firstHeader => 'ESTADO'];
+                        foreach ($cleanData as $row) {
+                            $municipioName = strtolower(trim($row[$firstHeader] ?? ''));
+                            // Skip garbage summary rows that some tables append at the bottom
+                            if (strpos($municipioName, 'total de') === 0 || $municipioName === 'notas' || $municipioName === 'fuente') continue;
+
+                            foreach ($row as $k => $v) {
+                                $cleanV = str_replace(',', '', (string)$v);
+                                if ($k !== $firstHeader && is_numeric($cleanV)) {
+                                    $sumRow[$k] = ($sumRow[$k] ?? 0) + (float)$cleanV;
+                                } elseif ($k !== $firstHeader && !isset($sumRow[$k])) {
+                                    $sumRow[$k] = null;
+                                }
+                            }
+                        }
+                        $cleanData[] = $sumRow;
+                    }
                 }
             }
 
+            $meta = $metadataMap[$clave];
             $results[] = [
                 'clave'            => $clave,
                 'año'              => $year,

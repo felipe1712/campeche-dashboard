@@ -29,11 +29,19 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
-            ...parent::share($request),
+        // Cache the missions to avoid DB hit on every single request
+        $missions = \Illuminate\Support\Facades\Cache::remember('global_missions', 60*24, function () {
+            return \App\Models\Mission::orderBy('numero')->get()->keyBy('numero')->map(fn($m) => $m->nombre)->toArray();
+        });
+
+        return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
             ],
-        ];
+            'missions' => $missions,
+            'flash' => [
+                'message' => fn () => $request->session()->get('message')
+            ],
+        ]);
     }
 }

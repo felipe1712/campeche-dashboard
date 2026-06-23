@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap';
 import DynamicChart from '../Dashboard/DynamicChart';
 import CampecheMap from '../Dashboard/CampecheMap';
@@ -7,6 +7,19 @@ import campecheLogo from '../../../images/campeche-logo.png';
 
 export default function LandingIndex({ indicators = [], filters = {} }: any) {
     const [selectedMunicipio, setSelectedMunicipio] = useState<string | null>(null);
+    const isFirstRender = React.useRef(true);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        const section = document.getElementById('municipal-indicators-section');
+        if (section) {
+            const y = section.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+    }, [selectedMunicipio]);
 
     const handleFilterChange = (key: string, value: any) => {
         router.get(route('landing.index'), {
@@ -102,11 +115,9 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                         value={filters.mision || '1'} 
                                         onChange={e => handleFilterChange('mision', e.target.value)}
                                     >
-                                        <option value="1">Misión 1</option>
-                                        <option value="2">Misión 2</option>
-                                        <option value="3">Misión 3</option>
-                                        <option value="4">Misión 4</option>
-                                        <option value="5">Misión 5</option>
+                                        {Object.entries(usePage<any>().props.missions || {}).map(([num, name]: any) => (
+                                            <option key={num} value={num}>{name}</option>
+                                        ))}
                                     </Form.Select>
                                 </Col>
                             </Row>
@@ -117,7 +128,7 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
 
             {/* Municipal Section */}
             {hasMunicipalData && (
-                <div className="page-content bg-light pt-5 pb-4">
+                <div className="page-content bg-light pt-5 pb-4" id="municipal-indicators-section">
                     <Container style={{ maxWidth: '1200px' }}>
                         <h3 className="fw-bold mb-4" style={{ color: '#9D2449' }}>Indicadores con Desglose Municipal</h3>
                         <Row className="g-4">
@@ -132,8 +143,9 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                                         dynamicData={indicator.metadata_dinamica || []}
                                                         metadataTabla={indicator.metadata_tabla}
                                                         indicatorTitulo={indicator.titulo}
-                                                        selectedMunicipio={selectedMunicipio} 
+                                                        selectedMunicipio={selectedMunicipio || (indicator.clave === 'M5-009' ? 'ESTADO' : null)} 
                                                         isMunicipal={indicator.desglose_municipal}
+                                                        defaultChartType={indicator.tipo_grafica}
                                                     />
                                                     {indicator.fuente && (
                                                         <div className="mt-3 text-end">
@@ -189,7 +201,6 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
             {otherIndicators.length > 0 && (
                 <div className={`page-content bg-white ${hasMunicipalData ? 'pt-5' : 'pt-0'}`}>
                     <Container style={{ maxWidth: '1200px' }}>
-                        <h3 className="fw-bold mb-4" style={{ color: '#9D2449' }}>Otros Indicadores Estratégicos</h3>
                         <Row className="g-4">
                             {otherIndicators.map((indicator: any) => (
                                 <Col lg={12} key={indicator.id}>
@@ -199,8 +210,9 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                                 dynamicData={indicator.metadata_dinamica || []}
                                                 metadataTabla={indicator.metadata_tabla}
                                                 indicatorTitulo={indicator.titulo}
-                                                selectedMunicipio={null} 
+                                                selectedMunicipio={indicator.clave === 'M5-009' ? 'ESTADO' : null} 
                                                 isMunicipal={false}
+                                                defaultChartType={indicator.tipo_grafica}
                                             />
                                             {indicator.fuente && (
                                                 <div className="mt-3 text-end">

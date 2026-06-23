@@ -233,6 +233,29 @@ class ExcelParserService
             $desgloseMunicipal = false;
             if (count($headerNames) > 0 && strtolower(trim($headerNames[0])) === 'municipio') {
                 $desgloseMunicipal = true;
+                if (count($data) > 0) {
+                    $lastRow = end($data);
+                    $firstHeader = array_keys($data[0])[0];
+                    $lastVal = strtolower(trim($lastRow[$firstHeader] ?? ''));
+                    if (!in_array($lastVal, ['estado', 'total', 'total estatal'])) {
+                        $sumRow = [$firstHeader => 'ESTADO'];
+                        foreach ($data as $row) {
+                            $municipioName = strtolower(trim($row[$firstHeader] ?? ''));
+                            // Skip garbage summary rows that some tables append at the bottom
+                            if (strpos($municipioName, 'total de') === 0 || $municipioName === 'notas' || $municipioName === 'fuente') continue;
+
+                            foreach ($row as $k => $v) {
+                                $cleanV = str_replace(',', '', $v);
+                                if ($k !== $firstHeader && is_numeric($cleanV)) {
+                                    $sumRow[$k] = ($sumRow[$k] ?? 0) + (float)$cleanV;
+                                } elseif ($k !== $firstHeader && !isset($sumRow[$k])) {
+                                    $sumRow[$k] = null;
+                                }
+                            }
+                        }
+                        $data[] = $sumRow;
+                    }
+                }
             }
 
             $results[] = [

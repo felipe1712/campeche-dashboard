@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, useForm, router } from '@inertiajs/react';
+import { Head, useForm, usePage, router } from '@inertiajs/react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import Layout from '../../Layouts';
 
@@ -57,11 +57,9 @@ export default function ImportIndex({ flash, uploads }: any) {
                                                     onChange={e => setData('mision', e.target.value)}
                                                     isInvalid={!!errors.mision}
                                                 >
-                                                    <option value="1">Misión 1</option>
-                                                    <option value="2">Misión 2</option>
-                                                    <option value="3">Misión 3</option>
-                                                    <option value="4">Misión 4</option>
-                                                    <option value="5">Misión 5</option>
+                                                    {Object.entries(usePage<any>().props.missions || {}).map(([num, name]: any) => (
+                                                        <option key={num} value={num}>{name}</option>
+                                                    ))}
                                                 </Form.Select>
                                                 <Form.Control.Feedback type="invalid">{errors.mision}</Form.Control.Feedback>
                                             </Col>

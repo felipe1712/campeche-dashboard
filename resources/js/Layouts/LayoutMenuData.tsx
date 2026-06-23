@@ -52,6 +52,18 @@ const Navdata = () => {
             label: "Asignación Manual",
             icon: "ri-links-line",
             link: "/orphans",
+        },
+        {
+            id: "indicadores",
+            label: "Administrar Indicadores",
+            icon: "ri-bar-chart-box-line",
+            link: "/admin/indicadores",
+        },
+        {
+            id: "misiones",
+            label: "Administrar Misiones",
+            icon: "ri-flag-line",
+            link: "/admin/misiones",
         }
     ];
 

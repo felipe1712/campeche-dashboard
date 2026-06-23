@@ -6,6 +6,9 @@ use App\Http\Controllers\VelzonRoutesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImportController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\Admin\MissionController;
 use Inertia\Inertia;
 
 /*
@@ -29,7 +32,6 @@ use Inertia\Inertia;
 // });
 
 // Route::get("/apps-ecommerce-orders", [ProfileController::class, 'index'])->name('order-list');
-use App\Http\Controllers\LandingController;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::middleware('auth')->group(function () {
@@ -42,9 +44,17 @@ Route::middleware('auth')->group(function () {
     Route::get('catalog', [\App\Http\Controllers\CatalogController::class, 'index'])->name('catalog.index');
     Route::post('catalog', [\App\Http\Controllers\CatalogController::class, 'store'])->name('catalog.store');
 
+    // Misiones Admin
+    Route::get('/admin/misiones', [MissionController::class, 'index'])->name('admin.misiones');
+    Route::post('/admin/misiones', [MissionController::class, 'update'])->name('admin.misiones.update');
+
     // Gestor de Pestañas Huérfanas
     Route::get('orphans', [\App\Http\Controllers\OrphanIndicatorController::class, 'index'])->name('orphans.index');
     Route::put('orphans/{id}', [\App\Http\Controllers\OrphanIndicatorController::class, 'update'])->name('orphans.update');
+
+    // Admin de Indicadores Estratégicos
+    Route::get('/admin/indicadores', [\App\Http\Controllers\IndicatorAdminController::class, 'index'])->name('admin.indicadores.index');
+    Route::put('/admin/indicadores/{id}', [\App\Http\Controllers\IndicatorAdminController::class, 'update'])->name('admin.indicadores.update');
 
     // CRUD Usuarios (Solo acceso restringido)
     Route::resource('users', UserController::class);

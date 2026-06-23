@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { Container, Row, Col, Card, Form, Table, Button, Collapse, Tabs, Tab } from 'react-bootstrap';
 import Layout from '../../Layouts';
 import DynamicChart from './DynamicChart';
@@ -8,7 +8,7 @@ import CampecheMap from './CampecheMap';
 
 const IndicatorRow = ({ indicator, selectedMunicipio }: any) => {
     const [open, setOpen] = useState(false);
-    const dynamicData = indicator.metadata_dinamica || [];
+    const dynamicData = indicator.metadata_dinamica || indicator.metadata_tabla_global || [];
 
     // Filter indicator to show only if it is municipal and municipality is selected, or if no municipality selected
     if (selectedMunicipio && !indicator.desglose_municipal) {
@@ -81,8 +81,9 @@ const IndicatorRow = ({ indicator, selectedMunicipio }: any) => {
                                                 dynamicData={dynamicData}
                                                 metadataTabla={indicator.metadata_tabla}
                                                 indicatorTitulo={indicator.titulo}
-                                                selectedMunicipio={selectedMunicipio}
+                                                selectedMunicipio={selectedMunicipio || (indicator.clave === 'M5-009' ? 'ESTADO' : null)}
                                                 isMunicipal={indicator.desglose_municipal}
+                                                defaultChartType={indicator.tipo_grafica}
                                             />
                                         </ErrorBoundary>
                                     </Card.Body>
@@ -207,11 +208,9 @@ export default function DashboardIndex({
                                                         value={filters.mision || '1'} 
                                                         onChange={e => handleFilterChange('mision', e.target.value)}
                                                     >
-                                                        <option value="1">Misión 1</option>
-                                                        <option value="2">Misión 2</option>
-                                                        <option value="3">Misión 3</option>
-                                                        <option value="4">Misión 4</option>
-                                                        <option value="5">Misión 5</option>
+                                                        {Object.entries(usePage<any>().props.missions || {}).map(([num, name]: any) => (
+                                                            <option key={num} value={num}>{name}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </Col>
                                             </Row>
@@ -267,11 +266,12 @@ export default function DashboardIndex({
                                                                             <Card.Body className="bg-light">
                                                                                 <ErrorBoundary>
                                                                                     <DynamicChart 
-                                                                                        dynamicData={estrella.metadata_dinamica || []}
+                                                                                        dynamicData={estrella.metadata_dinamica || estrella.metadata_tabla_global || []}
                                                                                         metadataTabla={estrella.metadata_tabla}
                                                                                         indicatorTitulo={estrella.titulo}
-                                                                                        selectedMunicipio={selectedMunicipio} 
+                                                                                        selectedMunicipio={estrella.clave === 'M5-009' ? 'ESTADO' : null}
                                                                                         isMunicipal={estrella.desglose_municipal}
+                                                                                        defaultChartType={estrella.tipo_grafica}
                                                                                     />
                                                                                 </ErrorBoundary>
                                                                                 {(estrella.notas || estrella.fuente) && (
@@ -345,11 +345,12 @@ export default function DashboardIndex({
                                                                     <Card.Body className="bg-light">
                                                                         <ErrorBoundary>
                                                                             <DynamicChart 
-                                                                                dynamicData={estrella.metadata_dinamica || []}
+                                                                                dynamicData={estrella.metadata_dinamica || estrella.metadata_tabla_global || []}
                                                                                 metadataTabla={estrella.metadata_tabla}
                                                                                 indicatorTitulo={estrella.titulo}
                                                                                 selectedMunicipio={null} 
                                                                                 isMunicipal={false}
+                                                                                defaultChartType={estrella.tipo_grafica}
                                                                             />
                                                                         </ErrorBoundary>
                                                                         {(estrella.notas || estrella.fuente) && (
@@ -398,11 +399,9 @@ export default function DashboardIndex({
                                                         value={filters.mision || '1'} 
                                                         onChange={e => handleFilterChange('mision', e.target.value)}
                                                     >
-                                                        <option value="1">Misión 1</option>
-                                                        <option value="2">Misión 2</option>
-                                                        <option value="3">Misión 3</option>
-                                                        <option value="4">Misión 4</option>
-                                                        <option value="5">Misión 5</option>
+                                                        {Object.entries(usePage<any>().props.missions || {}).map(([num, name]: any) => (
+                                                            <option key={num} value={num}>{name}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </Col>
                                                 <Col md={2}>
@@ -568,11 +567,9 @@ export default function DashboardIndex({
                                                     value={filters.mision} 
                                                     onChange={e => handleFilterChange('mision', e.target.value)}
                                                 >
-                                                    <option value="1">Misión 1</option>
-                                                    <option value="2">Misión 2</option>
-                                                    <option value="3">Misión 3</option>
-                                                    <option value="4">Misión 4</option>
-                                                    <option value="5">Misión 5</option>
+                                                    {Object.entries(usePage<any>().props.missions || {}).map(([num, name]: any) => (
+                                                        <option key={num} value={num}>{name}</option>
+                                                    ))}
                                                 </Form.Select>
                                             </div>
                                             <div className="mb-3">

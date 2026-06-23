@@ -7,7 +7,9 @@ use Inertia\Inertia;
 use App\Services\ExcelParserService;
 use App\Services\StrategicExcelParserService;
 use App\Services\MissionTwoExcelParserService;
+use App\Services\MissionThreeExcelParserService;
 use App\Services\MissionFourExcelParserService;
+use App\Services\MissionFiveExcelParserService;
 use App\Models\Indicator;
 use App\Models\Tema;
 use App\Models\Subtema;
@@ -18,18 +20,24 @@ class ImportController extends Controller
     protected $excelParser;
     protected $strategicParser;
     protected $missionTwoParser;
+    protected $missionThreeParser;
     protected $missionFourParser;
+    protected $missionFiveParser;
 
     public function __construct(
         ExcelParserService $excelParser, 
         StrategicExcelParserService $strategicParser,
         MissionTwoExcelParserService $missionTwoParser,
-        MissionFourExcelParserService $missionFourParser
+        MissionThreeExcelParserService $missionThreeParser,
+        MissionFourExcelParserService $missionFourParser,
+        MissionFiveExcelParserService $missionFiveParser
     ) {
         $this->excelParser = $excelParser;
         $this->strategicParser = $strategicParser;
         $this->missionTwoParser = $missionTwoParser;
+        $this->missionThreeParser = $missionThreeParser;
         $this->missionFourParser = $missionFourParser;
+        $this->missionFiveParser = $missionFiveParser;
     }
 
     public function index()
@@ -61,8 +69,12 @@ class ImportController extends Controller
             if ($isEstrella) {
                 if ($request->mision == '2') {
                     $strategicParser = $this->missionTwoParser;
+                } elseif ($request->mision == '3') {
+                    $strategicParser = $this->missionThreeParser;
                 } elseif ($request->mision == '4') {
                     $strategicParser = $this->missionFourParser;
+                } elseif ($request->mision == '5') {
+                    $strategicParser = $this->missionFiveParser;
                 } else {
                     $strategicParser = $this->strategicParser;
                 }
@@ -112,7 +124,7 @@ class ImportController extends Controller
                             'mision'           => $result['mision'],
                             'tema_id'          => $temaId,
                             'subtema_id'       => $subtemaId,
-                            'metadata_dinamica'=> !empty($result['metadata_dinamica']) ? $result['metadata_dinamica'] : [],
+                            'metadata_dinamica'=> !empty($result['metadata_dinamica']) ? $result['metadata_dinamica'] : (!empty($result['metadata_tabla_global']) ? $result['metadata_tabla_global'] : []),
                             'metadata_tabla'   => !empty($result['metadata_tabla']) ? $result['metadata_tabla'] : null,
                             'notas'            => $result['notas'],
                             'fuente'           => $result['fuente'],

@@ -5,7 +5,7 @@ namespace App\Services;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Indicator;
 
-class MissionFourExcelParserService
+class MissionFiveExcelParserService
 {
     public function parseFile($filePath, $year, $mision)
     {
@@ -20,7 +20,7 @@ class MissionFourExcelParserService
             $sheetTitle = mb_strtolower($sheet->getTitle(), 'UTF-8');
             if (str_contains($sheetTitle, 'indice') || str_contains($sheetTitle, 'índice')) {
                 $indexSheet = $sheet;
-                \Illuminate\Support\Facades\Log::info("=== PROCESANDO HOJA ÍNDICE (M4): $sheetTitle ===");
+                \Illuminate\Support\Facades\Log::info("=== PROCESANDO HOJA ÍNDICE (M5): $sheetTitle ===");
                 
                 $highestRow = min(200, $sheet->getHighestRow());
                 $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($sheet->getHighestColumn());
@@ -100,10 +100,102 @@ class MissionFourExcelParserService
 
             $meta = $metadataMap[$clave];
 
-            $isInversion = stripos($meta['titulo'], 'inversión') !== false || stripos($meta['titulo'], 'inversiones') !== false;
+            $isInversion = stripos($meta['titulo'], 'inversión') !== false || stripos($meta['titulo'], 'inversiones') !== false || $clave === 'M5-007';
             $metadataDinamica = [];
             $desgloseMunicipal = false;
             $metadataTablaGlobal = null;
+
+            if ($clave === 'M5-020') {
+                $highestRow = min(500, $sheet->getHighestRow());
+                $highestCol = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($sheet->getHighestColumn());
+                $grid = [];
+                for ($r = 1; $r <= $highestRow; $r++) {
+                    for ($c = 1; $c <= $highestCol; $c++) {
+                        $grid[$r][$c] = trim((string)$sheet->getCell([$c, $r])->getCalculatedValue());
+                    }
+                }
+                
+                $foundRow = -1;
+                $foundCol = -1;
+                for ($r = 1; $r <= $highestRow; $r++) {
+                    for ($c = 1; $c <= $highestCol; $c++) {
+                        if (stripos($grid[$r][$c], 'cobertura') !== false) {
+                            $rowString = implode(' ', $grid[$r]);
+                            if (strpos($rowString, '2021') !== false && strpos($rowString, '2025') !== false) {
+                                $foundRow = $r;
+                                $foundCol = $c;
+                                break 2;
+                            }
+                        }
+                    }
+                }
+                
+                if ($foundRow !== -1) {
+                    $headers = [];
+                    for ($c = $foundCol; $c <= $foundCol + 5; $c++) {
+                        $headers[] = $grid[$foundRow][$c];
+                    }
+                    
+                    $tableRows = [];
+                    for ($r = $foundRow + 1; $r <= $highestRow; $r++) {
+                        $firstVal = strtolower(trim($grid[$r][$foundCol]));
+                        if (str_starts_with($firstVal, 'nota') || str_starts_with($firstVal, 'fuente')) {
+                            break;
+                        }
+                        if (empty($firstVal)) {
+                            continue;
+                        }
+                        $rowCells = [];
+                        for ($c = $foundCol; $c <= $foundCol + 5; $c++) {
+                            $rowCells[] = $grid[$r][$c];
+                        }
+                        $tableRows[] = $rowCells;
+                    }
+                    
+                    $metadataTablaGlobal = [[
+                        'year' => 'Todos',
+                        'headers' => $headers,
+                        'rows' => $tableRows
+                    ]];
+                    
+                    $estatalRow = null;
+                    $nacionalRow = null;
+                    foreach ($tableRows as $tr) {
+                        if (stripos($tr[0], 'estatal') !== false) $estatalRow = $tr;
+                        if (stripos($tr[0], 'nacional') !== false) $nacionalRow = $tr;
+                    }
+                    
+                    if ($estatalRow && $nacionalRow) {
+                        for ($i = 1; $i <= 5; $i++) {
+                            $year = $headers[$i];
+                            $metadataDinamica[] = [
+                                'Año' => $year,
+                                'Estatal' => (float)str_replace(['%', ','], '', $estatalRow[$i]),
+                                'Nacional' => (float)str_replace(['%', ','], '', $nacionalRow[$i]),
+                            ];
+                        }
+                    }
+                    
+                    \Illuminate\Support\Facades\Log::info("M5-020 extraido: ", ['dinamica' => $metadataDinamica]);
+                }
+                
+                $results[] = [
+                    'clave'              => $clave,
+                    'año'                => $year,
+                    'mision'             => $mision,
+                    'metadata_dinamica'  => $metadataDinamica,
+                    'metadata_tabla'     => $metadataTablaGlobal ?? [],
+                    'notas'              => $meta['notas'] ?? '',
+                    'fuente'             => $meta['fuente'] ?? '',
+                    'titulo'             => $meta['titulo'],
+                    'dependencia'        => $meta['dependencia'],
+                    'tema_nombre'        => $meta['tema'],
+                    'subtema_nombre'     => $meta['subtema'],
+                    'desglose_municipal' => false,
+                    'is_estrella'        => true,
+                ];
+                continue;
+            }
 
             if ($isInversion) {
                 // Inversión: Gráfica desde el índice
@@ -130,8 +222,10 @@ class MissionFourExcelParserService
                         $headers = $table['headers'];
                         $rows = $table['rows'];
                         
-                        if (!$metadataTablaGlobal) {
+                        if ($metadataTablaGlobal === null) {
                             $metadataTablaGlobal = $sheetData['tables'];
+                        } else {
+                            $metadataTablaGlobal = array_merge($metadataTablaGlobal, $sheetData['tables']);
                         }
 
                         // Check if headers are municipalities
@@ -195,14 +289,78 @@ class MissionFourExcelParserService
                             $yearData[] = $rowData;
                         }
 
+                        if ($clave === 'M5-015') {
+                            $carey = ['ESPECIE' => 'CAREY'];
+                            $blanca = ['ESPECIE' => 'BLANCA'];
+                            $lora = ['ESPECIE' => 'LORA'];
+                            
+                            $lastRowData = end($yearData);
+                            $hasCarey = false;
+                            $hasBlanca = false;
+                            $hasLora = false;
+                            
+                            foreach ($lastRowData as $k => $v) {
+                                $cleanV = (float)str_replace(',', '', (string)$v);
+                                if (stripos($k, 'carey') !== false) {
+                                    if (stripos($k, 'nidos') !== false) $carey['NIDOS'] = $cleanV;
+                                    if (stripos($k, 'huevos') !== false) $carey['HUEVOS'] = $cleanV;
+                                    if (stripos($k, 'crias') !== false || stripos($k, 'crías') !== false) $carey['CRIAS'] = $cleanV;
+                                    if ($cleanV > 0) $hasCarey = true;
+                                }
+                                if (stripos($k, 'blanca') !== false) {
+                                    if (stripos($k, 'nidos') !== false) $blanca['NIDOS'] = $cleanV;
+                                    if (stripos($k, 'huevos') !== false) $blanca['HUEVOS'] = $cleanV;
+                                    if (stripos($k, 'crias') !== false || stripos($k, 'crías') !== false) $blanca['CRIAS'] = $cleanV;
+                                    if ($cleanV > 0) $hasBlanca = true;
+                                }
+                                if (stripos($k, 'lora') !== false) {
+                                    if (stripos($k, 'nidos') !== false) $lora['NIDOS'] = $cleanV;
+                                    if (stripos($k, 'huevos') !== false) $lora['HUEVOS'] = $cleanV;
+                                    if (stripos($k, 'crias') !== false || stripos($k, 'crías') !== false) $lora['CRIAS'] = $cleanV;
+                                    if ($cleanV > 0) $hasLora = true;
+                                }
+                            }
+                            
+                            $yearData = [];
+                            // Ensure NIDOS is at least set to 0 if the species exists in the table header
+                            if ($hasCarey || isset($carey['NIDOS'])) {
+                                $carey['NIDOS'] = $carey['NIDOS'] ?? 0;
+                                $carey['HUEVOS'] = $carey['HUEVOS'] ?? 0;
+                                $carey['CRIAS'] = $carey['CRIAS'] ?? 0;
+                                $yearData[] = $carey;
+                            }
+                            if ($hasBlanca || isset($blanca['NIDOS'])) {
+                                $blanca['NIDOS'] = $blanca['NIDOS'] ?? 0;
+                                $blanca['HUEVOS'] = $blanca['HUEVOS'] ?? 0;
+                                $blanca['CRIAS'] = $blanca['CRIAS'] ?? 0;
+                                $yearData[] = $blanca;
+                            }
+                            if ($hasLora || isset($lora['NIDOS'])) {
+                                $lora['NIDOS'] = $lora['NIDOS'] ?? 0;
+                                $lora['HUEVOS'] = $lora['HUEVOS'] ?? 0;
+                                $lora['CRIAS'] = $lora['CRIAS'] ?? 0;
+                                $yearData[] = $lora;
+                            }
+                            
+                            $desgloseMunicipal = false;
+                        }
+
+                        if ($clave === 'M5-017') {
+                            $yearData = array_filter($yearData, function($r) use ($headers) {
+                                return stripos((string)$r[$headers[0]], 'total') !== false;
+                            });
+                            // Re-index array
+                            $yearData = array_values($yearData);
+                        }
+
                         if ($desgloseMunicipal && count($yearData) > 0) {
                             $lastRow = end($yearData);
                             $firstHeader = array_keys($yearData[0])[0];
-                            $lastVal = strtolower(trim($lastRow[$firstHeader] ?? ''));
-                            if (!in_array($lastVal, ['estado', 'total', 'total estatal'])) {
+                            $lastVal = strtolower(trim((string)($lastRow[$firstHeader] ?? '')));
+                            if (stripos($lastVal, 'estado') === false && stripos($lastVal, 'total') === false) {
                                 $sumRow = [$firstHeader => 'ESTADO'];
                                 foreach ($yearData as $row) {
-                                    $municipioName = strtolower(trim($row[$firstHeader] ?? ''));
+                                    $municipioName = strtolower(trim((string)($row[$firstHeader] ?? '')));
                                     if (strpos($municipioName, 'total de') === 0 || $municipioName === 'notas' || $municipioName === 'fuente') continue;
                                     
                                     foreach ($row as $k => $v) {
@@ -215,6 +373,9 @@ class MissionFourExcelParserService
                                     }
                                 }
                                 $yearData[] = $sumRow;
+                            } else {
+                                // Rename the total row key to 'ESTADO' for consistency
+                                $yearData[count($yearData) - 1][$firstHeader] = 'ESTADO';
                             }
                         }
 
@@ -380,9 +541,18 @@ class MissionFourExcelParserService
         }
         unset($h);
 
+        if ($clave === 'M5-009' && $targetYear === '2023') {
+            for ($r = $dataStartRow; $r <= $highestRow; $r++) {
+                if (stripos(trim((string)$grid[$r][$titleCol]), 'inventariado') !== false) {
+                    $dataStartRow = $r;
+                    break;
+                }
+            }
+        }
+
         $rows = [];
         for ($r = $dataStartRow; $r <= $highestRow; $r++) {
-            $firstColVal = strtolower($grid[$r][$titleCol]);
+            $firstColVal = strtolower(trim((string)$grid[$r][$titleCol]));
             
             if (str_starts_with($firstColVal, 'nota') || str_starts_with($firstColVal, 'fuente') || preg_match('/^[a-z]\//', $firstColVal) || str_starts_with($firstColVal, 'total de m') || str_starts_with($firstColVal, 'total de s') || str_starts_with($firstColVal, 'total de i')) {
                 // We hit the end of the table
