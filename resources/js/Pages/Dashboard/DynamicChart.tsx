@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+const ChartComponent = (ReactApexChart as any).default || ReactApexChart;
 import { Table, Form, Row, Col, ButtonGroup, Button, Modal, Card } from 'react-bootstrap';
 type ChartType = 'bar' | 'bar-horizontal' | 'line' | 'area' | 'pie' | 'donut' | 'table';
 interface Props {
@@ -420,7 +421,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
         }
 
         return (
-            <ReactApexChart
+            <ChartComponent
                 key={`${chartType}-${subCat}-${selectedYear}`}
                 type={chartType === 'bar-horizontal' ? 'bar' : chartType as any}
                 series={finalSeries}
@@ -529,7 +530,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
 
         return (
             <div className="bg-white rounded border border-slate-100 p-4 shadow-sm mb-4">
-                <ReactApexChart
+                <ChartComponent
                     key={`municipal-transposed-${selectedMunicipio || 'total'}-${selectedYear}`}
                     type={chartType === 'bar-horizontal' ? 'bar' : chartType as any}
                     series={finalSeries}
@@ -659,7 +660,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                             <h5 className="mb-0">Información por Ciclo Escolar</h5>
                         </Card.Header>
                         <Card.Body>
-                            <ReactApexChart 
+                            <ChartComponent 
                                 options={getChartOptions('', categories, false, chartType === 'bar-horizontal')} 
                                 series={customSeries} 
                                 type={chartType === 'area' || chartType === 'bar-horizontal' ? 'bar' : chartType as any} 
@@ -774,7 +775,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                                     <h5 className="text-danger mb-0 fw-bold text-center">No existe información para este municipio</h5>
                                 </div>
                             ) : (
-                                <ReactApexChart 
+                                <ChartComponent 
                                     options={getChartOptions('', categories, false, chartType === 'bar-horizontal')} 
                                     series={seriesLocalidades} 
                                     type={chartType === 'area' || chartType === 'bar-horizontal' ? 'bar' : chartType as any} 
@@ -794,7 +795,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                                     <h5 className="text-danger mb-0 fw-bold text-center">No existe información para este municipio</h5>
                                 </div>
                             ) : (
-                                <ReactApexChart 
+                                <ChartComponent 
                                     options={getChartOptions('', categories, false, chartType === 'bar-horizontal')} 
                                     series={seriesBeneficiarios} 
                                     type={chartType === 'area' || chartType === 'bar-horizontal' ? 'bar' : chartType as any} 
@@ -846,7 +847,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                     </Row>
                     <Card className="mb-4">
                         <Card.Body>
-                            <ReactApexChart 
+                            <ChartComponent 
                                 options={getChartOptions('', categories, false, chartType === 'bar-horizontal')} 
                                 series={customSeries} 
                                 type={chartType === 'area' || chartType === 'bar-horizontal' ? 'bar' : chartType as any} 
@@ -922,7 +923,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                                             <h5 className="text-danger mb-0 fw-bold text-center">No existe información para este municipio</h5>
                                         </div>
                                     ) : (
-                                        <ReactApexChart 
+                                        <ChartComponent 
                                             options={getChartOptions('', localCategories, false, true)} 
                                             series={seriesRaciones} 
                                             type="bar"
@@ -942,7 +943,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                                             <h5 className="text-danger mb-0 fw-bold text-center">No existe información para este municipio</h5>
                                         </div>
                                     ) : (
-                                        <ReactApexChart 
+                                        <ChartComponent 
                                             options={getChartOptions('', localCategories, false, true)} 
                                             series={seriesBeneficiarios} 
                                             type="bar"
@@ -1105,7 +1106,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                     
                     <Card>
                         <Card.Body>
-                            <ReactApexChart 
+                            <ChartComponent 
                                 options={getChartOptions('', categories, false, chartType === 'bar-horizontal')} 
                                 series={customSeries} 
                                 type={chartType === 'area' || chartType === 'bar-horizontal' ? 'bar' : chartType as any} 
@@ -1206,7 +1207,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
 
             return (
                 <div className="bg-white rounded border border-slate-100 p-4 shadow-sm mb-4">
-                    <ReactApexChart
+                    <ChartComponent
                         key={`m5015-${selectedYear}`}
                         type={chartType === 'bar-horizontal' ? 'bar' : chartType as any}
                         series={finalSeries}
@@ -1263,7 +1264,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
 
             return (
                 <div className="mb-4">
-                    <ReactApexChart
+                    <ChartComponent
                         key={`custom-m5-020-${chartType}`}
                         type={chartType === 'bar-horizontal' ? 'bar' : (chartType as any)}
                         series={isPie ? series[0].data : series}
@@ -1378,7 +1379,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
 
             return (
                 <div className="mb-4">
-                    <ReactApexChart
+                    <ChartComponent
                         key={`custom-m5-023-${chartType}-${selectedYear}`}
                         type={chartType === 'bar-horizontal' ? 'bar' : (chartType as any)}
                         series={isPie ? series[0].data : series}
@@ -1456,7 +1457,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
 
             return (
                 <div className="mb-4">
-                    <ReactApexChart
+                    <ChartComponent
                         key={`custom-m5-024-${chartType}-${selectedYear}`}
                         type={chartType === 'bar-horizontal' ? 'bar' : (chartType as any)}
                         series={isPie ? series[0].data : series}
@@ -1521,7 +1522,7 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
 
             return (
                 <div className="bg-white rounded border border-slate-100 p-4 shadow-sm mb-4 text-center">
-                    <ReactApexChart
+                    <ChartComponent
                         key={`m5017-all-years`}
                         type={chartType === 'bar-horizontal' ? 'bar' : chartType as any}
                         series={finalSeries}
