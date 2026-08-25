@@ -210,12 +210,18 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
 
             if (!Array.isArray(data.metadata_dinamica) || data.metadata_dinamica.length === 0) return <p>Sin datos estructurados.</p>;
             
+            const headersSet = new Set<string>();
+            data.metadata_dinamica.forEach((row: any) => {
+                if (row && typeof row === 'object') {
+                    Object.keys(row).forEach(k => headersSet.add(k));
+                }
+            });
+            const headers = Array.from(headersSet);
+            
             const validRows = data.metadata_dinamica.filter((row: any) => 
-                Object.values(row).some(val => val !== null && val !== '' && String(val).trim() !== '')
+                headers.some(h => row[h] !== null && row[h] !== undefined && String(row[h]).trim() !== '')
             );
             if (validRows.length === 0) return <p>Sin datos estructurados.</p>;
-            
-            const headers = Object.keys(validRows[0]);
 
             return (
                 <div className="table-responsive mt-4">
