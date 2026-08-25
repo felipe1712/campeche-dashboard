@@ -191,7 +191,7 @@ export default function DashboardIndex({
                                         </Card.Header>
                                         <Card.Body>
                                             <Row className="g-3">
-                                                <Col md={2}>
+                                                <Col md={2} className="d-none">
                                                     <Form.Label>Año</Form.Label>
                                                     <Form.Select 
                                                         value={filters.año || ''} 
@@ -269,7 +269,7 @@ export default function DashboardIndex({
                                                                                         dynamicData={estrella.metadata_dinamica || estrella.metadata_tabla_global || []}
                                                                                         metadataTabla={estrella.metadata_tabla}
                                                                                         indicatorTitulo={estrella.titulo}
-                                                                                        selectedMunicipio={estrella.clave === 'M5-009' ? 'ESTADO' : null}
+                                                                                        selectedMunicipio={selectedMunicipio || (estrella.clave === 'M5-009' ? 'ESTADO' : null)}
                                                                                         isMunicipal={estrella.desglose_municipal}
                                                                                         defaultChartType={estrella.tipo_grafica}
                                                                                     />
@@ -372,7 +372,7 @@ export default function DashboardIndex({
                             </Row>
                         </Tab>
 
-                        <Tab eventKey="graficas" title={<><i className="ri-bar-chart-2-line"></i> Directorio Completo</>}>
+                        <Tab eventKey="graficas" title={<><i className="ri-bar-chart-2-line"></i> Directorio Completo</>} tabClassName="d-none">
                             {/* Filters Row */}
                             <Row>
                                 <Col lg={12}>
@@ -382,7 +382,7 @@ export default function DashboardIndex({
                                         </Card.Header>
                                         <Card.Body>
                                             <Row className="g-3">
-                                                <Col md={2}>
+                                                <Col md={2} className="d-none">
                                                     <Form.Label>Año</Form.Label>
                                                     <Form.Select 
                                                         value={filters.año || ''} 
@@ -526,7 +526,7 @@ export default function DashboardIndex({
                             </Row>
                         </Tab>
                         {showMapTab && (
-                            <Tab eventKey="mapa" title={<><i className="ri-map-pin-line"></i> Mapa de Municipios</>}>
+                            <Tab eventKey="mapa" title={<><i className="ri-map-pin-line"></i> Mapa de Municipios</>} tabClassName="d-none">
                             <Row>
                                 <Col lg={6} className="mb-4">
                                     <Card className="h-100">

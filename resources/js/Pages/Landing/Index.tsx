@@ -3,7 +3,8 @@ import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap';
 import DynamicChart from '../Dashboard/DynamicChart';
 import CampecheMap from '../Dashboard/CampecheMap';
-import campecheLogo from '../../../images/campeche-logo.png';
+import campecheLogo from '../../../images/logo-informe.png';
+import bgInforme from '../../../images/bg-informe.png';
 
 export default function LandingIndex({ indicators = [], filters = {} }: any) {
     const [selectedMunicipio, setSelectedMunicipio] = useState<string | null>(null);
@@ -52,11 +53,14 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
             <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
                 <Container style={{ maxWidth: '1200px' }}>
                     <a className="navbar-brand d-flex align-items-center" href="/">
-                        <img src={campecheLogo} alt="Logo Campeche" height="40" className="me-2 bg-primary rounded p-1" />
-                        <span className="fw-bold fs-18 text-primary">Indicadores Estratégicos</span>
+                        <img src={campecheLogo} alt="Logo Campeche" height="65" className="me-3 rounded shadow-sm" />
+                        <div className="d-flex flex-column">
+                            <span className="fw-bold fs-18 text-primary" style={{ lineHeight: '1.2' }}>Indicadores Estratégicos</span>
+                            <span className="text-muted fs-12">5º Informe de Gobierno</span>
+                        </div>
                     </a>
                     <div className="ms-auto">
-                        <Link href={route('login')} className="btn btn-primary btn-sm">
+                        <Link href={route('login')} className="btn btn-primary btn-sm px-3 rounded-pill shadow-sm">
                             <i className="ri-user-settings-line align-middle me-1"></i> Acceso a Servidores Públicos
                         </Link>
                     </div>
@@ -64,17 +68,23 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
             </nav>
 
             {/* Hero Section */}
-            <div className="bg-primary text-white py-5 mb-4 shadow" style={{ backgroundImage: "url('/build/images/bg-pattern.png')", backgroundSize: 'cover' }}>
+            <div className="text-white py-5 mb-4 shadow" style={{ 
+                backgroundColor: '#7D1638',
+                backgroundImage: `url(${bgInforme})`, 
+                backgroundSize: 'auto 150%',
+                backgroundPosition: 'left center',
+                backgroundRepeat: 'repeat-x',
+            }}>
                 <Container style={{ maxWidth: '1200px' }}>
                     <Row className="align-items-center">
                         <Col lg={hasMunicipalData ? 7 : 12}>
-                            <h1 className="display-5 fw-bold mb-3 text-white">Tablero de Indicadores Estratégicos</h1>
-                            <p className="lead mb-0" style={{ opacity: 0.9 }}>
+                            <h1 className="display-5 fw-bold mb-3 text-white text-shadow-sm" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>Tablero de Indicadores Estratégicos</h1>
+                            <p className="lead mb-0" style={{ opacity: 0.95, textShadow: '1px 1px 2px rgba(0,0,0,0.3)' }}>
                                 Explora los datos clave y los avances más importantes de la administración del Estado de Campeche, actualizados y al alcance de todos.
                             </p>
                             {selectedMunicipio && (
                                 <div className="mt-3">
-                                    <span className="badge bg-light text-primary fs-14 px-3 py-2">
+                                    <span className="badge bg-light text-primary fs-14 px-3 py-2 shadow-sm">
                                         Filtrando por: {selectedMunicipio}
                                         <button 
                                             className="btn-close btn-close-white ms-2" 
@@ -98,7 +108,7 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                         </Card.Header>
                         <Card.Body>
                             <Row className="g-3">
-                                <Col md={6}>
+                                <Col md={6} className="d-none">
                                     <Form.Label>Año</Form.Label>
                                     <Form.Select 
                                         value={filters.año || ''} 
@@ -109,7 +119,7 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                         ))}
                                     </Form.Select>
                                 </Col>
-                                <Col md={6}>
+                                <Col md={12}>
                                     <Form.Label>Misión</Form.Label>
                                     <Form.Select 
                                         value={filters.mision || '1'} 

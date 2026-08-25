@@ -9,9 +9,10 @@ interface Props {
     selectedMunicipio?: string | null;
     isMunicipal?: boolean;
     defaultChartType?: string;
+    hideTitle?: boolean;
 }
 
-const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMunicipio, isMunicipal, defaultChartType }: Props) => {
+const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMunicipio, isMunicipal, defaultChartType, hideTitle }: Props) => {
     // We keep bar-horizontal in the state, and map it to 'bar' only when passing to ReactApexChart type prop
     const initialChartType = (defaultChartType as ChartType) || 'bar';
     const [chartType, setChartType] = useState<ChartType>(initialChartType);
@@ -199,8 +200,9 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
         let filtered = dynamicData.filter(r => r[categoryKey] !== null && String(r[categoryKey]).trim() !== '');
 
         if (isMunicipal && selectedMunicipio && categoryKey) {
+            const normalizeStr = (str: string) => String(str).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
             filtered = filtered.filter((r: any) => 
-                String(r[categoryKey]).toUpperCase().trim() === selectedMunicipio.toUpperCase().trim()
+                normalizeStr(r[categoryKey]) === normalizeStr(selectedMunicipio)
             );
         }
 
@@ -314,8 +316,9 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
                         categories: cats,
                         labels: {
                             style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 500 },
-                            rotate: (!isHorizontal && cats.length > 6) ? -30 : 0,
-                            trim: false,
+                            rotate: (!isHorizontal && (cats.length > 5 || cats.some(c => c.length > 15))) ? -45 : 0,
+                            trim: true,
+                            maxHeight: 120,
                             formatter: isHorizontal ? formatAxisNumber : undefined,
                         },
                     },
@@ -1619,9 +1622,11 @@ const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMun
 
     return (
         <div className="dynamic-chart-wrapper">
-            <h5 className="fw-bold mb-3" style={{ lineHeight: '1.4', color: '#9D2449' }}>
-                {cleanTitle(indicatorTitulo || '')}{indicatorTitulo?.includes('Áreas destinadas voluntariamente') && !indicatorTitulo?.includes('Hectáreas') && !indicatorTitulo?.includes('Hectareas') ? ' (Hectáreas)' : ''}
-            </h5>
+            {!hideTitle && (
+                <h5 className="fw-bold mb-3" style={{ lineHeight: '1.4', color: '#9D2449' }}>
+                    {cleanTitle(indicatorTitulo || '')}{indicatorTitulo?.includes('Áreas destinadas voluntariamente') && !indicatorTitulo?.includes('Hectáreas') && !indicatorTitulo?.includes('Hectareas') ? ' (Hectáreas)' : ''}
+                </h5>
+            )}
 
             <Row className="mb-4 justify-content-between align-items-center">
                 <Col xs={12} md="auto" className="mb-3 mb-md-0">

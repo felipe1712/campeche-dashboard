@@ -8,7 +8,7 @@ export default function ImportIndex({ flash, uploads }: any) {
         file: null as File | null,
         year: 2025,
         mision: '1',
-        is_estrella: false,
+        is_estrella: true,
     });
 
     const submit = (e: React.FormEvent) => {
@@ -37,7 +37,7 @@ export default function ImportIndex({ flash, uploads }: any) {
 
                                     <Form onSubmit={submit}>
                                         <Row className="mb-3">
-                                            <Col md={6}>
+                                            <Col md={6} className="d-none">
                                                 <Form.Label>Año de los datos</Form.Label>
                                                 <Form.Select 
                                                     value={data.year} 
@@ -50,7 +50,7 @@ export default function ImportIndex({ flash, uploads }: any) {
                                                 </Form.Select>
                                                 <Form.Control.Feedback type="invalid">{errors.year}</Form.Control.Feedback>
                                             </Col>
-                                            <Col md={6}>
+                                            <Col md={12}>
                                                 <Form.Label>Misión (Eje de Gobierno)</Form.Label>
                                                 <Form.Select 
                                                     value={data.mision} 
@@ -93,9 +93,10 @@ export default function ImportIndex({ flash, uploads }: any) {
                                                 id="is-estrella-switch"
                                                 label={<strong>Marcar como Indicadores Estratégicos</strong>}
                                                 checked={data.is_estrella}
+                                                disabled={true}
                                                 onChange={(e) => setData('is_estrella', e.target.checked)}
                                             />
-                                            <small className="text-muted">Si activas esta opción, los indicadores de este archivo aparecerán en la pantalla pública de bienvenida.</small>
+                                            <small className="text-muted">Por defecto, todos los archivos importados son marcados como Indicadores Estratégicos.</small>
                                         </div>
 
                                         <div className="text-end">

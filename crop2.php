@@ -1,0 +1,1 @@
+﻿<?php $im = imagecreatefrompng('resources/images/banner-informe.png'); $logo = imagecrop($im, ['x' => 220, 'y' => 15, 'width' => 494, 'height' => 328]); imagepng($logo, 'resources/images/logo-informe.png'); imagedestroy($logo); imagedestroy($im);

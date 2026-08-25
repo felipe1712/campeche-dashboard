@@ -2,8 +2,9 @@ import { Link } from "@inertiajs/react";
 import React, { useState } from "react";
 
 //import images
-import logoSm from "../../images/logo-sm.png";
-import campecheLogo from "../../images/campeche-logo.png";
+import logoSm from "../../images/logo-informe.png";
+import campecheLogo from "../../images/logo-informe.png";
+import bgInforme from "../../images/bg-informe.png";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import { Dropdown, Form } from "react-bootstrap";
@@ -62,7 +63,14 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }: any) => {
     };
     return (
         <React.Fragment>
-            <header id="page-topbar" className={headerClass}>
+            <header id="page-topbar" className={headerClass} style={{
+                backgroundColor: '#7D1638',
+                backgroundImage: `url(${bgInforme})`,
+                backgroundSize: 'auto 150%',
+                backgroundPosition: 'left center',
+                backgroundRepeat: 'repeat-x',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}>
                 <div className="layout-width">
                     <div className="navbar-header">
                         <div className="d-flex">
@@ -70,19 +78,19 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }: any) => {
                             <div className="navbar-brand-box horizontal-logo">
                                 <Link href="/" className="logo logo-dark">
                                     <span className="logo-sm">
-                                        <img src={campecheLogo} alt="" height="22" />
+                                        <img src={campecheLogo} alt="" height="30" />
                                     </span>
                                     <span className="logo-lg">
-                                        <img src={campecheLogo} alt="" height="35" />
+                                        <img src={campecheLogo} alt="" height="50" style={{ marginTop: '10px' }} />
                                     </span>
                                 </Link>
 
                                 <Link href="/" className="logo logo-light">
                                     <span className="logo-sm">
-                                        <img src={campecheLogo} alt="" height="22" />
+                                        <img src={campecheLogo} alt="" height="30" />
                                     </span>
                                     <span className="logo-lg">
-                                        <img src={campecheLogo} alt="" height="35" />
+                                        <img src={campecheLogo} alt="" height="50" style={{ marginTop: '10px' }} />
                                     </span>
                                 </Link>
                             </div>

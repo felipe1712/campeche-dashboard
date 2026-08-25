@@ -1,0 +1,204 @@
+=== M3-045 ===
+Row 0: A: Número de alumnos inscritos, egresados y titulados por carreras con mayor demanda, ciclo escolar 2024/2025. | K: Número de alumnos inscritos, egresados y titulados por carreras con mayor demanda, ciclo escolar 2025-2026.
+Row 1: K: CARRERAS | L: ALUMNOS INSCRITOS | M: ALUMNOS EGRESADOS | N: ALUMNOS TITULADOS | O: Notas
+Row 2: A: CARRERAS | B: ALUMNOS | K: LICENCIATURA EN DERECHO | L: 2,132 | M: 413 | N: 358
+Row 3: B: INSCRITOS | C: EGRESADOS | D: TITULADOS | K: LICENCIATURA EN PSICOLOGÍA | L: 1,819 | M: 195 | N: 158
+Row 4: A: Licenciatura en Derecho | B: 2,212 | C: 379 | D: 396 | K: LICENCIATURA EN ENFERMERÍA | L: 1,803 | M: 289 | N: 204
+Row 5: A: Licenciatura en Psicología | B: 1,816 | C: 149 | D: 106 | K: LICENCIATURA EN CONTADURÍA | L: 1,340 | M: 259 | N: 226
+Row 6: A: Licenciatura en Enfermería | B: 1,710 | C: 260 | D: 225 | K: INGENIERÍA EN SISTEMAS COMPUTACIONALES | L: 1,266 | M: 145 | N: 148
+Row 7: A: Licenciatura en Contaduría | B: 1,303 | C: 264 | D: 276 | K: LICENCIATURA EN ADMINISTRACIÓN | L: 1,132 | M: 148 | N: 105
+Row 8: A: Ingeniería en Sistemas Computacionales | B: 1,149 | C: 158 | D: 75 | K: LICENCIATURA EN ADMINISTRACIÓN DE EMPRESAS | L: 646 | M: 134 | N: 115
+Row 9: A: Licenciatura en Administración | B: 1,122 | C: 145 | D: 44 | K: INGENIERÍA EN ADMINISTRACIÓN | L: 636 | M: 98 | N: 115
+Row 10: A: Licenciatura en Administración de Empresas | B: 805 | C: 134 | D: 112 | K: MÉDICO CIRUJANO | L: 636 | M: 94 | N: 36
+Row 11: A: Licenciatura en Nutrición | B: 721 | C: 111 | D: 90 | K: Otras a/ | L: 24,929 | M: 4,119 | N: 3,474
+Row 12: A: Licenciatura en Fisioterapia | B: 685 | C: 51 | D: 58 | K: TOTAL | L: 36,339 | M: 5,894 | N: 4,939
+Row 13: A: Ingeniería en Administración | B: 646 | C: 126 | D: 90 | K: Fuente: Secretaría de Educación del Estado de Campeche, Subsecretaría de Planeación, Programación y Estadística. Dirección de Planeación y Programación. Departamento de Sistemas de Información Estadística. 2026.
+Row 14: A: Otras a/ | B: 23,458 | C: 3,825 | D: 3,265 | K: a/ Se contemplan 253 carreras.
+Row 15: A: TOTAL | B: 35,627 | C: 5,602 | D: 4,737
+Row 17: A: a/ Se contemplan 252 carreras.
+Row 18: A: Fuente: Secretaría de Educación del Estado de Campeche. Subsecretaría de Planeación, Programación y Estadística. Dirección de Planeación y Programación. Departamento de Sistemas de Información Estadística. 2025.
+
+=== M3-058 ===
+Row 0: A: Número de localidades, escuelas y beneficiados por el Proyecto Útiles Jaguar por municipio, 2024. | J: Número de localidades, escuelas y beneficiarios por el Proyecto "Útiles Jaguar" por municipio, 2025.
+Row 2: A: MUNICIPIO | B: LOCALIDADES | C: ESCUELAS | D: BENEFICIARIOS | J: MUNICIPIO | K: LOCALIDADES | L: ESCUELAS | M: BENEFICIARIOS | O: Notas
+Row 3: D: NIÑAS | E: NIÑOS | M: NIÑAS | N: NIÑOS
+Row 4: A: Calakmul | B: 58 | C: 62 | D: 2,003 | E: 2,133 | J: CALKINI | K: 11 | L: 13 | M: 437 | N: 441
+Row 5: A: Campeche | B: 8 | C: 11 | D: 1,005 | E: 1,002 | J: CAMPECHE | K: 33 | L: 45 | M: 1,992 | N: 2,065
+Row 6: A: Candelaria | B: 124 | C: 130 | D: 3,422 | E: 3,411 | J: CANDELARIA | K: 115 | L: 115 | M: 2,128 | N: 2,274
+Row 7: A: Hopelchén | B: 32 | C: 39 | D: 2,110 | E: 2,091 | J: CARMEN | K: 47 | L: 49 | M: 1,528 | N: 1,670
+Row 8: A: ESTADO | B: 222 | C: 242 | D: 8,540 | E: 8,637 | J: CHAMPOTON | K: 45 | L: 45 | M: 1,554 | N: 1,614
+Row 9: J: DZITBALCHE | K: 2 | L: 3 | M: 297 | N: 295
+Row 10: A: Fuente: Gobierno del Estado de Campeche. Secretaría de Bienestar. 2025. | J: ESCARCEGA | K: 38 | L: 38 | M: 956 | N: 1,063
+Row 11: J: HECELCHAKAN | K: 10 | L: 11 | M: 453 | N: 408
+Row 12: A: Número de localidades, escuelas, inversión y beneficiados por el Proyecto Útiles Jaguar por municipio, 2023. | J: HOPELCHEN | K: 28 | L: 28 | M: 914 | N: 927
+Row 13: J: PALIZADA | K: 21 | L: 21 | M: 295 | N: 314
+Row 14: A: MUNICIPIO | B: LOCALIDADES | C: ESCUELAS | D: BENEFICIARIOS | J: SEYBAPLAYA | K: 2 | L: 3 | M: 303 | N: 292
+Row 15: D: NIÑAS | E: NIÑOS | J: TENABO | K: 3 | L: 3 | M: 97 | N: 80
+Row 16: A: Calakmul | B: 54 | C: 57 | D: 1,870 | E: 2,032 | J: TOTAL | K: 412 | L: 433 | M: 12,647 | N: 13,196
+Row 17: A: Campeche | B: 10 | C: 10 | D: 173 | E: 187 | J: Fuente: Gobierno del Estado de Campeche, Secretaría de Bienestar
+Row 18: A: Candelaria | B: 87 | C: 92 | D: 3,161 | E: 3,133
+Row 19: A: Carmen | B: 8 | C: 8 | D: 100 | E: 98
+
+=== M3-065 ===
+Row 1: A: Viviendas edificadas en el Estado por organismo que otorga el financiamiento, 2021-2025.
+Row 2: A: ORGANISMO | B: 2021 | C: 2022 | D: 2023 | E: 2024 | F: 2025 | G: Notas
+Row 3: A: INFONAVIT | B: 105 | C: 76 | D: 69 | E: 81 | F: 104
+Row 4: A: CODESVI | B: 0 | C: 0 | D: 0 | E: 0 | F: 0
+Row 5: A: FOVISSSTE | B: 53 | C: 47 | D: 35 | E: 35 | F: 20
+Row 6: A: BANCA | B: 350 | C: 185 | D: 100 | E: 109 | F: 69
+Row 7: A: CONAVI | B: 286 | C: 180 | D: 1 | E: 54 | F: 837
+Row 8: A: BANJERCITO | B: 0 | C: 1 | D: 1 | E: 0 | F: 0
+Row 9: A: TOTALES | B: 794 | C: 489 | D: 206 | E: 279 | F: 1030
+Row 10: A: Fuente: Secretaría de Desarrollo Agrario, Territorial y Urbano. Sistema Nacional de Información de Indicadores de Vivienda (SNIIV) 2026.
+
+=== M3-068 ===
+Row 0: A: Medallas obtenidas en Nacionales y Paranacionales CONADE, por tipo de deporte, según tipo de medalla, 2024.
+Row 1: I: Medallas obtenidas en Nacionales y Paranacionales CONADE, por tipo de deporte, según tipo de medalla, 2025.
+Row 2: A: CATEGORÍA | B: DEPORTE | C: TIPO DE MEDALLA | F: TOTAL | I: CATEGORIA | J: DEPORTE | K: TIPO DE MEDALLA (ORO) | L: TIPO DE MEDALLA (PLATA) | M: TIPO DE MEDALLA (BRONCE) | N: TOTAL | O: Notas
+Row 3: C: ORO | D: PLATA | E: BRONCE | I: Nacionales CONADE | J: Atletismo | K: 0 | L: 3 | M: 1 | N: 4
+Row 4: A: Nacionales | I: Nacionales CONADE | J: Boxeo | K: 0 | L: 0 | M: 1 | N: 1
+Row 5: B: Levantamiento de Pesas | C: 16 | D: 11 | E: 16 | F: 43 | I: Nacionales CONADE | J: Gimnasia | K: 0 | L: 2 | M: 2 | N: 4
+Row 6: B: Judo | C: 2 | D: 2 | E: 2 | F: 6 | I: Nacionales CONADE | J: Judo | K: 2 | L: 5 | M: 5 | N: 12
+Row 7: B: Taekwondo | C: 2 | D: 2 | E: 2 | F: 6 | I: Nacionales CONADE | J: Luchas asociadas | K: 3 | L: 1 | M: 4 | N: 8
+Row 8: B: Karate | C: 2 | D: 1 | E: 1 | F: 4 | I: Nacionales CONADE | J: Levantamiento de pesas | K: 19 | L: 7 | M: 8 | N: 34
+Row 9: B: Luchas Asociadas | C: 1 | D: 1 | E: 5 | F: 7 | I: Nacionales CONADE | J: Taekwondo | K: 1 | L: 2 | M: 3 | N: 6
+Row 10: B: Triatlón | C: 0 | D: 1 | E: 1 | F: 2 | I: Nacionales CONADE | J: Triatlón | K: 0 | L: 2 | M: 1 | N: 3
+Row 11: B: Gimnasia de Trampolín | C: 0 | D: 1 | E: 0 | F: 1 | I: Paranacionales CONADE | J: Paratletismo | K: 5 | L: 4 | M: 4 | N: 13
+Row 12: B: Atletismo | C: 0 | D: 0 | E: 2 | F: 2 | I: Paranacionales CONADE | J: Paranatación | K: 1 | L: 6 | M: 4 | N: 11
+Row 13: A: Paranacionales | I: Paranacionales CONADE | J: Parapowerlifting | K: 4 | L: 0 | M: 2 | N: 6
+Row 14: B: Paranatación | C: 9 | D: 2 | E: 3 | F: 14 | I: Paranacionales CONADE | J: Paratriatlón | K: 2 | L: 0 | M: 0 | N: 2
+Row 15: B: Paratletismo | C: 7 | D: 2 | E: 0 | F: 9 | I: TOTAL TIPO DE MEDALLA (ORO) | N: 37
+Row 16: B: Parapowerlifting | C: 2 | D: 0 | E: 2 | F: 4 | I: TOTAL TIPO DE MEDALLA (PLATA) | N: 32
+Row 17: A: TOTAL | C: 41 | D: 23 | E: 34 | F: 98 | I: TOTAL TIPO DE MEDALLA (BRONCE) | N: 35
+Row 18: I: TOTAL TOTAL | N: 104
+Row 19: A: Fuente: Gobierno del Estado de Campeche. Secretaria de Bienestar. Instituto del Deporte del Estado de Campeche. 2025. | I: Fuente: Gobierno del Estado de Campeche, Secretaria de Bienestar, Instituto del Deporte del Estado de Campeche, 2026
+
+=== M3-073 ===
+Row 0: A: Inversión en programas de INDECAM, por programa, según nivel de Gobierno, Julio de 2024 a junio de 2025.
+Row 2: A: PROGRAMAS | B: BENEFICIARIOS | C: INVERSIÓN (PESOS)
+Row 3: C: FEDERAL
+Row 4: A: Programa de Cultura Física y Deporte (CONADE) 2024 | B: 925 | C: 6,987,250
+Row 7: A: Nota: Con esta inversión se llevo a cabo el Encuentro Nacional Deportivo Indígena 2024.
+Row 8: A: Fuente: Fuente: Gobierno del Estado de Campeche. Secretaría de Bienestar. Instituto del Deporte del Estado de Campeche.2025
+
+=== M3-077 ===
+Row 0: A: Servicios otorgados por el Programa PAIMEF, por área y según tipo de servicio, 2024.
+Row 2: A: ÁREA | B: TRABAJO SOCIAL | C: PSICOLOGÍA | D: JURÍDICO | E: REPRESENTACIÓN LEGAL | F: DERIVACIÓN MÉDICA (ULTRASONIDO PÉLVICO Y OBSTÉTRICO) | G: DERIVACIÓN MÉDICA (EXPLORACIÓN DE MAMA)
+Row 3: A: Acción C.I.1 Fortalecimiento de la Línea Telefónica del "IMEC" | B: 0 | C: 507 | D: 506 | E: 0 | F: 0 | G: 0
+Row 4: A: Acción C.II.1 Fortalecimiento de la Unidad Itinerante "1" del PAIMEF- IMEC. Fortalecimiento de la Unidad Itinerante de Atención del municipio de Calkiní. | B: 1,231 | C: 418 | D: 402 | E: 0 | F: 652 | G: 458
+Row 5: A: Acción C.II.2 Fortalecimiento de la Unidad Itinerante "2" del PAIMEF- IMEC. Fortalecimiento de la Unidad Itinerante de Atención del municipio de Escárcega. | B: 1,340 | C: 566 | D: 574 | E: 0 | F: 952 | G: 446
+Row 6: A: Acción C.II.3 Fortalecimiento de la Unidad Itinerante "3" del PAIMEF- IMEC. Fortalecimiento de la Unidad Itinerante de Atención del municipio de Candelaria | B: 1,073 | C: 510 | D: 459 | E: 0 | F: 340 | G: 310
+Row 7: A: Acción C.II.4 Centro de Atención a la Violencia contra las Mujeres del PAIMEF-IMEC ubicado en la localidad de Dzibalchén. | B: 339 | C: 375 | D: 433 | E: 16 | F: 0 | G: 0
+Row 8: A: Acción C.II.5 Fortalecimiento del Centro de Atención a la Violencia contra las Mujeres del PAIMEF-IMEC ubicado en el municipio de Palizada. | B: 374 | C: 929 | D: 143 | E: 42 | F: 0 | G: 0
+Row 9: A: Acción C.II.6 Fortalecimiento del "Centro de Atención a la violencia contra las Mujeres del PAIMEF-IMEC de Campeche" | B: 875 | C: 583 | D: 483 | E: 84 | F: 0 | G: 0
+Row 10: A: TOTAL | B: 5,232 | C: 3,888 | D: 3,000 | E: 142 | F: 1,944 | G: 1,214
+Row 12: A: Fuente: Gobierno del Estado de Campeche. Secretaria de Bienestar. Instituto de la Mujer del Estado de Campeche. 2025.
+
+=== M3-078 ===
+Row 0: A: Servicios otorgados por los centros para el desarrollo de las mujeres (CDM) por municipio, 2024.
+Row 2: A: MUNICIPIO | B: CDM 2024 | E: EMPODERAMIENTO
+Row 3: B: MUJERES | C: HOMBRES | E: MUJERES | F: HOMBRES
+Row 4: A: Calakmul | B: 1,079 | C: 323 | E: 0 | F: 0
+Row 5: A: Calkiní | B: 937 | C: 0 | E: 316 | F: 0
+Row 6: A: Campeche | B: 901 | C: 335 | E: 312 | F: 18
+Row 7: A: Candelaria | B: 1,033 | C: 360 | E: 0 | F: 0
+Row 8: A: Champotón | B: 1,378 | C: 656 | E: 372 | F: 5
+Row 9: A: Dzitbalché | B: 863 | C: 318 | E: 0 | F: 0
+Row 10: A: Escárcega | B: 1,043 | C: 581 | E: 459 | F: 0
+Row 11: A: Hecelchakán | B: 1,059 | C: 213 | E: 0 | F: 0
+Row 12: A: Hopelchén | B: 1,481 | C: 556 | E: 0 | F: 0
+Row 13: A: Seybaplaya | B: 844 | C: 326 | E: 0 | F: 0
+Row 14: A: Tenabo | B: 890 | C: 375 | E: 0 | F: 0
+Row 15: A: ESTADO | B: 11,508 | C: 4,043 | E: 1,459 | F: 23
+Row 17: A: Fuente: Gobierno del Estado de Campeche. Secretaria de Bienestar. Instituto de la Mujer del Estado de Campeche. 2025.
+
+=== M3-086 ===
+Row 0: A: Crecimiento de comunicación en redes sociales, 2024-2025.
+Row 2: A: ESTRATEGIA | B: 2024 | C: 2025
+Row 3: A: Crecimiento de seguidores | B: 8,700 | C: 39,000
+Row 4: A: Publicaciones realizadas a/ | B: 2,472 | C: 498
+Row 5: A: Alcance de publicaciones | B: 1,390,629 | C: 653,100
+Row 8: A: a/ Las publicaciones son realizadas a través de las redes sociales (Facebook, X e Instagram).
+Row 10: A: Fuente: Gobierno del Estado de Campeche. Secretaría de Inclusión. Elaboración con datos del archivo de Comunicación Social. 2025.
+Row 14: A: Crecimiento de la comunicación en redes sociales, 2024-2025.
+Row 16: A: ESTRATEGIA | B: 2024 | C: 2025
+Row 17: A: Crecimiento de seguidores | B: 11,758 | C: 21,642
+Row 18: A: Publicaciones realizadas a/ | B: 879 | C: 3,078
+Row 19: A: Alcance de publicaciones | B: 827,818 | C: 1,424,220
+
+=== M3-089 ===
+Row 0: A: Número de raciones alimentarias, Espacios de Alimentación, Encuentro y Desarrollo Comunitario (EAEDC) y sus beneficiarios por municipio, 2024.
+Row 2: A: MUNICIPIO | B: RACIONES DISTRIBUIDAS | C: NÚMERO DE ESPACIOS DE ALIMENTACIÓN | D: NÚMERO DE BENEFICIARIOS
+Row 3: A: Calakmul | B: 1,277,536 | C: 58 | D: 7,264
+Row 4: A: Calkiní | B: 376,537 | C: 24 | D: 2,129
+Row 5: A: Campeche | B: 436,387 | C: 37 a/ | D: 2,559
+Row 6: A: Candelaria | B: 961,312 | C: 67 | D: 5,440
+Row 7: A: Carmen | B: 1,295,619 | C: 71 | D: 7,323
+Row 8: A: Champotón | B: 861,815 | C: 42 | D: 4,879
+Row 9: A: Dzitbalché | B: 56,817 | C: 3 | D: 321
+Row 10: A: Escárcega | B: 802,966 | C: 48 | D: 4,550
+Row 11: A: Hecelchakán | B: 221,299 | C: 11 | D: 1,251
+Row 12: A: Hopelchén | B: 640,515 | C: 34 | D: 3,619
+Row 13: A: Palizada | B: 272,757 | C: 26 | D: 1,541
+Row 14: A: Seybaplaya | B: 64,351 | C: 2 | D: 367
+Row 15: A: Tenabo | B: 130,699 | C: 6 | D: 739
+Row 16: A: ESTADO | B: 7,398,610 | C: 429 | D: 41,982
+Row 18: A: a/ Se incluyen tres Centros de Desarrollo Comunitario (Ampliación Polvorín, Kaniste y Siglo XXI) que, aunque no son considerados Espacios de Alimentación, Encuentro y Desarrollo Comunitario, reciben insumos para el servicio de alimentación. Asi como el Albergue "María Palmira Lavalle" se contempla como Centro Asistencial.
+Row 19: A: b/ Incluye 60 beneficiarios del Centro Asistencial "María Palmira Lavalle", 125 del Centro de Desarrollo Comunitario Siglo XXI, 50 del Centro de Desarrollo Comunitario Ampliación Polvorín y 50 del Centro de Desarrollo Comunitario Kanisté.
+
+=== M3-095 ===
+Row 0: A: Número de acciones y beneficiarios del Centro de Atención Psicosocial a Niñas, Niños y Adolescentes (CAPANNA) por tema, 2024. | H: Número de acciones y beneficiarios del Centro de Atención Psicosocial a Niñas, Niños y Adolescentes (CAPANNA) por tema, 2023.
+Row 2: A: TEMAS | B: ACCIONES | C: BENEFICIARIOS | H: TEMAS | I: ACCIONES | J: BENEFICIARIOS
+Row 3: A: Atención a niñas, niños y adolescentes en adopción, reintegración y familias de acogida | B: 202 | C: 202 | H: Atención a niñas, niños y adolescentes en adopción, reintegración y familias de acogida | I: 257 | J: 33
+Row 4: A: Canalizaciones | B: 55 | C: 55 | H: Canalizaciones | I: 93 | J: 93
+Row 5: A: Dictámenes psicológicos | B: 42 | C: 42 | H: Dictámenes psicológicos | I: 90 | J: 90
+Row 6: A: Dictámenes psicológicas de adopción, reintegración y familias de acogida. | B: 59 | C: 59 | H: Dictámenes psicológicas de adopción, reintegración y familias de acogida. | I: 28 | J: 28
+Row 7: A: Ingresos a servicios de atención psicológica | B: 1,003 | C: 1,003 | H: Ingresos a servicios de atención psicológica | I: 1,290 | J: 1,290
+Row 8: A: Niñas, Niños y Adolescentes en acogimiento familiar | B: 8 | C: 8 | H: Niñas, Niños y Adolescentes en acogimiento familiar | I: 7 | J: 7
+Row 9: A: Talleres | B: 115 | C: 1,093 | H: Talleres | I: 87 | J: 805
+Row 10: A: Terapia psicológica | B: 4,874 | C: 4,344 | H: Terapia psicológica | I: 5,244 | J: 3,969
+Row 11: A: TOTAL | B: 6,358 | C: 6,806 | H: TOTAL | I: 7,096 | J: 6,315
+Row 13: A: Fuente: Gobierno del Estado de Campeche. Sistema para el Desarrollo Integral de la Familia del Estado de Campeche. 2025. | H: Fuente: Gobierno del Estado de Campeche. Sistema para el Desarrollo Integral de la Familia del Estado de Campeche. 2024.
+Row 15: A: Número de acciones y beneficiarios del Centro de Atención Psicosocial a Niñas, Niños y Adolescentes (CAPANNA) por tema, 2025.
+Row 16: A: TEMAS | B: ACCIONES | C: BENEFICIARIOS | D: Notas
+Row 17: A: Atención a niñas, niños y adolescentes en adopción, reintegración y familias de acogida | B: 334 | C: 334
+Row 18: A: Canalizaciones | B: 50 | C: 50
+Row 19: A: Dictámenes psicológicos | B: 143 | C: 143
+
+=== M3-100 ===
+Row 0: A: Resumen de beneficiarios de centros y programas del DIF estatal por programa/centro, 2024. | G: Resumen de beneficiarios de centros y programas del DIF estatal por programa/centro, 2024.
+Row 2: A: PROGRAMAS/CENTROS | B: BENEFICIARIOS | G: PROGRAMAS/CENTROS | H: BENEFICIARIOS
+Row 3: A: Asistencia Social Alimentaria a Personas en Situación de Emergencia o Desastre a/ | B: 11,380 | G: Asistencia Social Alimentaria a Personas en Situación de Emergencia o Desastre a/ | H: 11,406
+Row 4: A: Centros Asistenciales (CAIC y CADI) | B: 2,197 | G: Centros Asistenciales (CAIC y CADI) | H: 2,002
+Row 5: A: Centros Asistenciales DIF Estatal b/ | B: 3,011 | G: Centros Asistenciales DIF Estatal b/ | H: 1,299
+Row 6: A: Centros de Rehabilitación (CREE y CRACN) | B: 3,509 | G: Centros de Rehabilitación (CREE, CRI y CRACN) | H: 3,538
+Row 7: A: Cuaresma de Todos | B: 90,810 | G: Cuaresma de Todos | H: 69,940
+Row 8: A: Espacios de Alimentación, Encuentro y Desarrollo Comunitario (EAEDC) c/ | B: 43,645 | G: Espacios de Alimentación, Encuentro y Desarrollo Comunitario (EAEDC) c/ | H: 41,500
+Row 9: A: Programa de Asistencia Social a Personas en situación de Vulnerabilidad | B: 6,233 | G: Programa de Asistencia Social a Personas en situación de Vulnerabilidad | H: 1,285
+Row 10: A: Programa de Asistencia Social Alimentaria en los Primeros 1000 Días | B: 642 | G: Programa de Asistencia Social Alimentaria en los Primeros 1000 Días | H: 635
+Row 11: A: Programa de Cirugías Extramuros | B: 345 | G: Programa de Cirugías Extramuros | H: 273
+Row 12: A: Programa de Salud y Bienestar Comunitario (PSBC) | B: 749 | G: Programa de Salud y Bienestar Comunitario (PSBC) | H: 768
+Row 13: A: TOTAL | B: 162,521 | G: TOTAL | H: 132,646
+Row 15: A: a/ El dato corresponde a familias beneficiadas. | G: a/ El dato corresponde a familias beneficiadas.
+Row 16: A: b/ Incluye a 58 beneficiarios del Centro Asistencial "María Palmira Lavalle"; 489 del Centro de Asistencia Social para Migrantes "In Wotoch" y 2,464 del Centro de Atención Integral al Adulto Mayor. | G: b/ Incluye a 55 beneficiarios del Centro Asistencial "María Palmira Lavalle"; 74 del Centro de Asistencia Social para Migrantes "In Wotoch" y 1,170 del Centro de Atención Integral al Adulto Mayor.
+Row 17: A: c/ El total de 43,645 beneficiarios resulta de la suma de: 29,220 beneficiarios del Programa Alimentación Escolar y del Programa de Atención Alimentaria a Grupos Prioritaria: 2,038 de Menores de 5 años en Riesgo, No Escolarizados, 10,724 de Sujetos Vulnerables y 1,663 de la Red de Comedor del Adulto Mayor. | G: c/ El total de 41,500 beneficiarios resulta de la suma de: 28,269 beneficiarios del Programa Desayunos Escolares Modalidad Caliente, 1,935 del Programa de Asistencia Social Alimentaria a Personas de Atención Prioritaria a Menores de 5 años en Riesgo, No Escolarizados. 10,058 de Sujetos Vulnerables y 1,238 de la Red de Comedor del Adulto Mayor.
+Row 18: A: Fuente: Gobierno del Estado de Campeche. Sistema para el Desarrollo Integral de la Familia del Estado de Campeche. 2025. | G: Fuente: Gobierno del Estado de Campeche. Sistema para el Desarrollo Integral de la Familia del Estado de Campeche. 2024.
+
+=== M3-104 ===
+Row 0: A: Convenios en materia cultural, Julio 2024 a Junio 2025. | H: Convenios en materia cultural, Julio 2023 a Junio 2024.
+Row 2: A: CONVENIOS | B: INVERSIÓN (PESOS) | H: CONVENIOS | I: INVERSIÓN (PESOS)
+Row 3: B: ESTATAL | C: FEDERAL | D: TOTAL | I: ESTATAL | J: FEDERAL | K: TOTAL
+Row 4: A: Apoyo a Instituciones Estatales de Cultura (AIEC) | B: 0 | C: 1,383,085 | D: 1,383,085 | H: Apoyo a Instituciones Estatales de Cultura (AIEC) | I: 0 | J: 1,225,323 | K: 1,225,323
+Row 5: A: Programa de Apoyo a Festivales Culturales y Artísticos (PROFEST) | B: 0 | C: 1,899,999 | D: 1,899,999 | H: Programa Alas y Raíces | I: 220,000 | J: 600,000 | K: 820,000
+Row 6: A: Programa de Acciones Culturales Multilingües y Comunitarias (PACMYC) | B: 1,000,000 | C: 847,472 | D: 1,847,472 | H: Programa de Acciones Culturales Multilingües y Comunitarias (PACMYC) | I: 818,182 | J: 1,000,000 | K: 1,818,182
+Row 7: A: Programa Estimulo a la Creación y Desarrollo Artístico (PECDA) | B: 1,049,460 | C: 1,000,000 | D: 2,049,460 | H: Programa Estimulo a la Creación y Desarrollo Artístico (PECDA) | I: 831,472 | J: 1,000,000 | K: 1,831,472
+Row 8: A: Programa Nacional de Salas de Lectura (PNSL) | B: 310,000 | C: 0 | D: 310,000 | H: Programa Nacional de Salas de Lectura (PNSL) | I: 535,401 | J: 0 | K: 535,401
+Row 9: H: Programa de Formación de recursos humanos de alto nivel en arte y cultura (Fundación Pablo García) | I: 1,200,000 | J: 1,200,000 | K: 2,400,000
+Row 10: A: TOTAL | B: 2,359,460 | C: 5,130,556 | D: 7,490,016 | H: TOTAL | I: 3,605,055 | J: 5,130,556 | K: 8,630,378
+Row 11: H: Fuente: Gobierno del Estado de Campeche. Instituto de Cultura y Artes del Estado de Campeche. Departamento de Evaluación y Seguimiento de Programas. 2024.
+Row 12: A: Nota: El recurso federal del Programa de Estímulo a la Creación y Desarrollo Artístico (PECDA) por un millón de pesos es ministrada por la Federación. Programa de Estímulo a la Creación y Desarrollo Artístico (PECDA) incluye $ 50,112 del convenio 2023 y $ 999,348 del convenio 2024.
+Row 13: A: Fuente: Gobierno del Estado de Campeche. Instituto de Cultura y Artes del Estado de Campeche. Departamento de Evaluación y Seguimiento de Programas. 2025.
+Row 17: A: Convenios en materia cultural, Julio 2025 a Junio 2026.
+Row 18: A: CONVENIOS | B: INVERSIÓN (PESOS)
+Row 19: B: ESTATAL | C: FEDERAL | D: TOTAL | E: Notas
+

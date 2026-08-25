@@ -15,5 +15,10 @@ export default defineConfig({
             "@assets": "resources/",
             "@": "resources/js/",
         }
+    },
+    build: {
+        rollupOptions: {
+            external: [/^core-js/]
+        }
     }
 });

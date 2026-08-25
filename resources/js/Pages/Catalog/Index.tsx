@@ -34,7 +34,7 @@ export default function CatalogIndex({ temas, flash }: any) {
                                     </div>
 
                                     <Form onSubmit={submit}>
-                                        <div className="mb-3">
+                                        <div className="mb-3 d-none">
                                             <Form.Label>Año de Vigencia</Form.Label>
                                             <Form.Select 
                                                 value={data.year} 

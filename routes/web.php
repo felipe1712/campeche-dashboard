@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Admin\MissionController;
+use App\Http\Controllers\Admin\ExportController;
 use Inertia\Inertia;
 
 /*
@@ -55,6 +56,11 @@ Route::middleware('auth')->group(function () {
     // Admin de Indicadores Estratégicos
     Route::get('/admin/indicadores', [\App\Http\Controllers\IndicatorAdminController::class, 'index'])->name('admin.indicadores.index');
     Route::put('/admin/indicadores/{id}', [\App\Http\Controllers\IndicatorAdminController::class, 'update'])->name('admin.indicadores.update');
+
+    // Exportaciones
+    Route::get('/admin/exportaciones', [ExportController::class, 'index'])->name('admin.exportaciones.index');
+    Route::get('/admin/exportaciones/data', [ExportController::class, 'getData'])->name('admin.exportaciones.data');
+    Route::post('/admin/exportaciones/excel', [ExportController::class, 'exportExcel'])->name('admin.exportaciones.excel');
 
     // CRUD Usuarios (Solo acceso restringido)
     Route::resource('users', UserController::class);

@@ -41,18 +41,7 @@ const Navdata = () => {
             icon: "ri-file-excel-2-line",
             link: "/import",
         },
-        {
-            id: "catalogos",
-            label: "Catálogos Oficiales",
-            icon: "ri-book-mark-line",
-            link: "/catalog",
-        },
-        {
-            id: "orphans",
-            label: "Asignación Manual",
-            icon: "ri-links-line",
-            link: "/orphans",
-        },
+
         {
             id: "indicadores",
             label: "Administrar Indicadores",
@@ -62,8 +51,14 @@ const Navdata = () => {
         {
             id: "misiones",
             label: "Administrar Misiones",
-            icon: "ri-flag-line",
+            icon: "ri-flag-2-line",
             link: "/admin/misiones",
+        },
+        {
+            id: "exportaciones",
+            label: "Exportaciones",
+            icon: "ri-download-cloud-line",
+            link: "/admin/exportaciones",
         }
     ];
 
