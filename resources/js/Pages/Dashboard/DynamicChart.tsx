@@ -13,7 +13,24 @@ interface Props {
     hideTitle?: boolean;
 }
 
-const DynamicChart = ({ dynamicData, metadataTabla, indicatorTitulo, selectedMunicipio, isMunicipal, defaultChartType, hideTitle }: Props) => {
+const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTitulo, selectedMunicipio, isMunicipal, defaultChartType, hideTitle }: Props) => {
+    
+    // Fix garbage first row from broken Excel imports
+    const dynamicData = useMemo(() => {
+        if (!Array.isArray(rawDynamicData) || rawDynamicData.length === 0) return rawDynamicData;
+        let data = [...rawDynamicData];
+        if (data.length > 1) {
+            const keys0 = Object.keys(data[0]);
+            const keys1 = Object.keys(data[1]);
+            const row0HasCol = keys0.some(k => k.startsWith('col_'));
+            const row1HasCol = keys1.some(k => k.startsWith('col_'));
+            // If row 0 has col_ keys but row 1 has real keys, drop row 0
+            if (row0HasCol && !row1HasCol && keys1.length > 0) {
+                data = data.slice(1);
+            }
+        }
+        return data.filter(row => Object.values(row).some(val => val !== null && val !== undefined && String(val).trim() !== ''));
+    }, [rawDynamicData]);
     // We keep bar-horizontal in the state, and map it to 'bar' only when passing to ReactApexChart type prop
     const initialChartType = (defaultChartType as ChartType) || 'bar';
     const [chartType, setChartType] = useState<ChartType>(initialChartType);
