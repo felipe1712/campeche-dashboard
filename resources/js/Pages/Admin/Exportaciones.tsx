@@ -21,6 +21,7 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
     const [previewData, setPreviewData] = useState<any>(null);
     const [loadingPreview, setLoadingPreview] = useState(false);
     const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+    const [pdfProgress, setPdfProgress] = useState('');
     
     const exportRef = useRef<HTMLDivElement>(null);
     
@@ -93,6 +94,7 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
         if (!exportRef.current) return;
         
         setIsGeneratingPdf(true);
+        setPdfProgress('Iniciando...');
         // Find all pages to capture
         const pages = Array.from(exportRef.current.querySelectorAll('.pdf-indicator-page'));
         const elementsToCapture = pages.length > 0 ? pages : [exportRef.current];
@@ -105,6 +107,8 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
             });
 
             for (let i = 0; i < elementsToCapture.length; i++) {
+                setPdfProgress('Procesando ' + (i + 1) + ' de ' + elementsToCapture.length);
+                await new Promise(r => setTimeout(r, 200));
                 const element = elementsToCapture[i] as HTMLElement;
                 const originalBg = element.style.backgroundColor;
                 element.style.backgroundColor = '#ffffff';
@@ -114,10 +118,10 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                 await new Promise(r => setTimeout(r, 100));
 
                 const canvas = await html2canvas(element, { 
-                    scale: 2, // Reducing scale to 2 to avoid memory issues (was 3 or 2 previously, keeping 2 is good, or 1.5 if 2 fails, but let's stick to 2 and add timeout)
+                    scale: 1.2, // Reducing scale to avoid memory crash (was 3 or 2 previously, keeping 2 is good, or 1.5 if 2 fails, but let's stick to 2 and add timeout)
                     useCORS: true,
                     logging: false,
-                    windowWidth: document.documentElement.offsetWidth
+                    windowWidth: 1280
                 });
                 
                 element.style.backgroundColor = originalBg;
@@ -293,7 +297,7 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                                         {isGeneratingPdf ? (
                                             <>
                                                 <Spinner animation="border" size="sm" className="me-2" />
-                                                Generando PDF...
+                                                {pdfProgress || 'Generando PDF...'}
                                             </>
                                         ) : (
                                             <>
