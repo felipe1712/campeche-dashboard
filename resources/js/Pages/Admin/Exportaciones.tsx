@@ -183,12 +183,39 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                 </div>
             );
         } else {
+            const hasTabla = data.metadata_tabla && data.metadata_tabla.length > 0 && data.metadata_tabla[0].headers && data.metadata_tabla[0].rows;
+            
+            if (hasTabla) {
+                const tabla = data.metadata_tabla[0];
+                return (
+                    <div className="table-responsive mt-4">
+                        <h6 className="fw-bold mb-3">Datos Tabulares</h6>
+                        <table className="table table-striped table-bordered table-sm" style={{fontSize: '12px'}}>
+                            <thead className="bg-light">
+                                <tr>
+                                    {tabla.headers.map((h: string, i: number) => <th key={i}>{h}</th>)}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tabla.rows.map((row: any[], i: number) => (
+                                    <tr key={i}>
+                                        {row.map((cell: any, j: number) => <td key={j}>{cell}</td>)}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            }
+
             if (!Array.isArray(data.metadata_dinamica) || data.metadata_dinamica.length === 0) return <p>Sin datos estructurados.</p>;
             
-            let headers = data.metadata_tabla && data.metadata_tabla[0]?.headers;
-            if (!headers) {
-                headers = Object.keys(data.metadata_dinamica[0]);
-            }
+            const validRows = data.metadata_dinamica.filter((row: any) => 
+                Object.values(row).some(val => val !== null && val !== '' && String(val).trim() !== '')
+            );
+            if (validRows.length === 0) return <p>Sin datos estructurados.</p>;
+            
+            const headers = Object.keys(validRows[0]);
 
             return (
                 <div className="table-responsive mt-4">
@@ -196,17 +223,13 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                     <table className="table table-striped table-bordered table-sm" style={{fontSize: '12px'}}>
                         <thead className="bg-light">
                             <tr>
-                                {headers.map((h: string, i: number) => (
-                                    <th key={i}>{h}</th>
-                                ))}
+                                {headers.map((h: string, i: number) => <th key={i}>{h}</th>)}
                             </tr>
                         </thead>
                         <tbody>
-                            {data.metadata_dinamica.map((row: any, i: number) => (
+                            {validRows.map((row: any, i: number) => (
                                 <tr key={i}>
-                                    {headers.map((h: string, j: number) => (
-                                        <td key={j}>{row[h]}</td>
-                                    ))}
+                                    {headers.map((h: string, j: number) => <td key={j}>{row[h]}</td>)}
                                 </tr>
                             ))}
                         </tbody>
