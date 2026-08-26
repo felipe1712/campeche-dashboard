@@ -106,6 +106,12 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                 format: 'a4'
             });
 
+            // Inject temporary style to kill box-shadows and animations, which ruin html2canvas performance
+            const style = document.createElement('style');
+            style.id = 'pdf-perf-style';
+            style.innerHTML = '* { box-shadow: none !important; border-radius: 0 !important; transition: none !important; animation: none !important; }';
+            document.head.appendChild(style);
+
             for (let i = 0; i < elementsToCapture.length; i++) {
                 setPdfProgress('Procesando ' + (i + 1) + ' de ' + elementsToCapture.length);
                 await new Promise(r => setTimeout(r, 200));
@@ -146,6 +152,9 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
             console.error("Error generating PDF", error);
             alert("Hubo un error al generar el PDF. Verifica que tu navegador tenga suficiente memoria o intenta descargar por partes.");
         } finally {
+            const perfStyle = document.getElementById('pdf-perf-style');
+            if (perfStyle) perfStyle.remove();
+            
             setIsGeneratingPdf(false);
         }
     };
