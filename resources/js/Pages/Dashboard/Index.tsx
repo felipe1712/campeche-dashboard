@@ -307,10 +307,12 @@ export default function DashboardIndex({
                                                                             )}
                                                                         </div>
                                                                         <div style={{ height: 'calc(100% - 60px)' }}>
-                                                                            <CampecheMap 
-                                                                                selectedMunicipio={selectedMunicipio}
-                                                                                onMunicipioSelect={setSelectedMunicipio}
-                                                                            />
+                                                                            <ErrorBoundary>
+                                                                                <CampecheMap 
+                                                                                    selectedMunicipio={selectedMunicipio}
+                                                                                    onMunicipioSelect={setSelectedMunicipio}
+                                                                                />
+                                                                            </ErrorBoundary>
                                                                         </div>
                                                                     </Card.Body>
                                                                 </Card>
@@ -488,7 +490,9 @@ export default function DashboardIndex({
                                                     <tbody>
                                                         {indicators.data.length > 0 ? (
                                                             indicators.data.map((indicator: any) => (
-                                                                <IndicatorRow key={indicator.id} indicator={indicator} selectedMunicipio={null} />
+                                                                <ErrorBoundary key={indicator.id}>
+                                                                    <IndicatorRow indicator={indicator} selectedMunicipio={null} />
+                                                                </ErrorBoundary>
                                                             ))
                                                         ) : (
                                                             <tr>
@@ -531,10 +535,12 @@ export default function DashboardIndex({
                                 <Col lg={6} className="mb-4">
                                     <Card className="h-100">
                                         <Card.Body className="p-1">
-                                            <CampecheMap 
-                                                onMunicipioSelect={setSelectedMunicipio} 
-                                                selectedMunicipio={selectedMunicipio}
-                                            />
+                                            <ErrorBoundary>
+                                                <CampecheMap 
+                                                    onMunicipioSelect={setSelectedMunicipio} 
+                                                    selectedMunicipio={selectedMunicipio}
+                                                />
+                                            </ErrorBoundary>
                                             {selectedMunicipio && (
                                                 <div className="alert alert-primary mt-3 mx-2 mb-2">
                                                     <i className="ri-information-line me-2"></i>
@@ -643,7 +649,9 @@ export default function DashboardIndex({
                                                         indicators.data
                                                             .filter((ind: any) => ind.desglose_municipal)
                                                             .map((indicator: any) => (
-                                                                <IndicatorRow key={indicator.id} indicator={indicator} selectedMunicipio={selectedMunicipio} />
+                                                                <ErrorBoundary key={indicator.id}>
+                                                                    <IndicatorRow indicator={indicator} selectedMunicipio={selectedMunicipio} />
+                                                                </ErrorBoundary>
                                                             ))
                                                     ) : (
                                                         <tr>
