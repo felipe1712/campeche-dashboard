@@ -22,7 +22,7 @@ export default function Dashboard() {
 
   return (
     <React.Fragment>
-      <Head title='Dashboard | Velzon - React Admin & Dashboard Template' />
+      <Head title='Dashboard | 5to Informe de Gobierno' />
       <div className="page-content">
         <Container fluid>
           <Row>
@@ -56,3 +56,4 @@ export default function Dashboard() {
   );
 }
 Dashboard.layout = (page: any) => <Layout children={page} />;
+

@@ -35,7 +35,7 @@ const SimplePage = () => {
 
     return (
         <React.Fragment>
-            <Head title='Profile | Velzon - React Admin & Dashboard Template' />
+            <Head title='Profile | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <div className="profile-foreground position-relative mx-n4 mt-n4">
@@ -1956,3 +1956,4 @@ const SimplePage = () => {
 SimplePage.layout = (page: any) => <Layout children={page} />
 
 export default SimplePage;
+

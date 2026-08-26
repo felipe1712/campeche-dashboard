@@ -66,7 +66,7 @@ const FormPickers = () => {
 
   return (
     <React.Fragment>
-      <Head title='Pickers | Velzon - React Admin & Dashboard Template' />
+      <Head title='Pickers | 5to Informe de Gobierno' />
       <div className="page-content">
 
         <Container fluid>
@@ -419,3 +419,4 @@ const FormPickers = () => {
 };
 FormPickers.layout = (page:any) => <Layout children={page} />
 export default FormPickers;
+

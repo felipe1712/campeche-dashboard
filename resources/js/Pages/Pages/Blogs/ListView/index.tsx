@@ -7,7 +7,7 @@ import Layout from '../../../../Layouts'
 
 const BlogListView = () => {
 
-    document.title="List View | Velzon - React Admin & Dashboard Template";
+    document.title="List View | 5to Informe de Gobierno";
 
     return (
         <React.Fragment>
@@ -29,3 +29,4 @@ const BlogListView = () => {
 
 BlogListView.layout = (page:any) => <Layout children={page} />
 export default BlogListView
+

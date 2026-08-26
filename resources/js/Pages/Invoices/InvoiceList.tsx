@@ -264,7 +264,7 @@ const InvoiceList = () => {
 
   return (
     <React.Fragment>
-      <Head title = "Invoice List | Velzon - React Admin & Dashboard Template"/>
+      <Head title = "Invoice List | 5to Informe de Gobierno"/>
       <div className="page-content">
         <DeleteModal
           show={deleteModal}
@@ -390,3 +390,4 @@ const InvoiceList = () => {
 };
 InvoiceList.layout = (page:any) => <Layout children={page}/>
 export default InvoiceList;
+

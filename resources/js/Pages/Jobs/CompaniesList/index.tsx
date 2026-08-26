@@ -31,7 +31,7 @@ const CompaniesList = () => {
 
   return (
     <React.Fragment>
-      <Head title = "Companies | Velzon - React Admin & Dashboard Template"/>
+      <Head title = "Companies | 5to Informe de Gobierno"/>
       <div className="page-content">
         <Container fluid className="container-fluid">
           <BreadCrumb title="Companies" pageTitle="Job" />
@@ -334,3 +334,5 @@ const CompaniesList = () => {
 };
 CompaniesList.layout = (page:any) => <Layout children={page}/>
 export default CompaniesList;
+
+

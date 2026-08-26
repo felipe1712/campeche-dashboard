@@ -25,7 +25,7 @@ const UiButtons = () => {
 
     return (
         <React.Fragment>
-            <Head title='Buttons | Velzon - React Admin & Dashboard Template' />
+            <Head title='Buttons | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -1037,3 +1037,4 @@ const UiButtons = () => {
 };
 UiButtons.layout = (page:any) => <Layout children={page}/>
 export default UiButtons;
+

@@ -9,7 +9,7 @@ import Layout from '../../../Layouts';
 const ICOList = () => {
     return (
         <React.Fragment>
-            <Head title="ICO LIST | Velzon - React Admin & Dashboard Template"/>
+            <Head title="ICO LIST | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="ICO LIST" pageTitle="Crypto" />
@@ -24,3 +24,4 @@ const ICOList = () => {
 };
 ICOList.layout = (page:any) => <Layout children={page}/>
 export default ICOList;
+

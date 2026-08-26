@@ -8,7 +8,7 @@ import { Head } from '@inertiajs/react';
 const SlopeCharts = () => {
     return (
         <React.Fragment>
-            <Head title='Slope Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Slope Charts | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Slope Charts" pageTitle="Apexcharts" />
@@ -45,3 +45,4 @@ const SlopeCharts = () => {
 
 SlopeCharts.layout = (page:any) => <Layout children={page}/>
 export default SlopeCharts
+

@@ -22,7 +22,7 @@ const AreaCharts = () => {
     
     return (
         <React.Fragment>
-            <Head title='Area Charts | Velzon - React Admin & Dashboard Template' />
+            <Head title='Area Charts | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Area Charts" pageTitle="Apexcharts" />
@@ -166,3 +166,4 @@ const AreaCharts = () => {
 };
 AreaCharts.layout = (page:any) => <Layout children={page}/>
 export default AreaCharts;
+

@@ -23,7 +23,7 @@ const UiMediaobject = () => {
    
     return (
         <React.Fragment>
-            <Head title='Media object | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Media object | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -195,3 +195,5 @@ const UiMediaobject = () => {
 };
 UiMediaobject.layout = (page:any) => <Layout children={page}/>
 export default UiMediaobject;
+
+

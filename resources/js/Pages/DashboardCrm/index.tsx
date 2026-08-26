@@ -16,7 +16,7 @@ import Layout from '../../Layouts';
 const DashboardCrm = () => {
     return (
         <React.Fragment>
-            <Head title="CRM | Velzon - React Admin & Dashboard Template"/>
+            <Head title="CRM | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>  
                     <BreadCrumb title="CRM" pageTitle="Dashboards" />
@@ -43,3 +43,4 @@ const DashboardCrm = () => {
 };
 DashboardCrm.layout =(page:any) => <Layout children={page}/>
 export default DashboardCrm;
+

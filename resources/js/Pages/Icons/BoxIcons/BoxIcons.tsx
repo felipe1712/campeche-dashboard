@@ -8,7 +8,7 @@ const IconBoxicons = () => {
   
   return (
     <React.Fragment>
-      <Head title="Box Icons | Velzon - React Admin & Dashboard Template" />
+      <Head title="Box Icons | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Box Icons" pageTitle="Icons" />
@@ -4787,3 +4787,5 @@ const IconBoxicons = () => {
 };
 IconBoxicons.layout = (page:any) => <Layout children={page}/>
 export default IconBoxicons;
+
+

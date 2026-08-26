@@ -20,7 +20,7 @@ const UiPlaceholders = () => {
   
     return (
         <React.Fragment>
-            <Head title='Placeholders | Velzon - React Admin & Dashboard Template' />
+            <Head title='Placeholders | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -195,3 +195,5 @@ const UiPlaceholders = () => {
 };
 UiPlaceholders.layout = (page:any) => <Layout children={page}/>
 export default UiPlaceholders;
+
+

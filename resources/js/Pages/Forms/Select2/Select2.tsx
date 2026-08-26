@@ -189,7 +189,7 @@ const Select2 = () => {
 
     return (
         <React.Fragment>
-            <Head title='Select2 | Velzon - React Admin & Dashboard Template' />
+            <Head title='Select2 | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Select2" pageTitle="Forms" />
@@ -326,3 +326,4 @@ const Select2 = () => {
 };
 Select2.layout = (page:any) => <Layout children={page} />
 export default Select2;
+

@@ -15,7 +15,7 @@ const UiTypography = () => {
    
     return (
         <React.Fragment>
-            <Head title='Typography | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Typography | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -714,3 +714,5 @@ const UiTypography = () => {
 };
 UiTypography.layout = (page:any) => <Layout children={page}/>
 export default UiTypography;
+
+

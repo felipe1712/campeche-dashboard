@@ -25,7 +25,7 @@ const LineCharts = () => {
    
     return (
         <React.Fragment>
-            <Head title='Line Charts | Velzon - React Admin & Dashboard Template' />
+            <Head title='Line Charts | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Line Charts" pageTitle="Apexcharts" />
@@ -168,3 +168,4 @@ const LineCharts = () => {
 };
 LineCharts.layout = (page:any) => <Layout children={page}/>
 export default LineCharts;
+

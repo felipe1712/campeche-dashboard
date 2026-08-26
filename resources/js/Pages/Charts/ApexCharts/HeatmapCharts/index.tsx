@@ -16,7 +16,7 @@ const HeatmapCharts = () => {
     
     return (
         <React.Fragment>
-            <Head title='Heatmap Charts | Velzon - React Admin & Dashboard Template' />
+            <Head title='Heatmap Charts | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Heatmap Charts" pageTitle="Apexcharts" />
@@ -80,3 +80,4 @@ const HeatmapCharts = () => {
 };
 HeatmapCharts.layout =(page:any) => <Layout children={page}/>
 export default HeatmapCharts;
+

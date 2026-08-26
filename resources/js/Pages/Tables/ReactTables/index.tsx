@@ -8,7 +8,7 @@ const ReactTable = () => {
   
   return (
     <React.Fragment>
-      <Head title='React Tables | Velzon - React Admin & Dashboard Template'/>
+      <Head title='React Tables | 5to Informe de Gobierno'/>
       <div className="page-content">
         <Container fluid>
           <Row>
@@ -91,3 +91,4 @@ const ReactTable = () => {
 }
 ReactTable.layout = (page:any) => <Layout children={page}/>
 export default ReactTable;
+

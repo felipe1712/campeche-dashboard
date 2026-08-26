@@ -11,7 +11,7 @@ import Layout from '../../../Layouts';
 const TicketsDetails = () => {
     return (
         <React.Fragment>
-            <Head title="Ticket Details | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Ticket Details | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <Row>
@@ -28,3 +28,4 @@ const TicketsDetails = () => {
 };
 TicketsDetails.layout = (page:any) => <Layout children={page}/>
 export default TicketsDetails;
+

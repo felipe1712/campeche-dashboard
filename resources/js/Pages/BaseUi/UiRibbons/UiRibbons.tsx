@@ -16,7 +16,7 @@ const UiRibbons = () => {
     
     return (
         <React.Fragment>
-            <Head title='Ribbons | Velzon - React Admin & Dashboard Template' />
+            <Head title='Ribbons | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -388,3 +388,5 @@ const UiRibbons = () => {
 };
 UiRibbons.layout = (page:any) => <Layout children={page}/>
 export default UiRibbons;
+
+

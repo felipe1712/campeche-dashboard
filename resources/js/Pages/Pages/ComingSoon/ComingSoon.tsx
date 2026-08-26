@@ -36,7 +36,7 @@ const ComingSoon = () => {
     return (
         <React.Fragment>            
             <GuestLayout>
-                <Head title='Coming Soon | Velzon - React Admin & Dashboard Template'/>
+                <Head title='Coming Soon | 5to Informe de Gobierno'/>
                 <div className="auth-page-content mt-lg-5">
                     <Container>
                         <Row>
@@ -79,3 +79,4 @@ const ComingSoon = () => {
     )
 }
 export default ComingSoon
+

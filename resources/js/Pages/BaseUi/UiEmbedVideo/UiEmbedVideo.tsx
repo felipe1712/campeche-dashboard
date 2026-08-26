@@ -15,7 +15,7 @@ import Layout from '../../../Layouts';
 const UiEmbedVideo = () => {
     return (
         <React.Fragment>
-            <Head title='Embed Video | Velzon - React Admin & Dashboard Template' />
+            <Head title='Embed Video | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -167,3 +167,5 @@ const UiEmbedVideo = () => {
 };
 UiEmbedVideo.layout = (page:any) => <Layout children={page}/>
 export default UiEmbedVideo;
+
+

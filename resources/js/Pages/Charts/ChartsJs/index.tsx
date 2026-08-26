@@ -10,7 +10,7 @@ const ChartsJs = () => {
 
     return (
         <React.Fragment>
-            <Head title='Charts Js| Velzon - React Admin & Dashboard Template' />
+            <Head title='Charts Js| 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Charts Js" pageTitle="Charts" />
@@ -94,3 +94,4 @@ const ChartsJs = () => {
 }
 ChartsJs.layout = (page:any) => <Layout children={page}/>
 export default ChartsJs
+

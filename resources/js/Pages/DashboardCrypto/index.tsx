@@ -18,7 +18,7 @@ const DashboardCrypto = () => {
     
     return (
         <React.Fragment>
-            <Head title="Crypto Dashboard | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Crypto Dashboard | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Crypto" pageTitle="Dashboards" />
@@ -50,3 +50,4 @@ const DashboardCrypto = () => {
 };
 DashboardCrypto.layout = (page:any) => <Layout children={page}/>
 export default DashboardCrypto;
+

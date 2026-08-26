@@ -25,7 +25,7 @@ const CoverTwosVerify = () => {
 
     return (
         <React.Fragment>
-                <Head title='Two Step Verification | Velzon - React Admin & Dashboard Template' />
+                <Head title='Two Step Verification | 5to Informe de Gobierno' />
                 <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
                     <div className="bg-overlay"></div>
                     <div className="auth-page-content overflow-hidden pt-lg-5">
@@ -129,3 +129,4 @@ const CoverTwosVerify = () => {
 };
 
 export default CoverTwosVerify;
+

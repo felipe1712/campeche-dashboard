@@ -18,7 +18,7 @@ const UiRatings = () => {
 
     return (
         <React.Fragment>
-                <Head title='Ratings | Velzon - React Admin & Dashboard Template' />
+                <Head title='Ratings | 5to Informe de Gobierno' />
                 <div className="page-content">
                     <Container fluid>
                         <BreadCrumb title="Ratings" pageTitle="Advance UI" />
@@ -187,3 +187,5 @@ const UiRatings = () => {
 };
 UiRatings.layout = (page:any) => <Layout children={page}/>
 export default UiRatings;
+
+

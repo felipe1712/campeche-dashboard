@@ -7,7 +7,7 @@ import React from "react";
 export default function Error500(){
     return(
         <React.Fragment >
-            <Head title="500 Error | Velzon - React Admin & Dashboard Template"/>
+            <Head title="500 Error | 5to Informe de Gobierno"/>
             <div className="auth-page-wrapper py-5 d-flex justify-content-center align-items-center min-vh-100">
                 <div className="auth-page-content overflow-hidden p-0">
                     <Container fluid={true}>
@@ -30,3 +30,4 @@ export default function Error500(){
             </React.Fragment >
     )
 }
+

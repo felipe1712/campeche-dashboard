@@ -9,7 +9,7 @@ const FunnelChart = () => {
     
     return (
         <React.Fragment>
-            <Head title='Apex Funnel Charts | Velzon - React Admin & Dashboard Template' />
+            <Head title='Apex Funnel Charts | 5to Informe de Gobierno' />
             <div className="page-content">
 
                 <Container fluid>
@@ -44,3 +44,4 @@ const FunnelChart = () => {
 }
 FunnelChart.layout = (page:any) => <Layout children={page}/>
 export default FunnelChart
+

@@ -65,7 +65,7 @@ const UiCards = () => {
 
     return (
         <React.Fragment>
-            <Head title='Cards | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Cards | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -1472,3 +1472,5 @@ const UiCards = () => {
 UiCards.layout = (page:any) => <Layout children={page}/>
 
 export default UiCards;
+
+

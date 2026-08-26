@@ -16,7 +16,7 @@ const DashboardProject = () => {
    
     return (
         <React.Fragment>
-            <Head title="Projects | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Projects | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Projects" pageTitle="Dashboards" />
@@ -43,3 +43,4 @@ const DashboardProject = () => {
 };
 DashboardProject.layout = (page:any) => <Layout children={page}/>
 export default DashboardProject;
+

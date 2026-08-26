@@ -81,7 +81,7 @@ const Ranking = () => {
 
     return (
         <React.Fragment>
-            <Head title="Ranking | Velzon - React Admin & Dashboard Template" />
+            <Head title="Ranking | 5to Informe de Gobierno" />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Ranking" pageTitle="NFT Marketplace" />
@@ -127,3 +127,5 @@ const Ranking = () => {
 };
 Ranking.layout = (page: any) => <Layout children={page} />
 export default Ranking;
+
+

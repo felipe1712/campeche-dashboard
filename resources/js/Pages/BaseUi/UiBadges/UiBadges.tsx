@@ -30,7 +30,7 @@ import Layout from '../../../Layouts';
 const UiBadges = () => {
     return (
         <React.Fragment>
-            <Head title='Badges | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Badges | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -443,3 +443,5 @@ const UiBadges = () => {
 UiBadges.layout = (page:any) => <Layout children={page}/>
 
 export default UiBadges;
+
+

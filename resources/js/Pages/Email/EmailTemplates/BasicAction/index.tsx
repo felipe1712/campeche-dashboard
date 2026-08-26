@@ -11,7 +11,7 @@ import Layout from '../../../../Layouts';
 const index = () => {
     return (
         <React.Fragment>
-            <Head title = "Basic Action | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Basic Action | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Basic Action" pageTitle="Basic Action" />
@@ -26,3 +26,4 @@ const index = () => {
 }
 index.layout = (page:any) => <Layout children={page}/>
 export default index;
+

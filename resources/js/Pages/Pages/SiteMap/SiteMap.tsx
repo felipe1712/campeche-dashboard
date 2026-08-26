@@ -9,7 +9,7 @@ const SiteMap = () => {
     
     return (
         <React.Fragment>
-            <Head title='SiteMap | Velzon - React Admin & Dashboard Template'/>
+            <Head title='SiteMap | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="SiteMap" pageTitle="Pages" />
@@ -358,4 +358,6 @@ const SiteMap = () => {
 SiteMap.layout = (page:any) => <Layout children={page} />
 
 export default SiteMap;
+
+
 

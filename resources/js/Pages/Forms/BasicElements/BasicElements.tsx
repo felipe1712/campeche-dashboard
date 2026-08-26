@@ -14,7 +14,7 @@ const BasicElements = () => {
 
     return (
         <React.Fragment>
-            <Head title='Basic Elements | Velzon - React Admin & Dashboard Template' />
+            <Head title='Basic Elements | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -731,3 +731,4 @@ const BasicElements = () => {
 }
 BasicElements.layout = (page:any) => <Layout children={page}/>
 export default BasicElements;
+

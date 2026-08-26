@@ -13,7 +13,7 @@ const UiHighlight = () => {
   
     return (
         <React.Fragment>
-                <Head title='Highlight | Velzon - React Admin & Dashboard Template' />
+                <Head title='Highlight | 5to Informe de Gobierno' />
                 <div className="page-content">
                     <Container fluid>
                         <BreadCrumb title="Highlight" pageTitle="Advanced UI" />
@@ -94,3 +94,4 @@ const UiHighlight = () => {
 };
 UiHighlight.layout = (page:any) => <Layout children={page}/>
 export default UiHighlight;
+

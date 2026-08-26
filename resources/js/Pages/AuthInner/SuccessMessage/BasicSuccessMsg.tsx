@@ -5,7 +5,7 @@ import logoLight from '../../../../images/logo-light.png';
 export default function BasicSuccessMsg() {
     return (
         <GuestLayout>
-            <Head title="Success Message | Velzon - React Admin & Dashboard Template" />
+            <Head title="Success Message | 5to Informe de Gobierno" />
             <div className="auth-page-content mt-lg-5">
                 <Container>
                     <Row>
@@ -46,3 +46,4 @@ export default function BasicSuccessMsg() {
         </GuestLayout>
     )
 }
+

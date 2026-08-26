@@ -9,7 +9,7 @@ import Layout from "../../../Layouts";
 const Collections = () => {
     return (
         <React.Fragment>
-            <Head title = "Collections | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Collections | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Collections" pageTitle="NFT Marketplace" />
@@ -97,3 +97,5 @@ const Collections = () => {
 };
 Collections.layout = (page:any) => <Layout children={page}/>
 export default Collections;
+
+

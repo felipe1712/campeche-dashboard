@@ -50,7 +50,7 @@ const UiNotifications = () => {
 
     return (
         <React.Fragment>
-            <Head title='Notifications | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Notifications | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -403,3 +403,5 @@ const UiNotifications = () => {
 };
 UiNotifications.layout = (page:any) => <Layout children={page}/>
 export default UiNotifications;
+
+

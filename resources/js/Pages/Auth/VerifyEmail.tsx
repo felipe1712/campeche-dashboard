@@ -20,7 +20,7 @@ export default function VerifyEmail() {
     return (
         <div className="auth-page-wrapper">
         <GuestLayout>
-            <Head title="Two Step Verification | Velzon - React Admin & Dashboard Template" />
+            <Head title="Two Step Verification | 5to Informe de Gobierno" />
 
             <div className="auth-page-content">
                         <Container>
@@ -115,3 +115,5 @@ export default function VerifyEmail() {
         </div>
     );
 }
+
+

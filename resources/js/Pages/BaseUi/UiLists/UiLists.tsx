@@ -22,7 +22,7 @@ import Layout from '../../../Layouts';
 const UiList = () => {
     return (
         <React.Fragment>
-            <Head title='List | Velzon - React Admin & Dashboard Template'/>
+            <Head title='List | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -765,3 +765,5 @@ const UiList = () => {
 };
 UiList.layout = (page:any) => <Layout children={page}/>
 export default UiList;
+
+

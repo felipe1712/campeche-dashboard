@@ -15,7 +15,7 @@ const BoxplotCharts = () => {
     
     return (
         <React.Fragment>
-            <Head title = "Boxplot Charts | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Boxplot Charts | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Boxplot Charts" pageTitle="Apexcharts" />
@@ -61,3 +61,4 @@ const BoxplotCharts = () => {
 };
 BoxplotCharts.layout = (page:any) => <Layout children={page}/>
 export default BoxplotCharts;
+

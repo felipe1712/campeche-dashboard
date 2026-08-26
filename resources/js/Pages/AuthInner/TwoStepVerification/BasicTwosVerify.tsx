@@ -27,7 +27,7 @@ const BasicTwosVerify = () => {
     return (
         <React.Fragment>
             <GuestLayout>
-                <Head title='Two Step Verification | Velzon - React Admin & Dashboard Template' />
+                <Head title='Two Step Verification | 5to Informe de Gobierno' />
                 <div className="auth-page-wrapper">
                     <div className="auth-page-content">
                         <Container>
@@ -126,3 +126,4 @@ const BasicTwosVerify = () => {
 };
 
 export default BasicTwosVerify;
+

@@ -280,7 +280,7 @@ const EcommerceOrders = (props: any) => {
   }, [flash])
   return (
     <React.Fragment>
-      <Head title="Orders | Velzon - React Admin & Dashboard Template" />
+      <Head title="Orders | 5to Informe de Gobierno" />
       <div className="page-content">
         <ExportCSVModal
           show={isExportCSV}
@@ -591,5 +591,7 @@ const EcommerceOrders = (props: any) => {
 };
 EcommerceOrders.layout = (page: any) => <Layout children={page} />
 export default EcommerceOrders;
+
+
 
 

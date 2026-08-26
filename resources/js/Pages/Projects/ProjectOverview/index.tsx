@@ -8,7 +8,7 @@ import Layout from '../../../Layouts';
 const ProjectOverview = () => {
     return (
         <React.Fragment>
-            <Head title="Project Overview | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Project Overview | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>                    
                 <Section />
@@ -19,3 +19,4 @@ const ProjectOverview = () => {
 };
 ProjectOverview.layout =(page:any) => <Layout children={page}/>
 export default ProjectOverview;
+

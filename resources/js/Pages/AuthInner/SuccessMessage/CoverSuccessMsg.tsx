@@ -6,7 +6,7 @@ import React from "react";
 export default function CoverSuccessMsg() {
     return (
         <React.Fragment>
-            <Head title="Success Message | Velzon - React Admin & Dashboard Template" />
+            <Head title="Success Message | 5to Informe de Gobierno" />
             <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
                 <div className="bg-overlay"></div>
                 <div className="auth-page-content overflow-hidden pt-lg-5">
@@ -55,3 +55,4 @@ export default function CoverSuccessMsg() {
             </React.Fragment>
     )
 }
+

@@ -11,7 +11,7 @@ import Layout from "../../../Layouts";
 const FormEditor = () => {
   return (
     <React.Fragment>
-      <Head title="Editors | Velzon - React Admin & Dashboard Template" />
+      <Head title="Editors | 5to Informe de Gobierno" />
       <UiContent />
       <div className="page-content">
         <Container fluid>
@@ -44,3 +44,5 @@ const FormEditor = () => {
 };
 FormEditor.layout = (page: any) => <Layout children={page} />;
 export default FormEditor;
+
+

@@ -28,7 +28,7 @@ const BasicPasswReset = () => {
     return (
         <React.Fragment>
             <GuestLayout>
-                <Head title = "Reset Password | Velzon - React Admin & Dashboard Template"/>
+                <Head title = "Reset Password | 5to Informe de Gobierno"/>
                 <div className="auth-page-content mt-lg-5">
                     <Container>
                         <Row>
@@ -99,3 +99,4 @@ const BasicPasswReset = () => {
 };
 
 export default BasicPasswReset;
+

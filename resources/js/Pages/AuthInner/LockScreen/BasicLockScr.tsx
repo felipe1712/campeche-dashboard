@@ -13,7 +13,7 @@ const BasicLockScreen = () => {
     return (
         <React.Fragment>
             <GuestLayout>
-                <Head title = "Lock Screen | Velzon - React Admin & Dashboard Template"/>
+                <Head title = "Lock Screen | 5to Informe de Gobierno"/>
                 <div className="auth-page-content mt-lg-5">
                     <Container>
                         <Row>
@@ -67,3 +67,4 @@ const BasicLockScreen = () => {
 };
 
 export default BasicLockScreen;
+

@@ -81,7 +81,7 @@ const ExploreNow = () => {
 
     return (
         <React.Fragment>
-            <Head title = "Explore Now | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Explore Now | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Explore Now" pageTitle="NFT Marketplace" />
@@ -301,3 +301,5 @@ const ExploreNow = () => {
 };
 ExploreNow.layout = (page:any) => <Layout children={page}/>
 export default ExploreNow;
+
+

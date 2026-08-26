@@ -16,7 +16,7 @@ const Widgets = () => {
 
     return (
         <React.Fragment>
-                <Head title='Widgets | Velzon - React Admin & Dashboard Template' />
+                <Head title='Widgets | 5to Informe de Gobierno' />
                 <div className="page-content">
                     <Container fluid>
                         <BreadCrumb title="Widgets" pageTitle="Velzon" />
@@ -42,3 +42,5 @@ const Widgets = () => {
 };
 Widgets.layout = (page:any) => <Layout children={page}/>
 export default Widgets;
+
+

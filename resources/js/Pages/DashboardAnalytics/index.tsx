@@ -19,7 +19,7 @@ const DashboardAnalytics = () => {
 
     return (
         <React.Fragment>
-            <Head title="Analytics | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Analytics | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Analytics" pageTitle="Dashboards" />
@@ -46,3 +46,4 @@ const DashboardAnalytics = () => {
 };
 DashboardAnalytics.layout =(page:any) => <Layout children={page}/>
 export default DashboardAnalytics;
+

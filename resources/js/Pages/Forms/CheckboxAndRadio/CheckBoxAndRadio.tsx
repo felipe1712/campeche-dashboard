@@ -15,7 +15,7 @@ import Layout from '../../../Layouts';
 const CheckBoxAndRadio = () => {
         return (
         <React.Fragment>
-            <Head title='Checkbox & Radio | Velzon - React Admin & Dashboard Template' />
+            <Head title='Checkbox & Radio | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -887,3 +887,5 @@ const CheckBoxAndRadio = () => {
 };
 CheckBoxAndRadio.layout = (page:any) => <Layout children={page}/>
 export default CheckBoxAndRadio;
+
+

@@ -97,7 +97,7 @@ const EcommerceSellers = () => {
 
   return (
     <React.Fragment>
-      <Head title = "Sellers | Velzon - React Admin & Dashboard Template"/>
+      <Head title = "Sellers | 5to Informe de Gobierno"/>
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Sellers" pageTitle="Ecommerce" />
@@ -693,3 +693,4 @@ const EcommerceSellers = () => {
 };
 EcommerceSellers.layout = (page:any) => <Layout children={page}/>
 export default EcommerceSellers;
+

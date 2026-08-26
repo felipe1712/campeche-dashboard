@@ -10,7 +10,7 @@ import Layout from '../../../Layouts';
 const ListView = () => {
     return (
         <React.Fragment>
-            <Head title="Tickets List | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Tickets List | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>                    
                     <BreadCrumb title="Tickets List" pageTitle="Tickets" />
@@ -25,3 +25,4 @@ const ListView = () => {
 };
 ListView.layout = (page:any) => <Layout children={page}/>
 export default ListView;
+

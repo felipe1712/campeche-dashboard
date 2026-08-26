@@ -9,7 +9,7 @@ import Layout from '../../../Layouts';
 const ProjectList = () => {
     return (
         <React.Fragment>
-            <Head title = "Project List | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Project List | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Project List" pageTitle="Projects" />
@@ -21,3 +21,4 @@ const ProjectList = () => {
 };
 ProjectList.layout =(page:any) => <Layout children={page}/>
 export default ProjectList;
+

@@ -10,7 +10,7 @@ const PieCharts = () => {
     
     return (
         <React.Fragment>
-            <Head title='Pie Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Pie Charts | 5to Informe de Gobierno'/>
         <div className="page-content">
             <Container fluid>
                 <BreadCrumb title="Pie Charts" pageTitle="Apexcharts" />
@@ -130,3 +130,4 @@ const PieCharts = () => {
 }
 PieCharts.layout = (page:any) => <Layout children={page}/>
 export default PieCharts
+

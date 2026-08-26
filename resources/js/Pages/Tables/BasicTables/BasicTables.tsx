@@ -39,7 +39,7 @@ const BasicTables = () => {
    
     return (
         <React.Fragment>
-            <Head title='Basic Tables | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Basic Tables | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -1753,3 +1753,4 @@ const BasicTables = () => {
 }
 BasicTables.layout = (page:any) => <Layout children={page}/>
 export default BasicTables
+

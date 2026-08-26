@@ -49,7 +49,7 @@ const FormValidations = () => {
 
   return (
     <React.Fragment>
-      <Head title="Validation | Velzon - React Admin & Dashboard Template" />
+      <Head title="Validation | 5to Informe de Gobierno" />
       <UiContent />
       <div className="page-content">
 
@@ -414,3 +414,5 @@ const FormValidations = () => {
 };
 FormValidations.layout = (page:any) => <Layout children={page}/>
 export default FormValidations;
+
+

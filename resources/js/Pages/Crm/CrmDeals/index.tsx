@@ -105,7 +105,7 @@ const CrmDeals = () => {
 
   return (
     <React.Fragment>
-      <Head title="Deals | Velzon - React Admin & Dashboard Template" />
+      <Head title="Deals | 5to Informe de Gobierno" />
       <div className="page-content">
 
         <Container fluid>
@@ -329,3 +329,5 @@ const CrmDeals = () => {
 };
 CrmDeals.layout = (page: any) => <Layout children={page} />
 export default CrmDeals;
+
+

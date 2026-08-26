@@ -324,7 +324,7 @@ const MonthGrid = () => {
 
   return (
     <React.Fragment>
-      <Head title="Month Grid | Velzon - React Admin & Dashboard Template" />
+      <Head title="Month Grid | 5to Informe de Gobierno" />
       <DeleteModal
         show={deleteModal}
         onDeleteClick={handleDeleteEvent}
@@ -700,3 +700,4 @@ MonthGrid.propTypes = {
 };
 MonthGrid.layout = (page: any) => <Layout children={page} />
 export default MonthGrid;
+

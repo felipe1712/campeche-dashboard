@@ -17,7 +17,7 @@ const MixedCharts = () => {
     
     return (
         <React.Fragment>
-            <Head title='Mixed Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Mixed Charts | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Mixed Charts" pageTitle="Apexcharts" />
@@ -75,3 +75,4 @@ const MixedCharts = () => {
 };
 MixedCharts.layout = (page:any) => <Layout children={page}/>
 export default MixedCharts;
+

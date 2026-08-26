@@ -26,7 +26,7 @@ const FormWizard = () => {
 
   return (
     <React.Fragment>
-      <Head title="Wizard | Velzon - React Admin & Dashboard Template" />
+      <Head title="Wizard | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Forms" pageTitle="Wizard" />
@@ -965,3 +965,5 @@ const FormWizard = () => {
 };
 FormWizard.layout = (page: any) => <Layout children={page} />
 export default FormWizard;
+
+

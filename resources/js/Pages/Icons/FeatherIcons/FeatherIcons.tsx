@@ -9,7 +9,7 @@ const FeatherIcons = () => {
     
     return (
         <React.Fragment>
-            <Head title='Feather Icons | Velzon - React Admin & Dashboard Template' />
+            <Head title='Feather Icons | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Feather" pageTitle="Icons" />
@@ -979,3 +979,4 @@ const FeatherIcons = () => {
 };
 FeatherIcons.layout = (page:any) => <Layout children={page}/>
 export default FeatherIcons;
+

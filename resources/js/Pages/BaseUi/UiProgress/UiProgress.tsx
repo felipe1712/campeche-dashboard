@@ -16,7 +16,7 @@ const UiProgress = () => {
     
     return (
         <React.Fragment>
-            <Head title='Progress | Velzon - React Admin & Dashboard Template' />
+            <Head title='Progress | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -561,3 +561,5 @@ const UiProgress = () => {
 };
 UiProgress.layout = (page:any) => <Layout children={page} />
 export default UiProgress;
+
+

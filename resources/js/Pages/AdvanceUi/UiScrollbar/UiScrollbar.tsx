@@ -21,7 +21,7 @@ const UiScrollbar = () => {
 
     return (
         <React.Fragment>
-                <Head title='Scrollbar | Velzon - React Admin & Dashboard Template' />
+                <Head title='Scrollbar | 5to Informe de Gobierno' />
                 <div className="page-content">
                     <Container fluid>
                         <BreadCrumb title="Scrollbar" pageTitle="Advance UI" />
@@ -826,3 +826,5 @@ const UiScrollbar = () => {
 };
 UiScrollbar.layout = (page:any) => <Layout children={page}/>
 export default UiScrollbar;
+
+

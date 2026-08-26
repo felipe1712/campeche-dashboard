@@ -165,7 +165,7 @@ const FormSelect = () => {
 
     return (
         <React.Fragment>
-            <Head title='Form Select | Velzon - React Admin & Dashboard Template' />
+            <Head title='Form Select | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <div className="container-fluid">
@@ -464,3 +464,5 @@ const FormSelect = () => {
 };
 FormSelect.layout = (page:any) => <Layout children={page}/>
 export default FormSelect;
+
+

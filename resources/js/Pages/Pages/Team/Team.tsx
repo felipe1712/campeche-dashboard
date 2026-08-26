@@ -225,7 +225,7 @@ const Team = () => {
     });
     return (
         <React.Fragment>
-            <Head title='Team | Velzon - React Admin & Dashboard Template' />
+            <Head title='Team | 5to Informe de Gobierno' />
             <ToastContainer closeButton={false} />
             <DeleteModal
                 show={deleteModal}
@@ -660,3 +660,4 @@ const Team = () => {
 Team.layout = (page: any) => <Layout children={page} />
 
 export default Team;
+

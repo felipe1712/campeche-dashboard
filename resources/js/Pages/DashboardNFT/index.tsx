@@ -13,7 +13,7 @@ import Layout from "../../Layouts";
 const DashboardNFT = () => {
     return (
         <React.Fragment>
-            <Head title="NFT Dashboard | Velzon - React Admin & Dashboard Template" />
+            <Head title="NFT Dashboard | 5to Informe de Gobierno" />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="NFT Dashboard" pageTitle="Dashboard" />
@@ -34,3 +34,5 @@ const DashboardNFT = () => {
 
 DashboardNFT.layout = (page: any) => <Layout children={page} />;
 export default DashboardNFT;
+
+

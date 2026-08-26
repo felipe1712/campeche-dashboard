@@ -25,7 +25,7 @@ const UiAccordions = () => {
 
     return (
         <React.Fragment>
-            <Head title='Accordions | Velzon - React Admin & Dashboard Template' />
+            <Head title='Accordions | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -771,3 +771,5 @@ const UiAccordions = () => {
 };
 UiAccordions.layout = (page:any) => <Layout children={page}/>
 export default UiAccordions;
+
+

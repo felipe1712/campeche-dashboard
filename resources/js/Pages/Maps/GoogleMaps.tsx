@@ -29,7 +29,7 @@ const GoogleMaps = (props : any) => {
     
     return (
         <React.Fragment>
-            <Head title="Google Maps | Velzon - React Admin & Dashboard Template"/>             
+            <Head title="Google Maps | 5to Informe de Gobierno"/>             
                 <div className="page-content">
                     <Container fluid>
                         <BreadCrumb title="Google Maps" pageTitle="Maps" />
@@ -152,3 +152,5 @@ const GoogleMaps = (props : any) => {
 }
 GoogleMaps.layout = (page: any) => <Layout children={page} />
 export default GoogleMaps
+
+

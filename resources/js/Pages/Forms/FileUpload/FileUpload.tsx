@@ -44,7 +44,7 @@ const FileUpload  = () => {
   
   return (
     <React.Fragment>
-      <Head title='File Upload | Velzon - React Admin & Dashboard Template'/>
+      <Head title='File Upload | 5to Informe de Gobierno'/>
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="File Upload" pageTitle="Forms" />
@@ -155,3 +155,4 @@ const FileUpload  = () => {
 };
 FileUpload.layout = (page:any) => <Layout children={page}/>
 export default FileUpload;
+

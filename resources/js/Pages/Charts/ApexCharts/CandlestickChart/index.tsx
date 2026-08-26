@@ -17,7 +17,7 @@ const CandlestickChart = () => {
    
     return (
         <React.Fragment>
-            <Head title='Candlestick Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Candlestick Charts | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Candlestick Charts" pageTitle="Apexcharts" />
@@ -82,3 +82,4 @@ const CandlestickChart = () => {
 };
 CandlestickChart.layout = (page:any) => <Layout children={page}/>
 export default CandlestickChart;
+

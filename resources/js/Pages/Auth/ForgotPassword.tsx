@@ -18,7 +18,7 @@ export default function ForgotPassword({ status }: any) {
     return (
         <React.Fragment>
             <GuestLayout>
-                <Head title="Reset Password | Velzon - React Admin & Dashboard Template" />
+                <Head title="Reset Password | 5to Informe de Gobierno" />
 
                 <div className="auth-page-content mt-lg-5">
 
@@ -92,3 +92,5 @@ export default function ForgotPassword({ status }: any) {
         </React.Fragment>
     );
 }
+
+

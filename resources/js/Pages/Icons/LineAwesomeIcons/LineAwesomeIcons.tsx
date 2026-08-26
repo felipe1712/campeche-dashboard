@@ -10,7 +10,7 @@ const LineAwesomeIcons = () => {
     
     return (
         <React.Fragment>
-            <Head title='Line Awesome Icons | Velzon - React Admin & Dashboard Template' />
+            <Head title='Line Awesome Icons | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid >
                     <BreadCrumb title="Line Awesome" pageTitle="Icons" />
@@ -8993,3 +8993,4 @@ const LineAwesomeIcons = () => {
 
 LineAwesomeIcons.layout = (page:any) => <Layout children={page}/>
 export default LineAwesomeIcons;
+

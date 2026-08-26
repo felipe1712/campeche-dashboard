@@ -9,7 +9,7 @@ import Layout from "../../../Layouts";
 const Creators = () => {
     return (
         <React.Fragment>
-            <Head title = "Creators | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Creators | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Creators" pageTitle="NFT Marketplace" />
@@ -139,3 +139,4 @@ const Creators = () => {
 };
 Creators.layout = (page:any) => <Layout children={page}/>
 export default Creators;
+

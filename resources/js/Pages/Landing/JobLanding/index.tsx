@@ -37,7 +37,7 @@ const JobLanding = () => {
 
   return (
     <React.Fragment>
-      <Head title="Job Landing | Velzon - React Admin & Dashboard Template" />
+      <Head title="Job Landing | 5to Informe de Gobierno" />
       <div className="layout-wrapper landing">
         <Navbar />
         <Home />
@@ -61,3 +61,5 @@ const JobLanding = () => {
 };
 
 export default JobLanding;
+
+

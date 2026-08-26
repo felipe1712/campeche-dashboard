@@ -10,7 +10,7 @@ const BasicLogout = () => {
     return (
         <React.Fragment>
             <GuestLayout>
-                <Head title='Log Out | Velzon - React Admin & Dashboard Template'/>
+                <Head title='Log Out | 5to Informe de Gobierno'/>
                 <div className="auth-page-content mt-lg-5">
                     <Container>
                         <Row>
@@ -51,3 +51,4 @@ const BasicLogout = () => {
 };
 
 export default BasicLogout;
+

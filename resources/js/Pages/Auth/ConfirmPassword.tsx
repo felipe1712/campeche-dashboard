@@ -23,7 +23,7 @@ export default function ConfirmPassword() {
 
     return (
         <GuestLayout>
-            <Head title="Lock Screen | Velzon - React Admin & Dashboard Template" />
+            <Head title="Lock Screen | 5to Informe de Gobierno" />
             <div className="auth-page-content mt-lg-5">
                 <Container>
                     <Row>
@@ -90,3 +90,5 @@ export default function ConfirmPassword() {
         </GuestLayout>
     );
 }
+
+

@@ -20,7 +20,7 @@ import Layout from '../../../../Layouts';
 const BarCharts = () => {
     return (
         <React.Fragment>
-            <Head title='Apex Bar Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Apex Bar Charts | 5to Informe de Gobierno'/>
             <div className="page-content">            
                 <Container fluid>
                     <BreadCrumb title="Bar Charts" pageTitle="Apexcharts" />
@@ -150,3 +150,4 @@ const BarCharts = () => {
 };
 BarCharts.layout = (page:any) => <Layout children={page}/>
 export default BarCharts;
+

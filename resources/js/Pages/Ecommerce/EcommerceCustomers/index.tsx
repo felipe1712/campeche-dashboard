@@ -339,7 +339,7 @@ const EcommerceCustomers = () => {
 
   return (
     <React.Fragment>
-      <Head title = "Customers | Velzon - React Admin & Dashboard Template"/>
+      <Head title = "Customers | 5to Informe de Gobierno"/>
       <div className="page-content">
         <ExportCSVModal
           show={isExportCSV}
@@ -574,3 +574,5 @@ const EcommerceCustomers = () => {
 };
 EcommerceCustomers.layout = (page:any) => <Layout children={page}/>
 export default EcommerceCustomers;
+
+

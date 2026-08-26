@@ -26,7 +26,7 @@ const ColumnCharts = () => {
    
     return (
         <React.Fragment>
-            <Head title='Column Charts | Velzon - React Admin & Dashboard Template' />
+            <Head title='Column Charts | 5to Informe de Gobierno' />
             <div className="page-content">
 
                 <Container fluid>
@@ -201,3 +201,4 @@ const ColumnCharts = () => {
 };
 ColumnCharts.layout = (page:any) => <Layout children={page}/>
 export default ColumnCharts;
+

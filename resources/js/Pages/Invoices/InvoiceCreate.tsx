@@ -188,7 +188,7 @@ const InvoiceCreate = () => {
 
   return (
     <React.Fragment>
-      <Head title="Create Invoice | Velzon - React Admin & Dashboard Template" />
+      <Head title="Create Invoice | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Create Invoice" pageTitle="Invoices" />
@@ -903,3 +903,5 @@ const InvoiceCreate = () => {
 };
 InvoiceCreate.layout = (page: any) => <Layout children={page} />
 export default InvoiceCreate;
+
+

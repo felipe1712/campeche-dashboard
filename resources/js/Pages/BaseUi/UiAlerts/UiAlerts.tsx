@@ -33,7 +33,7 @@ const UiAlerts = () => {
     ];
     return (
         <React.Fragment>
-            <Head title='Alerts | Velzon - React Admin & Dashboard Template' />
+            <Head title='Alerts | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid={true}>
@@ -905,3 +905,5 @@ const UiAlerts = () => {
 };
 UiAlerts.layout = (page:any) => <Layout children={page}/>
 export default UiAlerts;
+
+

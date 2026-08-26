@@ -8,7 +8,7 @@ const TermsCondition = () => {
   
   return (
     <React.Fragment>
-      <Head title="Terms & Condition | Velzon - React Admin & Dashboard Template"/>
+      <Head title="Terms & Condition | 5to Informe de Gobierno"/>
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Terms & Condition" pageTitle="Pages" />
@@ -174,3 +174,5 @@ const TermsCondition = () => {
 };
 TermsCondition.layout = (page:any) => <Layout children={page} />
 export default TermsCondition;
+
+

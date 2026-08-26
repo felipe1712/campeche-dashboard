@@ -25,7 +25,7 @@ const CoverPasswReset = () => {
 
     return (
         <React.Fragment>
-            <Head title = "Reset Password | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Reset Password | 5to Informe de Gobierno"/>
             <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
                 <div className="bg-overlay"></div>
                 <div className="auth-page-content overflow-hidden pt-lg-5">
@@ -102,3 +102,4 @@ const CoverPasswReset = () => {
 };
 
 export default CoverPasswReset;
+

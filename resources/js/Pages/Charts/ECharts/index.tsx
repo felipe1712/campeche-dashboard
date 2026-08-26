@@ -14,7 +14,7 @@ const Echarts = () => {
     
     return (
         <React.Fragment>
-            <Head title='E Charts| Velzon - React Admin & Dashboard Template' />
+            <Head title='E Charts| 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
 
@@ -290,3 +290,4 @@ const Echarts = () => {
 }
 Echarts.layout = (page:any) => <Layout children={page}/>
 export default Echarts
+

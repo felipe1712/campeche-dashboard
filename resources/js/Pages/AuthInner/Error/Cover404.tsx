@@ -7,7 +7,7 @@ import React from 'react';
 export default function Cover404(){
     return(
         <React.Fragment >
-            <Head title='404 Error Cover | Velzon - React Admin & Dashboard Template'/>
+            <Head title='404 Error Cover | 5to Informe de Gobierno'/>
             <div className="auth-page-content">
                 <div className="auth-page-wrapper py-5 d-flex justify-content-center align-items-center min-vh-100">
                     <div className="auth-page-content overflow-hidden p-0">
@@ -31,3 +31,4 @@ export default function Cover404(){
             </React.Fragment >
     )
 }
+

@@ -379,7 +379,7 @@ const ToDoList = () => {
 
     return (
         <React.Fragment>
-            <Head title="To Do Lists | Velzon - React Admin & Dashboard Template" />
+            <Head title="To Do Lists | 5to Informe de Gobierno" />
             <ToastContainer closeButton={false} />
             <DeleteModal
                 show={deleteModal}
@@ -770,3 +770,4 @@ const ToDoList = () => {
 };
 ToDoList.layout = (page: any) => <Layout children={page} />
 export default ToDoList;
+

@@ -10,7 +10,7 @@ import Layout from '../../../Layouts';
 const Transactions = () => {
     return (
         <React.Fragment>
-            <Head title="Transactions | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Transactions | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Transactions" pageTitle="Crypto" />
@@ -25,3 +25,4 @@ const Transactions = () => {
 };
 Transactions.layout = (page:any) => <Layout  children={page}/>
 export default Transactions;
+

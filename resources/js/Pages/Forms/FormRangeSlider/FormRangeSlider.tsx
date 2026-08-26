@@ -38,7 +38,7 @@ const FormRangeSlider = () => {
 
   return (
     <React.Fragment>
-      <Head title="Range Slider | Velzon - React Admin & Dashboard Template" />
+      <Head title="Range Slider | 5to Informe de Gobierno" />
       <div className="page-content">
 
         <Container fluid>
@@ -437,3 +437,5 @@ const FormRangeSlider = () => {
 };
 FormRangeSlider.layout = (page: any) => <Layout children={page} />
 export default FormRangeSlider;
+
+

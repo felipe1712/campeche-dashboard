@@ -35,7 +35,7 @@ const BasicSignUp = () => {
     return (
         <React.Fragment>
             <GuestLayout>
-                <Head title = "Basic SignUp | Velzon - React Admin & Dashboard Template"/>
+                <Head title = "Basic SignUp | 5to Informe de Gobierno"/>
                 <div className="auth-page-content mt-lg-5">
 
                     <Container>
@@ -149,3 +149,4 @@ const BasicSignUp = () => {
 };
 
 export default BasicSignUp;
+

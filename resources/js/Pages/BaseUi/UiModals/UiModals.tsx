@@ -180,7 +180,7 @@ const UiModals = () => {
 
     return (
         <React.Fragment>
-            <Head title = "Modals | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Modals | 5to Informe de Gobierno"/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -2011,3 +2011,5 @@ const UiModals = () => {
 };
 UiModals.layout = (page: any) => <Layout children={page} />
 export default UiModals;
+
+

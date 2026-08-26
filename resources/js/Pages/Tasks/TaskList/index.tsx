@@ -10,7 +10,7 @@ import Layout from '../../../Layouts';
 const TaskList = () => {
     return (
         <React.Fragment>
-            <Head title="Tasks List | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Tasks List | 5to Informe de Gobierno"/>
             <div className="page-content">
             
                 <Container fluid>
@@ -26,3 +26,4 @@ const TaskList = () => {
 };
 TaskList.layout = (page:any) => <Layout children={page}/>
 export default TaskList;
+

@@ -25,7 +25,7 @@ const LiveAuction = () => {
 
     return (
         <React.Fragment>
-            <Head title = "Live Auction | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Live Auction | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Live Auction" pageTitle="NFT Marketplace" />
@@ -157,3 +157,5 @@ const LiveAuction = () => {
 };
 LiveAuction.layout = (page:any) => <Layout children={page}/>
 export default LiveAuction;
+
+

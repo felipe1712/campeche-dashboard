@@ -35,7 +35,7 @@ const UiSwiperSlider = () => {
 
     return (
         <React.Fragment>
-                <Head title='Swiper Slider | Velzon - React Admin & Dashboard Template' />
+                <Head title='Swiper Slider | 5to Informe de Gobierno' />
                 <div className="page-content">
                     <Container fluid>
                         <BreadCrumb title="Swiper Slider" pageTitle="Advance UI" />
@@ -508,3 +508,5 @@ const UiSwiperSlider = () => {
 };
 UiSwiperSlider.layout = (page:any) => <Layout children={page}/>
 export default UiSwiperSlider;
+
+

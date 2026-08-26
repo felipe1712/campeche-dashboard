@@ -409,7 +409,7 @@ const CrmCompanies = () => {
 
   return (
     <React.Fragment>
-      <Head title = "Companies | Velzon - React Admin & Dashboard Template"/>
+      <Head title = "Companies | 5to Informe de Gobierno"/>
       <div className="page-content">
         <ExportCSVModal
           show={isExportCSV}
@@ -922,3 +922,5 @@ const CrmCompanies = () => {
 };
 CrmCompanies.layout = (page:any) => <Layout children={page}/>
 export default CrmCompanies;
+
+

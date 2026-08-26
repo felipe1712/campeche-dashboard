@@ -13,7 +13,7 @@ const Kanbanboard = () => {
 
     return (
         <React.Fragment>
-            <Head title = "Kanban Board | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Kanban Board | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Kanban Board" pageTitle="Tasks" />
@@ -27,3 +27,4 @@ const Kanbanboard = () => {
 }
 Kanbanboard.layout = (page:any) => <Layout children={page}/>
 export default Kanbanboard
+

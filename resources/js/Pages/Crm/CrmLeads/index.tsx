@@ -440,7 +440,7 @@ const CrmLeads = () => {
 
   return (
     <React.Fragment>
-      <Head title = "Leads | Velzon - React Admin & Dashboard Template"/>
+      <Head title = "Leads | 5to Informe de Gobierno"/>
       <div className="page-content">
         <DeleteModal
           show={deleteModal}
@@ -792,3 +792,4 @@ const CrmLeads = () => {
 };
 CrmLeads.layout = (page:any) => <Layout children={page}/>
 export default CrmLeads;
+

@@ -18,7 +18,7 @@ const TimelineCharts = () => {
     
     return (
         <React.Fragment>
-            <Head title='TimeLine Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='TimeLine Charts | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="TimeLine Charts" pageTitle="Apexcharts" />
@@ -100,3 +100,4 @@ const TimelineCharts = () => {
 };
 TimelineCharts.layout = (page:any) => <Layout children={page}/>
 export default TimelineCharts;
+

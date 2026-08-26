@@ -18,7 +18,7 @@ const Marketplace = () => {
     };
     return (
         <React.Fragment>
-            <Head title="Marketplace | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Marketplace | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Marketplace" pageTitle="NFT Marketplace" />
@@ -209,3 +209,5 @@ const Marketplace = () => {
 };
 Marketplace.layout = (page:any) => <Layout children={page}/>
 export default Marketplace;
+
+

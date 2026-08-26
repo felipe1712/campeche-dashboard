@@ -9,7 +9,7 @@ import Layout from '../../../../Layouts';
 const Polarcharts = () => {
     return (
         <React.Fragment>
-            <Head title='Polar Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Polar Charts | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
 
@@ -44,3 +44,4 @@ const Polarcharts = () => {
 }
 Polarcharts.layout =(page:any) => <Layout children={page}/>
 export default Polarcharts
+

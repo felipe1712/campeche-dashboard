@@ -35,7 +35,7 @@ const Timeline = () => {
 
     return (
         <React.Fragment>
-            <Head title="Timeline | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Timeline | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Timeline" pageTitle="Pages" />
@@ -438,4 +438,6 @@ const Timeline = () => {
 Timeline.layout = (page:any) => <Layout children={page} />
 
 export default Timeline
+
+
 

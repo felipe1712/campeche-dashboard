@@ -37,7 +37,7 @@ const BasicPasswCreate = () => {
     });
     return (
         <GuestLayout>
-            <Head title = "Create New Password | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Create New Password | 5to Informe de Gobierno"/>
             <div className="auth-page-content mt-lg-5">
                 <Container>
                     <Row>
@@ -141,3 +141,4 @@ const BasicPasswCreate = () => {
 };
 
 export default BasicPasswCreate;
+

@@ -64,7 +64,7 @@ const Masks = () => {
 
   return (
     <React.Fragment>
-      <Head title='Input Masks | Velzon - React Admin & Dashboard Template' />
+      <Head title='Input Masks | 5to Informe de Gobierno' />
       <div className="page-content">
         
         <Container fluid>
@@ -277,3 +277,5 @@ const Masks = () => {
 };
 Masks.layout = (page:any) => <Layout children={page}/>
 export default Masks;
+
+

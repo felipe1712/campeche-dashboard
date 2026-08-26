@@ -16,7 +16,7 @@ const Formlayouts = () => {
     
     return (
         <React.Fragment>
-            <Head title='Form Layouts | Velzon - React Admin & Dashboard Template' />
+            <Head title='Form Layouts | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -633,3 +633,4 @@ const Formlayouts = () => {
 };
 Formlayouts.layout = (page:any) => <Layout children={page}/>
 export default Formlayouts;
+

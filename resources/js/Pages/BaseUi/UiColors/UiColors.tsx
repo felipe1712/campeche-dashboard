@@ -12,7 +12,7 @@ import Layout from '../../../Layouts';
 const UiColors = () => {
     return (
         <React.Fragment>
-            <Head title='Colors | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Colors | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -937,3 +937,5 @@ const UiColors = () => {
 };
 UiColors.layout = (page:any) => <Layout children={page}/>
 export default UiColors;
+
+

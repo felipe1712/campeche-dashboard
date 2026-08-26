@@ -22,7 +22,7 @@ const CreateNFT = () => {
 
     return (
         <React.Fragment>
-            <Head title = "Create NFT | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Create NFT | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Create NFT" pageTitle="NFT Marketplace" />
@@ -104,3 +104,5 @@ const CreateNFT = () => {
 };
 CreateNFT.layout = (page:any) => <Layout children={page}/>
 export default CreateNFT;
+
+

@@ -23,7 +23,7 @@ const UiCarousel = () => {
     
     return (
         <React.Fragment>
-            <Head title='Carousel | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Carousel | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -192,3 +192,5 @@ const UiCarousel = () => {
 };
 UiCarousel.layout = (page:any) => <Layout children={page}/>
 export default UiCarousel;
+
+

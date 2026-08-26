@@ -479,7 +479,7 @@ const CrmContacts = () => {
 
   return (
     <React.Fragment>
-      <Head title = "Contacts | Velzon - React Admin & Dashboard Template"/>
+      <Head title = "Contacts | 5to Informe de Gobierno"/>
       <div className="page-content">
         <ExportCSVModal
           show={isExportCSV}
@@ -913,3 +913,5 @@ const CrmContacts = () => {
 };
 CrmContacts.layout = (page:any) => <Layout children={page}/>
 export default CrmContacts;
+
+

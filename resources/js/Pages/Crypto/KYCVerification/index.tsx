@@ -8,7 +8,7 @@ import Layout from '../../../Layouts';
 const KYCVerification = () => {
     return (
         <React.Fragment>
-            <Head title ="KYC  Application | Velzon - React Admin & Dashboard Template"/>
+            <Head title ="KYC  Application | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="KYC Application" pageTitle="Crypto" />
@@ -22,3 +22,4 @@ const KYCVerification = () => {
 };
 KYCVerification.layout = (page:any) => <Layout children={page}/>
 export default KYCVerification;
+

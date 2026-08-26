@@ -305,7 +305,7 @@ const FileManager = () => {
 
     return (
         <React.Fragment>
-            <Head title="File Manager | Velzon - React Admin & Dashboard Template" />
+            <Head title="File Manager | 5to Informe de Gobierno" />
 
             <ToastContainer closeButton={false} />
             <DeleteModal
@@ -839,3 +839,4 @@ const FileManager = () => {
 };
 FileManager.layout = (page: any) => <Layout children={page} />
 export default FileManager;
+

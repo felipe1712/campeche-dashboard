@@ -9,7 +9,7 @@ import Layout from '../../../Layouts';
 const Faqs = () => {
     return (
         <React.Fragment>
-            <Head title='FAQs | Velzon - React Admin & Dashboard Template' />
+            <Head title='FAQs | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <Row>
@@ -192,3 +192,4 @@ const Faqs = () => {
 }
 Faqs.layout = (page:any) => <Layout children={page} />
 export default Faqs
+

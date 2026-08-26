@@ -12,7 +12,7 @@ const Pricing = () => {
 
     return (
         <React.Fragment>
-            <Head title='Pricing | Velzon - React Admin & Dashboard Template' />
+            <Head title='Pricing | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Pricing" pageTitle="Pages" />
@@ -338,3 +338,4 @@ const Pricing = () => {
 Pricing.layout = (page:any) => <Layout children={page} />
 
 export default Pricing;
+

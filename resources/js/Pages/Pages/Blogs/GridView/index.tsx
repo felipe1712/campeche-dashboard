@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/react';
 
 const BlogGridView = () => {
 
-    document.title = "Grid View | Velzon - React Admin & Dashboard Template";
+    document.title = "Grid View | 5to Informe de Gobierno";
 
      //pagination
      const [currentPage, setCurrentPage] = useState(1);
@@ -89,3 +89,4 @@ const BlogGridView = () => {
 
 BlogGridView.layout = (page:any) => <Layout children={page} />
 export default BlogGridView
+

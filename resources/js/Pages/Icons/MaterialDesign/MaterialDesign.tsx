@@ -10,7 +10,7 @@ const Materialdesign = () => {
   
   return (
     <React.Fragment>
-      <Head title="Material Design Icons | Velzon - React Admin & Dashboard Template" />
+      <Head title="Material Design Icons | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Material Design" pageTitle="Icons" />
@@ -7109,3 +7109,5 @@ const Materialdesign = () => {
 };
 Materialdesign.layout = (page:any) => <Layout children={page}/>
 export default Materialdesign;
+
+

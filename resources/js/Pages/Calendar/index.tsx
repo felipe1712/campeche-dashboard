@@ -311,7 +311,7 @@ const Calender = () => {
 
   return (
     <React.Fragment>
-    <Head title = "Calendar | Velzon - React Admin & Dashboard Template"/>
+    <Head title = "Calendar | 5to Informe de Gobierno"/>
       <DeleteModal
         show={deleteModal}
         onDeleteClick={handleDeleteEvent}
@@ -682,3 +682,4 @@ Calender.propTypes = {
 };
 Calender.layout = (page: any) => <Layout children={page} />
 export default Calender;
+

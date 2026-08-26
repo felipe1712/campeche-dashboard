@@ -10,7 +10,7 @@ import Layout from '../../../Layouts';
 const UiLink = () => {
     return (
         <React.Fragment>
-            <Head title='Link | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Link | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -205,3 +205,4 @@ const UiLink = () => {
 }
 UiLink.layout = (page:any) => <Layout children={page}/>
 export default UiLink;
+

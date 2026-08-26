@@ -26,7 +26,7 @@ const CryproOrder = () => {
 
     return (
         <React.Fragment>
-            <Head title = "Orders | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Orders | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Orders" pageTitle="Crypto" />
@@ -40,3 +40,4 @@ const CryproOrder = () => {
 };
 CryproOrder.layout = (page:any) => <Layout children={page}/>
 export default CryproOrder;
+

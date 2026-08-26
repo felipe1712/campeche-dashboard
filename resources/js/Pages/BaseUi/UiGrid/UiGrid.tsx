@@ -14,7 +14,7 @@ import Layout from '../../../Layouts';
 const UiGrid = () => {
     return (
         <React.Fragment>
-            <Head title='Grid | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Grid | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -330,3 +330,5 @@ const UiGrid = () => {
 };
 UiGrid.layout = (page:any) => <Layout children={page}/>
 export default UiGrid;
+
+

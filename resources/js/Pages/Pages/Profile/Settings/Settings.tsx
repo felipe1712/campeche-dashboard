@@ -11,7 +11,7 @@ import Layout from '../../../../Layouts';
 const Settings = () => {
     return (
         <React.Fragment>
-            <Head title='Profile Settings | Velzon - React Admin & Dashboard Template' />
+            <Head title='Profile Settings | 5to Informe de Gobierno' />
             <div className="page-content">
                 <Container fluid>
                     <div className="position-relative mx-n4 mt-n4">
@@ -695,3 +695,4 @@ const Settings = () => {
 Settings.layout = (page:any) => <Layout children={page} />
 
 export default Settings;
+

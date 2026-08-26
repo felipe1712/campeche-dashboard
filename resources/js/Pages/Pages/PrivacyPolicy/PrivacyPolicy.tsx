@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
 
   return (
     <React.Fragment>
-      <Head title="Privacy Policy | Velzon - React Admin & Dashboard Template"/>
+      <Head title="Privacy Policy | 5to Informe de Gobierno"/>
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Privacy Policy" pageTitle="Pages" />
@@ -213,3 +213,5 @@ const PrivacyPolicy = () => {
 PrivacyPolicy.layout = (page:any) => <Layout children={page} />
 
 export default PrivacyPolicy;
+
+

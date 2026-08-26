@@ -15,7 +15,7 @@ const ScatterCharts = () => {
    
     return (
         <React.Fragment>
-            <Head title='Scatter Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Scatter Charts | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Scatter Charts" pageTitle="Apexcharts" />
@@ -61,3 +61,4 @@ const ScatterCharts = () => {
 };
 ScatterCharts.layout = (page:any) => <Layout children={page}/>
 export default ScatterCharts;
+

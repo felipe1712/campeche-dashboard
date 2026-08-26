@@ -50,7 +50,7 @@ const ItemDetails = () => {
 
     return (
         <React.Fragment>
-            <Head title="Item Details | Velzon - React Admin & Dashboard Template" />
+            <Head title="Item Details | 5to Informe de Gobierno" />
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Item Details" pageTitle="NFT Marketplace" />
@@ -607,3 +607,5 @@ const ItemDetails = () => {
 };
 ItemDetails.layout = (page:any) => <Layout children={page}/>
 export default ItemDetails;
+
+

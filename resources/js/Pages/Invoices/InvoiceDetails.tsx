@@ -14,7 +14,7 @@ const InvoiceDetails = () => {
 
   return (
     <React.Fragment>
-      <Head title = "Invoice Details | Velzon - React Admin & Dashboard Template"/>
+      <Head title = "Invoice Details | 5to Informe de Gobierno"/>
     <div className="page-content">
       <Container fluid>
         <BreadCrumb title="Invoice Details" pageTitle="Invoices" />
@@ -288,3 +288,5 @@ const InvoiceDetails = () => {
 };
 InvoiceDetails.layout = (page:any) => <Layout children={page}/>
 export default InvoiceDetails;
+
+

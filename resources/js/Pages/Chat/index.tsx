@@ -287,7 +287,7 @@ const Chat = () => {
 
   return (
     <React.Fragment>
-      <Head title="Chat | Velzon - React Admin & Dashboard Template" />
+      <Head title="Chat | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <div className="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
@@ -1173,3 +1173,5 @@ const Chat = () => {
 };
 Chat.layout = (page: any) => <Layout children={page} />;
 export default Chat;
+
+

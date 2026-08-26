@@ -11,7 +11,7 @@ const Maintenance = () => {
     return (
         <React.Fragment>            
             <GuestLayout>
-                <Head title='Maintenance | Velzon - React Admin & Dashboard Template'/>
+                <Head title='Maintenance | 5to Informe de Gobierno'/>
                 <div className="auth-page-content mt-lg-5">
                     <Container>
                         <Row>
@@ -42,3 +42,4 @@ const Maintenance = () => {
 }
 
 export default Maintenance;
+

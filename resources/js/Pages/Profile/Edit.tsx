@@ -11,7 +11,7 @@ export default function Edit({ mustVerifyEmail, status }: any) {
         <React.Fragment>
             <Layout
             >
-                <Head title="Profile | Velzon - React Admin & Dashboard Template" />
+                <Head title="Profile | 5to Informe de Gobierno" />
                 <div className='page-content'>
                     <Container fluid>
                         <Col>
@@ -33,3 +33,4 @@ export default function Edit({ mustVerifyEmail, status }: any) {
         </React.Fragment >
     );
 }
+

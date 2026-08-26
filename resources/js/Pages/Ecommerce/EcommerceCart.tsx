@@ -67,7 +67,7 @@ const EcommerceCart = () => {
 
   return (
     <React.Fragment>
-      <Head title ="Shopping Cart | Velzon - React Admin & Dashboard Template"/>
+      <Head title ="Shopping Cart | 5to Informe de Gobierno"/>
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Shopping Cart" pageTitle="Ecommerce" />
@@ -321,3 +321,5 @@ const EcommerceCart = () => {
 };
 EcommerceCart.layout = (page:any) => <Layout children={page}/>
 export default EcommerceCart;
+
+

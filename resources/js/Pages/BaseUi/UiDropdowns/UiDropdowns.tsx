@@ -24,7 +24,7 @@ const UiDropdowns = () => {
 
     return (
         <React.Fragment>
-            <Head title='Dropdowns | Velzon - React Admin & Dashboard Template' />
+            <Head title='Dropdowns | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -1639,3 +1639,5 @@ const UiDropdowns = () => {
 };
 UiDropdowns.layout = (page: any) => <Layout children={page} />
 export default UiDropdowns;
+
+

@@ -223,7 +223,7 @@ const EcommerceAddProduct = (props: any) => {
   });
   return (
     <React.Fragment>
-      <Head title="Create Product | Velzon - React Admin & Dashboard Template" />
+      <Head title="Create Product | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Create Product" pageTitle="Ecommerce" />
@@ -839,3 +839,5 @@ const EcommerceAddProduct = (props: any) => {
 };
 EcommerceAddProduct.layout = (page: any) => <Layout children={page} />;
 export default EcommerceAddProduct;
+
+

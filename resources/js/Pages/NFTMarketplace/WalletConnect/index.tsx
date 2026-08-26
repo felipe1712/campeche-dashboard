@@ -12,7 +12,7 @@ import Layout from "../../../Layouts";
 const WalletConnect = () => {
     return (
         <React.Fragment>
-            <Head title = "Wallet Connect | Velzon - React Admin & Dashboard Template"/>
+            <Head title = "Wallet Connect | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Wallet Connect" pageTitle="NFT Marketplace" />
@@ -67,3 +67,4 @@ const WalletConnect = () => {
 };
 WalletConnect.layout = (page:any) => <Layout children={page}/>
 export default WalletConnect;
+

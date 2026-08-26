@@ -31,7 +31,7 @@ const UiTabs = () => {
 
     return (
         <React.Fragment>
-            <Head title='Tabs | Velzon - React Admin & Dashboard Template' />
+            <Head title='Tabs | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -2039,3 +2039,5 @@ const UiTabs = () => {
 };
 UiTabs.layout = (page: any) => <Layout children={page} />
 export default UiTabs;
+
+

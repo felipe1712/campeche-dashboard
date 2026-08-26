@@ -9,7 +9,7 @@ import Layout from '../../Layouts'
 
 const DashboardBlog = () => {
 
-  document.title="Blog | Velzon - React Admin & Dashboard Template";
+  document.title="Blog | 5to Informe de Gobierno";
 
   return (
     <React.Fragment>
@@ -35,3 +35,4 @@ const DashboardBlog = () => {
 
 DashboardBlog.layout =(page:any) => <Layout children={page}/>
 export default DashboardBlog
+

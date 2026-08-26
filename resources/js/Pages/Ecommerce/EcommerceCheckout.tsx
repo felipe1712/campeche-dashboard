@@ -91,7 +91,7 @@ const EcommerceCheckout = () => {
 
   return (
     <React.Fragment>
-      <Head title="Checkout | Velzon - React Admin & Dashboard Template" />
+      <Head title="Checkout | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Checkout" pageTitle="Ecommerce" />
@@ -943,3 +943,5 @@ const EcommerceCheckout = () => {
 };
 EcommerceCheckout.layout = (page: any) => <Layout children={page} />
 export default EcommerceCheckout;
+
+

@@ -35,7 +35,7 @@ const SearchResults = () => {
 
     return (
         <React.Fragment>
-            <Head title='Search Results | Velzon - React Admin & Dashboard Template' />
+            <Head title='Search Results | 5to Informe de Gobierno' />
             <div className="page-content">
 
                 <div className="container-fluid">
@@ -447,3 +447,4 @@ const SearchResults = () => {
 SearchResults.layout = (page: any) => <Layout children={page} />
 
 export default SearchResults;
+

@@ -15,7 +15,7 @@ import Layout from '../../../../Layouts';
 
 const PageBlogOverview = () => {
 
-    document.title = "Overview | Velzon - React Admin & Dashboard Template";
+    document.title = "Overview | 5to Informe de Gobierno";
 
     return (
         <React.Fragment>
@@ -183,3 +183,4 @@ const PageBlogOverview = () => {
 
 PageBlogOverview.layout = (page:any) => <Layout children={page} />
 export default PageBlogOverview
+

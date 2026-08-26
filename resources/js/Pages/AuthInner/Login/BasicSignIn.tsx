@@ -13,7 +13,7 @@ const BasicSignIn = () => {
     return (
         <React.Fragment>
             <GuestLayout>
-                <Head title="Basic SignIn | Velzon - React Admin & Dashboard Template"/>
+                <Head title="Basic SignIn | 5to Informe de Gobierno"/>
                 <div className="auth-page-content mt-lg-5">                
                     <Container>
                         <Row>
@@ -95,3 +95,4 @@ const BasicSignIn = () => {
 };
 
 export default BasicSignIn;
+

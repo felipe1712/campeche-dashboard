@@ -60,7 +60,7 @@ const FormAdvanced = () => {
 
   return (
     <React.Fragment>
-      <Head title="Form Advanced | Velzon - React Admin & Dashboard Template" />
+      <Head title="Form Advanced | 5to Informe de Gobierno" />
       <div className="page-content">
 
         <Container fluid>
@@ -619,3 +619,4 @@ const FormAdvanced = () => {
 };
 FormAdvanced.layout = (page: any) => <Layout children={page} />
 export default FormAdvanced;
+

@@ -307,7 +307,7 @@ const EcommerceProducts = (props: any) => {
   );
   return (
     <React.Fragment>
-      <Head title="Products | Velzon - React Admin & Dashboard Template" />
+      <Head title="Products | 5to Informe de Gobierno" />
       <div className="page-content">
         <ToastContainer closeButton={false} limit={1} />
 
@@ -900,3 +900,5 @@ const EcommerceProducts = (props: any) => {
 };
 EcommerceProducts.layout = (page: any) => <Layout children={page} />
 export default EcommerceProducts;
+
+

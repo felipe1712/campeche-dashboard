@@ -10,7 +10,7 @@ const TreemapCharts = () => {
    
   return (
     <React.Fragment>
-        <Head title="Treemap Charts | Velzon - React Admin & Dashboard Template"/>
+        <Head title="Treemap Charts | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>                   
                         <BreadCrumb title="Treemap Charts" pageTitle="Apexcharts" />
@@ -72,3 +72,4 @@ const TreemapCharts = () => {
 }
 TreemapCharts.layout = (page:any) => <Layout children={page}/>
 export default TreemapCharts
+

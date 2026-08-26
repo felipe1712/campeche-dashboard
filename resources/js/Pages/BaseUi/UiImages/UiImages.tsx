@@ -29,7 +29,7 @@ import Layout from '../../../Layouts';
 const UiImages = () => {
     return (
         <React.Fragment>
-            <Head title='Images | Velzon - React Admin & Dashboard Template' />
+            <Head title='Images | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -445,3 +445,5 @@ const UiImages = () => {
 };
 UiImages.layout = (page:any) => <Layout children={page}/>
 export default UiImages;
+
+

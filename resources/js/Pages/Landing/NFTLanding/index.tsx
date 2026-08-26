@@ -35,7 +35,7 @@ const index = () => {
 
     return (
         <React.Fragment>
-            <Head title='Landing | Velzon - React Admin & Dashboard Template' />
+            <Head title='Landing | 5to Informe de Gobierno' />
             <div className="layout-wrapper landing">
                 <Navbar />
                 <Home />
@@ -56,3 +56,4 @@ const index = () => {
 };
 
 export default index;
+

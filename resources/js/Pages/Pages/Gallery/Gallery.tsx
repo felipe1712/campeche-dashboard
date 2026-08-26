@@ -20,7 +20,7 @@ const Gallery = () => {
 
   return (
     <React.Fragment>
-      <Head title='Gallery | Velzon - React Admin & Dashboard Template'/>
+      <Head title='Gallery | 5to Informe de Gobierno'/>
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Gallery" pageTitle="Pages" />
@@ -99,3 +99,4 @@ const Gallery = () => {
 Gallery.layout = (page:any) => <Layout children={page} />
 
 export default Gallery;
+

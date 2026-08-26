@@ -112,7 +112,7 @@ function EcommerceProductDetail(props: any) {
 
   return (
     <React.Fragment>
-      <Head title="Product Details | Velzon - React Admin & Dashboard Template" />
+      <Head title="Product Details | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Product Details" pageTitle="Ecommerce" />
@@ -874,3 +874,4 @@ function EcommerceProductDetail(props: any) {
 }
 EcommerceProductDetail.layout = (page:any) => <Layout children={page}/>
 export default EcommerceProductDetail;
+

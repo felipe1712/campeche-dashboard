@@ -13,7 +13,7 @@ const BubbleChart = () => {
     
     return (
         <React.Fragment> 
-            <Head title='Bubble Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Bubble Charts | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Bubble Charts" pageTitle="Apexcharts" />
@@ -47,3 +47,4 @@ const BubbleChart = () => {
 };
 BubbleChart.layout = (page:any) => <Layout children={page}/>
 export default BubbleChart;
+

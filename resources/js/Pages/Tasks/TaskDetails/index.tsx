@@ -11,7 +11,7 @@ import Layout from '../../../Layouts';
 const TaskDetails = () => {
     return (
         <React.Fragment>
-            <Head title="Tasks Details | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Tasks Details | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Tasks Details" pageTitle="Tasks" />
@@ -31,3 +31,4 @@ const TaskDetails = () => {
 };
 TaskDetails.layout = (page:any) => <Layout children={page}/>
 export default TaskDetails;
+

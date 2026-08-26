@@ -10,7 +10,7 @@ const RadarCharts = () => {
     
     return (
         <React.Fragment>
-            <Head title='Radar Charts | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Radar Charts | 5to Informe de Gobierno'/>
             <div className="page-content">
                 <Container fluid>
 
@@ -57,3 +57,4 @@ const RadarCharts = () => {
 }
 RadarCharts.layout = (page:any) => <Layout children={page}/>
 export default RadarCharts
+

@@ -58,7 +58,7 @@ const CreateProject = () => {
 
   return (
     <React.Fragment>
-      <Head title="Create Project | Velzon - React Admin & Dashboard Template" />
+      <Head title="Create Project | 5to Informe de Gobierno" />
       <div className="page-content">
         <Container fluid>
           <BreadCrumb title="Create Project" pageTitle="Projects" />
@@ -430,3 +430,5 @@ const CreateProject = () => {
 };
 CreateProject.layout = (page: any) => <Layout children={page} />;
 export default CreateProject;
+
+

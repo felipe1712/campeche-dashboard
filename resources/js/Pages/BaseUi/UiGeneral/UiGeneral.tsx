@@ -16,7 +16,7 @@ const UiGeneral = () => {
 
     return (
         <React.Fragment>
-            <Head title='General | Velzon - React Admin & Dashboard Template' />
+            <Head title='General | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -461,3 +461,5 @@ const UiGeneral = () => {
 };
 UiGeneral.layout = (page: any) => <Layout children={page} />
 export default UiGeneral;
+
+

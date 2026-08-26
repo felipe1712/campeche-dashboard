@@ -21,7 +21,7 @@ const UiUtilities = () => {
    
     return (
         <React.Fragment>
-            <Head title='Utilities | Velzon - React Admin & Dashboard Template'/>
+            <Head title='Utilities | 5to Informe de Gobierno'/>
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -1188,3 +1188,5 @@ const UiUtilities = () => {
 };
 UiUtilities.layout = (page:any) => <Layout children={page}/>
 export default UiUtilities;
+
+

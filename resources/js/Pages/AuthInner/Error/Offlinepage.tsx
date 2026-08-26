@@ -9,7 +9,7 @@ export default function Offlinepage(){
     }
     return(
         <React.Fragment >
-            <Head title="Offline Page | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Offline Page | 5to Informe de Gobierno"/>
             <div className="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
                 <div className="bg-overlay"></div>
                 <div className="auth-page-content overflow-hidden pt-lg-5">
@@ -34,3 +34,4 @@ export default function Offlinepage(){
             </React.Fragment >
     )
 }
+

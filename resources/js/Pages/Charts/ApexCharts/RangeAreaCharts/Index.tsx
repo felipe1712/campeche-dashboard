@@ -9,7 +9,7 @@ const RangeArea = () => {
   
   return (
       <React.Fragment>
-        <Head title='Apex Range Area Charts | Velzon - React Admin & Dashboard Template'/>
+        <Head title='Apex Range Area Charts | 5to Informe de Gobierno'/>
           <div className="page-content">
 
               <Container fluid>
@@ -46,3 +46,4 @@ const RangeArea = () => {
 }
 RangeArea.layout = (page:any) => <Layout children={page}/>
 export default RangeArea
+

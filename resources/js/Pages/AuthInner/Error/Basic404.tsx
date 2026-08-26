@@ -8,7 +8,7 @@ export default function Basic404(){
     return(
         <React.Fragment>
             <GuestLayout>
-                <Head title="404 Error Basic | Velzon - React Admin & Dashboard Template"/>
+                <Head title="404 Error Basic | 5to Informe de Gobierno"/>
                 <div className="auth-page-content mt-lg-5">
                         <Container>
                             <Row>
@@ -32,3 +32,4 @@ export default function Basic404(){
         </React.Fragment>
     )
 }
+

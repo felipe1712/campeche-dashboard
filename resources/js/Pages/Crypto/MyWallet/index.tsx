@@ -13,7 +13,7 @@ import Layout from '../../../Layouts';
 const MyWallet = () => {
     return (
         <React.Fragment>
-            <Head title="My Wallet | Velzon - React Admin & Dashboard Template"/>
+            <Head title="My Wallet | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="My Wallet" pageTitle="Crypto" />
@@ -35,3 +35,5 @@ const MyWallet = () => {
 };
 MyWallet.layout = (page:any) => <Layout children={page}/>
 export default MyWallet;
+
+

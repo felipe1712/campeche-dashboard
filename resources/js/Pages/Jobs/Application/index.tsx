@@ -387,7 +387,7 @@ const Application = () => {
 
   return (
     <React.Fragment>
-      <Head title="Application | Velzon - React Admin & Dashboard Template" />
+      <Head title="Application | 5to Informe de Gobierno" />
       <div className="page-content">
         <ExportCSVModal
           show={isExportCSV}
@@ -748,3 +748,5 @@ const Application = () => {
 };
 Application.layout = (page: any) => <Layout children={page} />
 export default Application;
+
+

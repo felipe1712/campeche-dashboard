@@ -12,7 +12,7 @@ import Layout from '../../../Layouts';
 const BuySell = () => {
     return (
         <React.Fragment>
-            <Head title="Buy & Sell | Velzon - React Admin & Dashboard Template"/>
+            <Head title="Buy & Sell | 5to Informe de Gobierno"/>
             <div className="page-content">
                 <Container fluid>
                     <BreadCrumb title="Buy & Sell" pageTitle="Crypto" />
@@ -31,3 +31,4 @@ const BuySell = () => {
 };
 BuySell.layout =(page:any) => <Layout children={page}/>
 export default BuySell;
+

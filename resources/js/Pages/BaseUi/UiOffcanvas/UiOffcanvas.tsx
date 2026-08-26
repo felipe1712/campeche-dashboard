@@ -66,7 +66,7 @@ const UiOffcanvas = () => {
     const handleShow = () => setShow(true);
     return (
         <React.Fragment>
-            <Head title='Offcanvas | Velzon - React Admin & Dashboard Template' />
+            <Head title='Offcanvas | 5to Informe de Gobierno' />
             <UiContent />
             <div className="page-content">
                 <Container fluid>
@@ -1419,3 +1419,5 @@ const UiOffcanvas = () => {
 UiOffcanvas.layout = (page: any) => <Layout children={page} />
 
 export default UiOffcanvas;
+
+
