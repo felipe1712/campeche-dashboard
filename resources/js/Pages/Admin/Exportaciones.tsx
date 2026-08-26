@@ -119,11 +119,23 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
 
                 const element = elementsToCapture[i] as HTMLElement;
                 const originalBg = element.style.backgroundColor;
+                const originalWidth = element.style.width;
                 element.style.backgroundColor = '#ffffff';
                 element.style.padding = '20px';
+                // Force a wider layout so tables don't get cut off, effectively creating a "zoom out" effect in the PDF
+                element.style.width = '1400px';
+                element.style.maxWidth = '1400px';
 
-                // Small delay to let browser render without freezing
-                await new Promise(r => setTimeout(r, 100));
+                // We also remove table-responsive overflow to prevent scrollbars from hiding content
+                const tables = element.querySelectorAll('.table-responsive');
+                const originalOverflows: string[] = [];
+                tables.forEach((t, idx) => {
+                    originalOverflows[idx] = (t as HTMLElement).style.overflow;
+                    (t as HTMLElement).style.overflow = 'visible';
+                });
+
+                // Wait 600ms to allow ApexCharts to resize its SVG to the new 1400px width
+                await new Promise(r => setTimeout(r, 600));
 
                 const canvas = await html2canvas(element, { 
                     scale: 1.2,
@@ -141,6 +153,12 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                 
                 element.style.backgroundColor = originalBg;
                 element.style.padding = '0';
+                element.style.width = originalWidth;
+                element.style.maxWidth = '';
+                
+                tables.forEach((t, idx) => {
+                    (t as HTMLElement).style.overflow = originalOverflows[idx] || '';
+                });
                 
                 const imgData = canvas.toDataURL('image/jpeg', 0.95); // Use JPEG instead of PNG for smaller memory footprint
                 
