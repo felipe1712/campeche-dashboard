@@ -30,7 +30,7 @@ class StrategicExcelParserService
                 $currentYear = $m[1];
             }
             
-            if (strtoupper($val1) === 'PODER Y/U ORGANISMO') {
+            if (str_contains(strtoupper($val1), 'PODER') || str_contains(strtoupper($val1), 'ORGANISMO')) {
                 $tableRows = [];
                 $tableTotal = 0;
                 
@@ -43,7 +43,7 @@ class StrategicExcelParserService
                         $r++; continue;
                     }
                     
-                    if (str_starts_with(strtolower($rowVal1), 'fuente:') || preg_match('/\b(20\d{2})\b/', $rowVal1) || strtoupper($rowVal1) === 'PODER Y/U ORGANISMO') {
+                    if (str_starts_with(strtolower($rowVal1), 'fuente:') || preg_match('/\b(20\d{2})\b/', $rowVal1) || (str_contains(strtoupper($rowVal1), 'PODER') && str_contains(strtoupper($rowVal1), 'ORGANISMO'))) {
                         $r--; break;
                     }
                     
@@ -59,7 +59,7 @@ class StrategicExcelParserService
                 }
                 
                 $metadata_dinamica[] = [
-                    'Año' => $currentYear,
+                    'PODER Y/U ORGANISMO' => $currentYear,
                     'PETICIONES' => $tableTotal
                 ];
                 
