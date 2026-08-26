@@ -109,12 +109,21 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
             // Inject temporary style to kill box-shadows and animations, which ruin html2canvas performance
             const style = document.createElement('style');
             style.id = 'pdf-perf-style';
-            style.innerHTML = '* { box-shadow: none !important; border-radius: 0 !important; transition: none !important; animation: none !important; }';
+            // We removed 'animation: none' so the spinner keeps spinning!
+            style.innerHTML = '* { box-shadow: none !important; border-radius: 0 !important; transition: none !important; }';
             document.head.appendChild(style);
 
             for (let i = 0; i < elementsToCapture.length; i++) {
                 setPdfProgress('Procesando ' + (i + 1) + ' de ' + elementsToCapture.length);
                 await new Promise(r => setTimeout(r, 200));
+                
+                // CRITICAL PERFORMANCE FIX: Hide all other indicators so html2canvas doesn't clone the entire massive DOM 41 times!
+                if (elementsToCapture.length > 1) {
+                    for (let j = 0; j < elementsToCapture.length; j++) {
+                        (elementsToCapture[j] as HTMLElement).style.display = (i === j) ? 'block' : 'none';
+                    }
+                }
+
                 const element = elementsToCapture[i] as HTMLElement;
                 const originalBg = element.style.backgroundColor;
                 element.style.backgroundColor = '#ffffff';
@@ -124,7 +133,7 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                 await new Promise(r => setTimeout(r, 100));
 
                 const canvas = await html2canvas(element, { 
-                    scale: 1.2, // Reducing scale to avoid memory crash (was 3 or 2 previously, keeping 2 is good, or 1.5 if 2 fails, but let's stick to 2 and add timeout)
+                    scale: 1.2,
                     useCORS: true,
                     logging: false,
                     windowWidth: 1280
@@ -154,6 +163,13 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
         } finally {
             const perfStyle = document.getElementById('pdf-perf-style');
             if (perfStyle) perfStyle.remove();
+            
+            // Restore visibility of all indicators
+            if (elementsToCapture && elementsToCapture.length > 0) {
+                elementsToCapture.forEach(el => {
+                    (el as HTMLElement).style.display = 'block';
+                });
+            }
             
             setIsGeneratingPdf(false);
         }
