@@ -116,13 +116,6 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
             for (let i = 0; i < elementsToCapture.length; i++) {
                 setPdfProgress('Procesando ' + (i + 1) + ' de ' + elementsToCapture.length);
                 await new Promise(r => setTimeout(r, 200));
-                
-                // CRITICAL PERFORMANCE FIX: Hide all other indicators so html2canvas doesn't clone the entire massive DOM 41 times!
-                if (elementsToCapture.length > 1) {
-                    for (let j = 0; j < elementsToCapture.length; j++) {
-                        (elementsToCapture[j] as HTMLElement).style.display = (i === j) ? 'block' : 'none';
-                    }
-                }
 
                 const element = elementsToCapture[i] as HTMLElement;
                 const originalBg = element.style.backgroundColor;
@@ -136,7 +129,14 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                     scale: 1.2,
                     useCORS: true,
                     logging: false,
-                    windowWidth: 1280
+                    windowWidth: 1280,
+                    ignoreElements: (node) => {
+                        // Ignore other indicator pages to prevent massive DOM cloning
+                        if (node.classList && node.classList.contains('pdf-indicator-page') && node !== element) {
+                            return true;
+                        }
+                        return false;
+                    }
                 });
                 
                 element.style.backgroundColor = originalBg;
@@ -163,13 +163,6 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
         } finally {
             const perfStyle = document.getElementById('pdf-perf-style');
             if (perfStyle) perfStyle.remove();
-            
-            // Restore visibility of all indicators
-            if (elementsToCapture && elementsToCapture.length > 0) {
-                elementsToCapture.forEach(el => {
-                    (el as HTMLElement).style.display = 'block';
-                });
-            }
             
             setIsGeneratingPdf(false);
         }
