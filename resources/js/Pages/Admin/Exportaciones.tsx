@@ -119,20 +119,32 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
 
                 const element = elementsToCapture[i] as HTMLElement;
                 const originalBg = element.style.backgroundColor;
-                const originalWidth = element.style.width;
                 element.style.backgroundColor = '#ffffff';
                 element.style.padding = '20px';
-                // Force a wider layout so tables don't get cut off, effectively creating a "zoom out" effect in the PDF
-                element.style.width = '1400px';
-                element.style.maxWidth = '1400px';
 
-                // We also remove table-responsive overflow to prevent scrollbars from hiding content
+                // Move element to a fixed overlay to break out of all bootstrap container constraints
+                const originalParent = element.parentNode;
+                const originalNextSibling = element.nextSibling;
+                
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '1400px';
+                overlay.style.zIndex = '9999';
+                overlay.style.backgroundColor = '#fff';
+                overlay.style.overflow = 'hidden'; // prevent scrollbars on screen
+                
+                // Remove table-responsive overflow to prevent scrollbars from hiding content
                 const tables = element.querySelectorAll('.table-responsive');
                 const originalOverflows: string[] = [];
                 tables.forEach((t, idx) => {
                     originalOverflows[idx] = (t as HTMLElement).style.overflow;
                     (t as HTMLElement).style.overflow = 'visible';
                 });
+
+                document.body.appendChild(overlay);
+                overlay.appendChild(element);
 
                 // Wait 600ms to allow ApexCharts to resize its SVG to the new 1400px width
                 await new Promise(r => setTimeout(r, 600));
@@ -141,7 +153,7 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                     scale: 1.2,
                     useCORS: true,
                     logging: false,
-                    windowWidth: 1280,
+                    windowWidth: 1400,
                     ignoreElements: (node) => {
                         // Ignore other indicator pages to prevent massive DOM cloning
                         if (node.classList && node.classList.contains('pdf-indicator-page') && node !== element) {
@@ -153,8 +165,14 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                 
                 element.style.backgroundColor = originalBg;
                 element.style.padding = '0';
-                element.style.width = originalWidth;
-                element.style.maxWidth = '';
+                
+                // Put the element back to its original place
+                if (originalNextSibling) {
+                    originalParent?.insertBefore(element, originalNextSibling);
+                } else {
+                    originalParent?.appendChild(element);
+                }
+                document.body.removeChild(overlay);
                 
                 tables.forEach((t, idx) => {
                     (t as HTMLElement).style.overflow = originalOverflows[idx] || '';
