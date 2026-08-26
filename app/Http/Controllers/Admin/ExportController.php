@@ -152,23 +152,94 @@ class ExportController extends Controller
             $indicators = $query->orderBy('clave')->get();
             $sheet->setTitle('Consolidado');
             
-            $headers = ['Misión', 'Año', 'Clave', 'Título', 'Dependencia', 'Es Estratégico', 'Fuente'];
-            $col = 'A';
-            foreach ($headers as $h) {
-                $sheet->setCellValue($col . '1', $h);
-                $col++;
-            }
-            
-            $rowNum = 2;
+            $currentRow = 1;
             foreach ($indicators as $ind) {
-                $sheet->setCellValue('A' . $rowNum, $ind->mision);
-                $sheet->setCellValue('B' . $rowNum, $ind->año);
-                $sheet->setCellValue('C' . $rowNum, $ind->clave);
-                $sheet->setCellValue('D' . $rowNum, $ind->titulo);
-                $sheet->setCellValue('E' . $rowNum, $ind->dependencia);
-                $sheet->setCellValue('F' . $rowNum, $ind->is_estrella ? 'Sí' : 'No');
-                $sheet->setCellValue('G' . $rowNum, $ind->fuente);
-                $rowNum++;
+                // Metadata
+                $sheet->setCellValue('A' . $currentRow, 'Misión:');
+                $sheet->setCellValue('B' . $currentRow, $ind->mision);
+                $currentRow++;
+                $sheet->setCellValue('A' . $currentRow, 'Año:');
+                $sheet->setCellValue('B' . $currentRow, $ind->año);
+                $currentRow++;
+                $sheet->setCellValue('A' . $currentRow, 'Clave:');
+                $sheet->setCellValue('B' . $currentRow, $ind->clave);
+                $currentRow++;
+                $sheet->setCellValue('A' . $currentRow, 'Título:');
+                $sheet->setCellValue('B' . $currentRow, $ind->titulo);
+                $currentRow++;
+                $sheet->setCellValue('A' . $currentRow, 'Fuente:');
+                $sheet->setCellValue('B' . $currentRow, $ind->fuente);
+                $currentRow += 2;
+
+                // Tablas
+                if (!empty($ind->metadata_tabla) && is_array($ind->metadata_tabla)) {
+                    foreach ($ind->metadata_tabla as $tablaData) {
+                        if (isset($tablaData['year'])) {
+                            $sheet->setCellValue('A' . $currentRow, 'Año/Periodo: ' . $tablaData['year']);
+                            $currentRow++;
+                        }
+                        
+                        // Headers
+                        $headers = $tablaData['headers'] ?? [];
+                        if (!empty($headers)) {
+                            $col = 'A';
+                            foreach ($headers as $header) {
+                                $sheet->setCellValue($col . $currentRow, $header);
+                                $col++;
+                            }
+                            $currentRow++;
+                        }
+                        
+                        // Rows
+                        $rows = $tablaData['rows'] ?? [];
+                        if (!empty($rows)) {
+                            foreach ($rows as $rowArray) {
+                                $col = 'A';
+                                if (is_array($rowArray)) {
+                                    foreach ($rowArray as $cell) {
+                                        $sheet->setCellValue($col . $currentRow, $cell);
+                                        $col++;
+                                    }
+                                    $currentRow++;
+                                }
+                            }
+                        }
+                        $currentRow++; // Espacio entre tablas del mismo indicador
+                    }
+                } elseif (!empty($ind->metadata_dinamica) && is_array($ind->metadata_dinamica)) {
+                    // Fallback to metadata_dinamica (for standard simple tables)
+                    $first = reset($ind->metadata_dinamica);
+                    $headers = is_array($first) ? array_keys($first) : [];
+                    
+                    if (!empty($headers)) {
+                        $col = 'A';
+                        foreach ($headers as $header) {
+                            $sheet->setCellValue($col . $currentRow, $header);
+                            $col++;
+                        }
+                        $currentRow++;
+                        
+                        foreach ($ind->metadata_dinamica as $row) {
+                            $col = 'A';
+                            if (is_array($row)) {
+                                foreach ($headers as $header) {
+                                    $val = $row[$header] ?? '';
+                                    $sheet->setCellValue($col . $currentRow, $val);
+                                    $col++;
+                                }
+                                $currentRow++;
+                            }
+                        }
+                    } else {
+                        $sheet->setCellValue('A' . $currentRow, 'No hay datos tabulares estructurados.');
+                        $currentRow++;
+                    }
+                } else {
+                    $sheet->setCellValue('A' . $currentRow, 'No hay datos tabulares estructurados.');
+                    $currentRow++;
+                }
+
+                $currentRow += 3; // Espacio gigante entre indicadores
             }
             
             $filename = 'Exportacion_Global_' . date('Ymd_His') . '.xlsx';
