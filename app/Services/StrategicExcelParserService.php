@@ -86,6 +86,8 @@ class StrategicExcelParserService
             'dependencia'      => $meta['dependencia'],
             'tema_nombre'      => $meta['tema'],
             'subtema_nombre'   => $meta['subtema'],
+            'desglose_municipal' => false,
+            'is_estrella'      => true,
             'tipo_grafica'     => 'bar'
         ];
     }
