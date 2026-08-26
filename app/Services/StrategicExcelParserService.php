@@ -165,11 +165,6 @@ class StrategicExcelParserService
                 continue;
             }
 
-            if ($clave === 'M1-018') {
-                $results[] = $this->parseM1_018($rawGrid, $highestRow, $highestColumnIndex, $year, $mision, $clave, $metadataMap[$clave]);
-                continue;
-            }
-
             $highestRow = $sheet->getHighestRow();
             $highestColumn = $sheet->getHighestColumn();
             $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn);
@@ -181,6 +176,11 @@ class StrategicExcelParserService
                 for ($col = 1; $col <= $highestColumnIndex; $col++) {
                     $rawGrid[$row][$col] = trim((string)$sheet->getCell([$col, $row])->getCalculatedValue());
                 }
+            }
+
+            if ($clave === 'M1-018') {
+                $results[] = $this->parseM1_018($rawGrid, $highestRow, $highestColumnIndex, $year, $mision, $clave, $metadataMap[$clave]);
+                continue;
             }
 
             $mergedData = []; // Keyed by col_1 value (e.g. "El Código de ética")
