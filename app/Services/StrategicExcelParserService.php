@@ -59,7 +59,7 @@ class StrategicExcelParserService
                 }
                 
                 $metadata_dinamica[] = [
-                    'Año' => $currentYear,
+                    'AÃ±o' => $currentYear,
                     'PETICIONES' => $tableTotal
                 ];
                 
@@ -76,7 +76,7 @@ class StrategicExcelParserService
         
         return [
             'clave'            => $clave,
-            'año'              => $year,
+            'aÃ±o'              => $year,
             'mision'           => $mision,
             'metadata_dinamica'=> $metadata_dinamica,
             'metadata_tabla'   => $metadata_tabla,
