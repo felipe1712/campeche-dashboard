@@ -208,33 +208,71 @@ class ExportController extends Controller
                         $currentRow++; // Espacio entre tablas del mismo indicador
                     }
                 } elseif (!empty($ind->metadata_dinamica) && is_array($ind->metadata_dinamica)) {
-                    // Fallback to metadata_dinamica (for standard simple tables)
+                    // Fallback to metadata_dinamica (for standard simple tables or custom M3 tables)
                     $dinamica = $ind->metadata_dinamica;
                     $first = reset($dinamica);
-                    $headers = is_array($first) ? array_keys($first) : [];
                     
-                    if (!empty($headers)) {
-                        $col = 'A';
-                        foreach ($headers as $header) {
-                            $sheet->setCellValue($col . $currentRow, $header);
-                            $col++;
-                        }
-                        $currentRow++;
-                        
-                        foreach ($ind->metadata_dinamica as $row) {
-                            $col = 'A';
-                            if (is_array($row)) {
+                    // Detect if this is actually a complex M3 table stored inside metadata_dinamica
+                    if (is_array($first) && isset($first['headers']) && isset($first['rows'])) {
+                        foreach ($dinamica as $tablaData) {
+                            if (!is_array($tablaData)) continue;
+                            if (isset($tablaData['year'])) {
+                                $sheet->setCellValue('A' . $currentRow, 'Año/Periodo: ' . $tablaData['year']);
+                                $currentRow++;
+                            }
+                            $headers = $tablaData['headers'] ?? [];
+                            if (!empty($headers)) {
+                                $col = 'A';
                                 foreach ($headers as $header) {
-                                    $val = $row[$header] ?? '';
-                                    $sheet->setCellValue($col . $currentRow, $val);
+                                    $sheet->setCellValue($col . $currentRow, $header);
                                     $col++;
                                 }
                                 $currentRow++;
                             }
+                            $rows = $tablaData['rows'] ?? [];
+                            if (!empty($rows)) {
+                                foreach ($rows as $rowArray) {
+                                    $col = 'A';
+                                    if (is_array($rowArray)) {
+                                        foreach ($rowArray as $cell) {
+                                            $sheet->setCellValue($col . $currentRow, is_array($cell) ? json_encode($cell, JSON_UNESCAPED_UNICODE) : $cell);
+                                            $col++;
+                                        }
+                                        $currentRow++;
+                                    }
+                                }
+                            }
+                            $currentRow++; 
                         }
                     } else {
-                        $sheet->setCellValue('A' . $currentRow, 'No hay datos tabulares estructurados.');
-                        $currentRow++;
+                        // Standard flat array structure
+                        $headers = is_array($first) ? array_keys($first) : [];
+                        if (!empty($headers)) {
+                            $col = 'A';
+                            foreach ($headers as $header) {
+                                $sheet->setCellValue($col . $currentRow, $header);
+                                $col++;
+                            }
+                            $currentRow++;
+                            
+                            foreach ($dinamica as $row) {
+                                $col = 'A';
+                                if (is_array($row)) {
+                                    foreach ($headers as $header) {
+                                        $val = $row[$header] ?? '';
+                                        if (is_array($val)) {
+                                            $val = json_encode($val, JSON_UNESCAPED_UNICODE);
+                                        }
+                                        $sheet->setCellValue($col . $currentRow, $val);
+                                        $col++;
+                                    }
+                                    $currentRow++;
+                                }
+                            }
+                        } else {
+                            $sheet->setCellValue('A' . $currentRow, 'No hay datos tabulares estructurados.');
+                            $currentRow++;
+                        }
                     }
                 } else {
                     $sheet->setCellValue('A' . $currentRow, 'No hay datos tabulares estructurados.');
