@@ -186,24 +186,28 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
             const hasTabla = data.metadata_tabla && data.metadata_tabla.length > 0 && data.metadata_tabla[0].headers && data.metadata_tabla[0].rows;
             
             if (hasTabla) {
-                const tabla = data.metadata_tabla[0];
                 return (
                     <div className="table-responsive mt-4">
                         <h6 className="fw-bold mb-3">Datos Tabulares</h6>
-                        <table className="table table-striped table-bordered table-sm" style={{fontSize: '12px'}}>
-                            <thead className="bg-light">
-                                <tr>
-                                    {tabla.headers.map((h: string, i: number) => <th key={i}>{h}</th>)}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {tabla.rows.map((row: any[], i: number) => (
-                                    <tr key={i}>
-                                        {row.map((cell: any, j: number) => <td key={j}>{cell}</td>)}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        {data.metadata_tabla.map((tabla: any, tIdx: number) => (
+                            <div key={tIdx} className="mb-4">
+                                {tabla.year && tabla.year !== 'Todos' && <span className="badge bg-primary mb-2">Año: {tabla.year}</span>}
+                                <table className="table table-striped table-bordered table-sm" style={{fontSize: '12px'}}>
+                                    <thead className="bg-light">
+                                        <tr>
+                                            {tabla.headers.map((h: string, i: number) => <th key={i}>{h}</th>)}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {tabla.rows.map((row: any[], i: number) => (
+                                            <tr key={i}>
+                                                {row.map((cell: any, j: number) => <td key={j}>{cell}</td>)}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ))}
                     </div>
                 );
             }
