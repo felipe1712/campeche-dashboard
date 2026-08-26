@@ -86,7 +86,8 @@ class ExportController extends Controller
             $headers = $indicator->metadata_tabla[0]['headers'] ?? [];
             if (empty($headers)) {
                 if (!empty($indicator->metadata_dinamica) && is_array($indicator->metadata_dinamica) && count($indicator->metadata_dinamica) > 0) {
-                    $first = is_array($indicator->metadata_dinamica) ? reset($indicator->metadata_dinamica) : null;
+                    $dinamica = $indicator->metadata_dinamica;
+                    $first = is_array($dinamica) ? reset($dinamica) : null;
                     if (is_array($first)) {
                         $headers = array_keys($first);
                     }
@@ -208,7 +209,8 @@ class ExportController extends Controller
                     }
                 } elseif (!empty($ind->metadata_dinamica) && is_array($ind->metadata_dinamica)) {
                     // Fallback to metadata_dinamica (for standard simple tables)
-                    $first = reset($ind->metadata_dinamica);
+                    $dinamica = $ind->metadata_dinamica;
+                    $first = reset($dinamica);
                     $headers = is_array($first) ? array_keys($first) : [];
                     
                     if (!empty($headers)) {
