@@ -122,19 +122,20 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                 element.style.backgroundColor = '#ffffff';
                 element.style.padding = '20px';
 
-                // Move element to a fixed overlay to break out of all bootstrap container constraints
-                const originalParent = element.parentNode;
-                const originalNextSibling = element.nextSibling;
+                // Instead of moving to an overlay, we will force the Bootstrap container to be 1400px
+                const originalWidth = element.style.width;
+                const originalMaxWidth = element.style.maxWidth;
+                element.style.width = '1400px';
+                element.style.maxWidth = '1400px';
                 
-                const overlay = document.createElement('div');
-                overlay.style.position = 'fixed';
-                overlay.style.top = '0';
-                overlay.style.left = '0';
-                overlay.style.width = '1400px';
-                overlay.style.zIndex = '9999';
-                overlay.style.backgroundColor = '#fff';
-                overlay.style.overflow = 'hidden'; // prevent scrollbars on screen
-                
+                // Find the parent column (e.g. col-lg-8) and force it to wrap this huge width
+                let colContainer = element.closest('.col-lg-8') as HTMLElement;
+                let originalColOverflow = '';
+                if (colContainer) {
+                    originalColOverflow = colContainer.style.overflow;
+                    colContainer.style.overflow = 'visible';
+                }
+
                 // Remove table-responsive overflow to prevent scrollbars from hiding content
                 const tables = element.querySelectorAll('.table-responsive');
                 const originalOverflows: string[] = [];
@@ -143,14 +144,14 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                     (t as HTMLElement).style.overflow = 'visible';
                 });
 
-                document.body.appendChild(overlay);
-                overlay.appendChild(element);
+                // Force window resize event so ApexCharts reacts immediately
+                window.dispatchEvent(new Event('resize'));
 
-                // Wait 600ms to allow ApexCharts to resize its SVG to the new 1400px width
-                await new Promise(r => setTimeout(r, 600));
+                // Wait 800ms to allow ApexCharts to resize its SVG to the new 1400px width
+                await new Promise(r => setTimeout(r, 800));
 
                 const canvas = await html2canvas(element, { 
-                    scale: 1.2,
+                    scale: 1.3,
                     useCORS: true,
                     logging: false,
                     windowWidth: 1400,
@@ -166,13 +167,11 @@ export default function Exportaciones({ años, misiones, indicatorsList }: Props
                 element.style.backgroundColor = originalBg;
                 element.style.padding = '0';
                 
-                // Put the element back to its original place
-                if (originalNextSibling) {
-                    originalParent?.insertBefore(element, originalNextSibling);
-                } else {
-                    originalParent?.appendChild(element);
+                element.style.width = originalWidth;
+                element.style.maxWidth = originalMaxWidth;
+                if (colContainer) {
+                    colContainer.style.overflow = originalColOverflow;
                 }
-                document.body.removeChild(overlay);
                 
                 tables.forEach((t, idx) => {
                     (t as HTMLElement).style.overflow = originalOverflows[idx] || '';
