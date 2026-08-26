@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { useForm } from '@inertiajs/react';
-import { Transition } from '@headlessui/react';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 
 export default function UpdatePasswordForm({ className = '' }) {
@@ -35,17 +34,17 @@ export default function UpdatePasswordForm({ className = '' }) {
 
     return (
         <React.Fragment>
-            <Col>
-                <h2 >Update Password</h2>
+            <Col className="mt-4">
+                <h2 className="mb-3">Actualizar Contraseña</h2>
                 <Card>
-                    <p className="text-muted p-2">
-                        Ensure your account is using a long, random password to stay secure.
+                    <p className="text-muted p-3 mb-0 pb-0">
+                        Asegúrate de que tu cuenta esté usando una contraseña larga y aleatoria para mantenerse segura.
                     </p>
                     <Card.Body>
                         <Form onSubmit={updatePassword} className="mt-6 space-y-6">
                             <Row>
                                 <Col lg={6}>
-                                    <Form.Label htmlFor="current_password" value="Current Password" className='form-label'> Current Password</Form.Label>
+                                    <Form.Label htmlFor="current_password" value="Current Password" className='form-label'> Contraseña Actual</Form.Label>
 
                                     <Form.Control
                                         id="current_password"
@@ -57,11 +56,10 @@ export default function UpdatePasswordForm({ className = '' }) {
                                         autoComplete="current-password"
                                     />
                                     <Form.Control.Feedback type="invalid" className='d-block'> {errors.current_password} </Form.Control.Feedback>
-                                    {/* <InputError message={errors.current_password} className="mt-2" /> */}
                                 </Col>
 
                                 <Col lg={6}>
-                                    <Form.Label htmlFor="password" value="New Password">New Password</Form.Label>
+                                    <Form.Label htmlFor="password" value="New Password">Nueva Contraseña</Form.Label>
 
                                     <Form.Control
                                         id="password"
@@ -73,12 +71,11 @@ export default function UpdatePasswordForm({ className = '' }) {
                                         autoComplete="new-password"
                                     />
                                     <Form.Control.Feedback type="invalid" className='d-block'> {errors.password} </Form.Control.Feedback>
-                                    {/* <InputError message={errors.password} className="mt-2" /> */}
                                 </Col>
                             </Row>
 
-                            <Col lg={6}>
-                                <Form.Label htmlFor="password_confirmation" value="Confirm Password" className="mt-2">Confirm Password</Form.Label>
+                            <Col lg={6} className="mt-3">
+                                <Form.Label htmlFor="password_confirmation" value="Confirm Password">Confirmar Contraseña</Form.Label>
 
                                 <Form.Control
                                     id="password_confirmation"
@@ -89,21 +86,14 @@ export default function UpdatePasswordForm({ className = '' }) {
                                     autoComplete="new-password"
                                 />
                                 <Form.Control.Feedback type="invalid" className='d-block'> {errors.password_confirmation} </Form.Control.Feedback>
-                                {/* <InputError message={errors.password_confirmation} className="mt-2" /> */}
                             </Col>
 
-                            <div className="flex items-center gap-4 mt-3">
-                                <Button variant='success' disabled={processing} type='submit' className='btn btn-success'>Save</Button>
+                            <div className="d-flex align-items-center gap-4 mt-4">
+                                <Button variant='success' disabled={processing} type='submit' className='btn btn-success'>Guardar Contraseña</Button>
 
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    {/* <p className="text-sm text-gray-600 dark:text-gray-400">Saved.</p> */}
-                                </Transition>
+                                {recentlySuccessful && (
+                                    <p className="text-sm text-success mb-0 ms-3 fw-bold">¡Contraseña actualizada!</p>
+                                )}
                             </div>
                         </Form>
                     </Card.Body>
