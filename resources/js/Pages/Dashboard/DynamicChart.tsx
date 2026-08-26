@@ -254,12 +254,28 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
         );
     }, [indicatorTitulo]);
 
-    if (!isM3Custom && (!validData.length || !categoryKey)) {
-        return (
-            <div className="alert alert-info py-1 px-2 mb-2" style={{ fontSize: '12px' }}>
-                <i className="ri-information-line me-1" /> Sin datos graficables.
-            </div>
-        );
+    if (indicatorTitulo && indicatorTitulo.includes('canalizadas a los distintos niveles')) {
+        if (!isM3Custom && (!validData.length || !categoryKey)) {
+            return (
+                <div className="alert alert-danger py-1 px-2 mb-2" style={{ fontSize: '12px' }}>
+                    <strong>Debug M1-018:</strong> No hay datos.
+                    <br/>dynamicData: {JSON.stringify(dynamicData)}
+                    <br/>metadataTabla: {JSON.stringify(metadataTabla ? true : false)}
+                    <br/>categoryKey: {String(categoryKey)}
+                    <br/>parsedStructure: {JSON.stringify(parsedStructure)}
+                    <br/>uniqueSubCats: {JSON.stringify(uniqueSubCats)}
+                    <br/>isM3Custom: {String(isM3Custom)}
+                </div>
+            );
+        }
+    } else {
+        if (!isM3Custom && (!validData.length || !categoryKey)) {
+            return (
+                <div className="alert alert-info py-1 px-2 mb-2" style={{ fontSize: '12px' }}>
+                    <i className="ri-information-line me-1" /> Sin datos graficables.
+                </div>
+            );
+        }
     }
 
     // Palette handling
@@ -369,7 +385,12 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
             ? seriesKeys 
             : seriesKeys.filter(p => p.year === selectedYear);
 
-        if (filteredSeriesKeys.length === 0) return null;
+        if (filteredSeriesKeys.length === 0) {
+            if (indicatorTitulo && indicatorTitulo.includes('canalizadas a los distintos niveles')) {
+                return <div className="alert alert-danger">Debug M1-018: filteredSeriesKeys vacio. seriesKeys: {JSON.stringify(seriesKeys)}</div>;
+            }
+            return null;
+        }
 
         const isPie = chartType === 'pie' || chartType === 'donut';
         
