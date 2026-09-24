@@ -142,7 +142,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         }
 
         const years = new Set<string>();
-        let yearKey = dataKeys.find(k => k === 'Ao' || k === 'Ao' || k === 'Año' || k === 'A\u00f1o');
+        let yearKey = dataKeys.find(k => { const up = String(k).toUpperCase(); return up === 'AÑO' || up === 'A\u00D1O' || up === 'ANO' || up === 'YEAR' || (up.startsWith('A') && up.endsWith('O') && up.length === 3); });
         const hasPerRowYear = yearKey && categoryKey !== yearKey;
 
         if (hasPerRowYear && yearKey) {
@@ -197,7 +197,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
             let hasData = false;
 
             rows.forEach((r: any) => {
-                if (hasPerRowYear && yearKey && selectedYear !== 'Todos') {
+                if (hasPerRowYear && yearKey && selectedYear !== 'Todos' && queryMision !== '4') {
                     if (String(r[yearKey]) !== selectedYear) return;
                 }
 
@@ -280,7 +280,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                 {parsedData && selectedIndicator ? (
                     <React.Fragment>
                         <Row className="mb-4 align-items-center">
-                            {parsedData.years.length > 0 && (
+                            {parsedData.years.length > 0 && queryMision !== '4' && (
                                 <Col md="auto" className="mb-3 mb-md-0">
                                     <div className="d-flex align-items-center flex-wrap gap-2">
                                         <h6 className="fw-bold mb-0 me-2">Filtrar por Año:</h6>
