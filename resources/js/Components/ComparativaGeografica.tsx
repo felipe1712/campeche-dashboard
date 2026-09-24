@@ -72,6 +72,9 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                         table.headers.forEach((h: string, i: number) => {
                             obj[h] = rowArr[i];
                         });
+                        if (table.title && !obj['Año'] && !obj['Ao'] && !obj['Ao'] && !obj['A\u00f1o']) {
+                            obj['Año'] = table.title;
+                        }
                         flattened.push(obj);
                     });
                 }
@@ -109,7 +112,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         }
 
         const years = new Set<string>();
-        let yearKey = dataKeys.find(k => k === 'Ao' || k === 'Año' || k === 'Ao');
+        let yearKey = dataKeys.find(k => k === 'Ao' || k === 'Ao' || k === 'Año' || k === 'A\u00f1o');
         const hasPerRowYear = yearKey && categoryKey !== yearKey;
 
         if (hasPerRowYear && yearKey) {
@@ -119,9 +122,27 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
             if (years.size > 1 && years.has('General')) years.delete('General');
         }
 
-        const subCats = orderedKeys.filter(k => k !== categoryKey && k !== yearKey && !k.toLowerCase().includes('total') && !k.startsWith('col_'));
+        let subCats = orderedKeys.filter(k => k !== categoryKey && k !== yearKey && !k.toLowerCase().includes('total') && !k.startsWith('col_'));
+        let customGroups: Record<string, string[]> | null = null;
 
-        return { dynamicData, categoryKey, years: Array.from(years).sort(), subCats, hasPerRowYear, yearKey };
+        const title = selectedIndicator.titulo || '';
+        if (title.includes('Jaguar') || title.includes('stiles Jaguar')) {
+            customGroups = {
+                'Localidades y Escuelas': ['Localidad', 'Escuela'],
+                'Beneficiarios': ['Nias', 'Nios', 'Niñas', 'Niños']
+            };
+        } else if (title.toLowerCase().includes('raciones alimentarias')) {
+            customGroups = {
+                'Raciones Distribuidas': ['RACION', 'RACIN', 'RACIÓN'],
+                'Número de beneficiarios': ['BENEFICIARIO']
+            };
+        }
+
+        if (customGroups) {
+            subCats = Object.keys(customGroups);
+        }
+
+        return { dynamicData, categoryKey, years: Array.from(years).sort(), subCats, customGroups, hasPerRowYear, yearKey };
     }, [selectedIndicator]);
 
     const heatmapData = useMemo(() => {
@@ -153,15 +174,25 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                 parsedData.subCats.forEach((sc: string) => {
                     if (selectedSubCat !== 'Todos' && sc !== selectedSubCat) return;
                     
-                    const rawVal = r[sc];
-                    if (rawVal !== null && rawVal !== undefined && rawVal !== '') {
-                        const cleanVal = typeof rawVal === 'string' ? String(rawVal).replace(/,/g, '').trim() : rawVal;
-                        const num = Number(cleanVal);
-                        if (!isNaN(num)) {
-                            sum += num;
-                            hasData = true;
-                        }
+                    let keysToSum = [sc];
+                    if (parsedData.customGroups && parsedData.customGroups[sc]) {
+                        keysToSum = parsedData.customGroups[sc];
                     }
+
+                    keysToSum.forEach(searchKey => {
+                        const actualKey = Object.keys(r).find(k => k.toUpperCase().includes(searchKey.toUpperCase()));
+                        if (actualKey) {
+                            const rawVal = r[actualKey];
+                            if (rawVal !== null && rawVal !== undefined && rawVal !== '') {
+                                const cleanVal = typeof rawVal === 'string' ? String(rawVal).replace(/,/g, '').trim() : rawVal;
+                                const num = Number(cleanVal);
+                                if (!isNaN(num)) {
+                                    sum += num;
+                                    hasData = true;
+                                }
+                            }
+                        }
+                    });
                 });
             });
 
