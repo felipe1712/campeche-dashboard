@@ -9,9 +9,11 @@ interface HeatmapData {
 
 interface CampecheHeatmapProps {
     data: HeatmapData[];
+    selectedMunicipio?: string | null;
+    onMunicipioSelect?: (name: string | null) => void;
 }
 
-const CampecheHeatmap: React.FC<CampecheHeatmapProps> = ({ data }) => {
+const CampecheHeatmap: React.FC<CampecheHeatmapProps> = ({ data, selectedMunicipio, onMunicipioSelect }) => {
     const [mapLoaded, setMapLoaded] = useState(false);
 
     useEffect(() => {
@@ -74,6 +76,7 @@ const CampecheHeatmap: React.FC<CampecheHeatmapProps> = ({ data }) => {
                 roam: true,
                 center: [-90.4, 19.3], // Approximate geographic center of Campeche
                 zoom: 3.5,
+                selectedMode: 'single',
                 itemStyle: {
                     borderColor: '#adb5bd',
                     borderWidth: 1
@@ -85,6 +88,19 @@ const CampecheHeatmap: React.FC<CampecheHeatmapProps> = ({ data }) => {
                         shadowBlur: 10,
                         borderWidth: 0,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    },
+                    label: {
+                        show: true,
+                        color: '#000',
+                        fontWeight: 'bold'
+                    }
+                },
+                select: {
+                    itemStyle: {
+                        borderColor: '#212529',
+                        borderWidth: 3,
+                        shadowColor: 'rgba(0,0,0,0.5)',
+                        shadowBlur: 10
                     },
                     label: {
                         show: true,
@@ -104,11 +120,13 @@ const CampecheHeatmap: React.FC<CampecheHeatmapProps> = ({ data }) => {
                         value: null,
                         itemStyle: { areaColor: '#f8fafc', borderColor: '#e2e8f0', borderWidth: 1 },
                         emphasis: { itemStyle: { areaColor: '#f8fafc', shadowBlur: 0 } },
+                        select: { disabled: true },
                         label: { show: true, color: '#94a3b8', fontSize: 12, fontWeight: 'bold' }
                     })),
                     ...data.map(d => ({
                         name: d.name,
                         value: d.value,
+                        selected: selectedMunicipio === d.name,
                         itemStyle: d.value === null || isNaN(d.value) ? { areaColor: '#e9ecef' } : undefined
                     }))
                 ],
@@ -133,11 +151,26 @@ const CampecheHeatmap: React.FC<CampecheHeatmapProps> = ({ data }) => {
         ]
     };
 
+    const onEvents = {
+        click: (params: any) => {
+            if (!onMunicipioSelect) return;
+            if (['Yucatǭn', 'Quintana Roo', 'Tabasco', 'Chiapas', 'Golfo de MǸxico'].includes(params.name)) return;
+            if (params.name) {
+                if (selectedMunicipio === params.name) {
+                    onMunicipioSelect(null);
+                } else {
+                    onMunicipioSelect(params.name);
+                }
+            }
+        }
+    };
+
     return (
         <div style={{ width: '100%', height: '500px', backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
             <ReactECharts 
                 option={options} 
                 style={{ height: '100%', width: '100%' }} 
+                onEvents={onEvents}
             />
         </div>
     );

@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Card, Col, Row, Form, Button } from 'react-bootstrap';
 import { router, usePage } from '@inertiajs/react';
 import CampecheHeatmap from './CampecheHeatmap';
+import DynamicChart from '../Pages/Dashboard/DynamicChart';
 
 export default function ComparativaGeografica({ indicators }: { indicators: any[] }) {
     const { url } = usePage();
@@ -20,6 +21,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
     const [selectedIndicatorId, setSelectedIndicatorId] = useState<number | ''>('');
     const [selectedYear, setSelectedYear] = useState<string>('Todos');
     const [selectedSubCat, setSelectedSubCat] = useState<string>('Todos');
+    const [selectedMunicipio, setSelectedMunicipio] = useState<string | null>(null);
 
     const handleMisionChange = (val: string) => {
         setSelectedIndicatorId(''); // Reset selected indicator
@@ -30,14 +32,17 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
     useEffect(() => {
         setSelectedYear('Todos');
         setSelectedSubCat('Todos');
+        setSelectedMunicipio(null);
     }, [selectedIndicatorId]);
 
-    const parsedData = useMemo(() => {
-        if (!selectedIndicatorId) return null;
-        const ind = indicators.find(i => i.id === selectedIndicatorId);
-        if (!ind) return null;
+    const selectedIndicator = useMemo(() => {
+        return indicators.find(i => i.id === selectedIndicatorId) || null;
+    }, [selectedIndicatorId, indicators]);
 
-        const dynamicData = ind.metadata_dinamica || ind.metadata_tabla_global || [];
+    const parsedData = useMemo(() => {
+        if (!selectedIndicator) return null;
+
+        const dynamicData = selectedIndicator.metadata_dinamica || selectedIndicator.metadata_tabla_global || [];
         if (!Array.isArray(dynamicData) || dynamicData.length === 0) return null;
 
         // Ensure we are working with a flat structure
@@ -47,8 +52,8 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
 
         const dataKeys = Object.keys(dynamicData[0]);
         let orderedKeys = dataKeys;
-        if (ind.metadata_tabla && ind.metadata_tabla.length > 0 && ind.metadata_tabla[0].headers) {
-            orderedKeys = ind.metadata_tabla[0].headers.filter((h: string) => dataKeys.includes(h));
+        if (selectedIndicator.metadata_tabla && selectedIndicator.metadata_tabla.length > 0 && selectedIndicator.metadata_tabla[0].headers) {
+            orderedKeys = selectedIndicator.metadata_tabla[0].headers.filter((h: string) => dataKeys.includes(h));
             for (const dk of dataKeys) {
                 if (!orderedKeys.includes(dk)) orderedKeys.push(dk);
             }
@@ -74,7 +79,6 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         }
 
         const years = new Set<string>();
-        // Watch out for encoding issues with 'Año'
         let yearKey = dataKeys.find(k => k === 'Ao' || k === 'Año' || k === 'Ao');
         const hasPerRowYear = yearKey && categoryKey !== yearKey;
 
@@ -85,10 +89,10 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
             if (years.size > 1 && years.has('General')) years.delete('General');
         }
 
-        const subCats = orderedKeys.filter(k => k !== categoryKey && k !== yearKey && !k.toLowerCase().includes('total'));
+        const subCats = orderedKeys.filter(k => k !== categoryKey && k !== yearKey && !k.toLowerCase().includes('total') && !k.startsWith('col_'));
 
         return { dynamicData, categoryKey, years: Array.from(years).sort(), subCats, hasPerRowYear, yearKey };
-    }, [selectedIndicatorId, indicators]);
+    }, [selectedIndicator]);
 
     const heatmapData = useMemo(() => {
         if (!parsedData) return [];
@@ -150,9 +154,12 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                                 onChange={(e) => handleMisionChange(e.target.value)}
                                 size="lg"
                             >
-                                {Object.entries(missions || {}).map(([num, name]: any) => (
-                                    <option key={num} value={num}>Misión {num}: {name}</option>
-                                ))}
+                                {Object.entries(missions || {}).map(([num, name]: any) => {
+                                    const title = typeof name === 'string' && name.toLowerCase().includes('misión') 
+                                        ? name 
+                                        : `Misión ${num}: ${name}`;
+                                    return <option key={num} value={num}>{title}</option>;
+                                })}
                             </Form.Select>
                         </Form.Group>
                     </Col>
@@ -165,75 +172,100 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                                 size="lg"
                             >
                                 <option value="">-- Seleccionar --</option>
-                                {indicators.map(ind => (
-                                    <option key={ind.id} value={ind.id}>
-                                        {ind.clave} - {ind.titulo}
-                                    </option>
-                                ))}
+                                {indicators.map(ind => {
+                                    const title = ind.titulo.toLowerCase().startsWith('indicador') || ind.titulo.includes(ind.clave)
+                                        ? ind.titulo
+                                        : `${ind.clave} - ${ind.titulo}`;
+                                    return (
+                                        <option key={ind.id} value={ind.id}>
+                                            {title}
+                                        </option>
+                                    );
+                                })}
                             </Form.Select>
                         </Form.Group>
                     </Col>
                 </Row>
 
-                {parsedData ? (
-                    <Row>
-                        <Col lg={4} className="mb-4">
-                            {parsedData.years.length > 0 && (
-                                <div className="mb-4">
-                                    <h6 className="fw-bold mb-3">Filtrar por Año</h6>
-                                    <div className="d-flex flex-wrap gap-2">
-                                        <Button 
-                                            variant={selectedYear === 'Todos' ? 'primary' : 'outline-primary'} 
-                                            size="sm"
-                                            onClick={() => setSelectedYear('Todos')}
-                                        >
-                                            Sumatoria (Todos)
-                                        </Button>
-                                        {parsedData.years.map(y => (
+                {parsedData && selectedIndicator ? (
+                    <React.Fragment>
+                        <Row className="mb-4">
+                            <Col lg={12}>
+                                {parsedData.years.length > 0 && (
+                                    <div className="mb-3">
+                                        <h6 className="fw-bold mb-2">Filtrar por Año:</h6>
+                                        <div className="d-flex flex-wrap gap-2">
                                             <Button 
-                                                key={y}
-                                                variant={selectedYear === y ? 'primary' : 'outline-primary'} 
+                                                variant={selectedYear === 'Todos' ? 'primary' : 'outline-primary'} 
                                                 size="sm"
-                                                onClick={() => setSelectedYear(y)}
+                                                onClick={() => setSelectedYear('Todos')}
                                             >
-                                                {y}
+                                                Sumatoria (Todos)
                                             </Button>
-                                        ))}
+                                            {parsedData.years.map(y => (
+                                                <Button 
+                                                    key={y}
+                                                    variant={selectedYear === y ? 'primary' : 'outline-primary'} 
+                                                    size="sm"
+                                                    onClick={() => setSelectedYear(y)}
+                                                >
+                                                    {y}
+                                                </Button>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
 
-                            {parsedData.subCats.length > 1 && (
-                                <div>
-                                    <h6 className="fw-bold mb-3">Filtrar por Categoría / Acción</h6>
-                                    <div className="d-flex flex-column gap-2">
-                                        <Button 
-                                            variant={selectedSubCat === 'Todos' ? 'primary' : 'outline-primary'} 
-                                            size="sm"
-                                            className="text-start"
-                                            onClick={() => setSelectedSubCat('Todos')}
-                                        >
-                                            Sumatoria de todas las acciones
-                                        </Button>
-                                        {parsedData.subCats.map(sc => (
+                                {parsedData.subCats.length > 1 && (
+                                    <div>
+                                        <h6 className="fw-bold mb-2">Filtrar por Categoría / Acción:</h6>
+                                        <div className="d-flex flex-wrap gap-2">
                                             <Button 
-                                                key={sc}
-                                                variant={selectedSubCat === sc ? 'primary' : 'outline-primary'} 
+                                                variant={selectedSubCat === 'Todos' ? 'primary' : 'outline-primary'} 
                                                 size="sm"
-                                                className="text-start"
-                                                onClick={() => setSelectedSubCat(sc)}
+                                                onClick={() => setSelectedSubCat('Todos')}
                                             >
-                                                {sc}
+                                                Sumatoria de todas las acciones
                                             </Button>
-                                        ))}
+                                            {parsedData.subCats.map(sc => (
+                                                <Button 
+                                                    key={sc}
+                                                    variant={selectedSubCat === sc ? 'primary' : 'outline-primary'} 
+                                                    size="sm"
+                                                    onClick={() => setSelectedSubCat(sc)}
+                                                >
+                                                    {sc}
+                                                </Button>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </Col>
-                        <Col lg={8}>
-                            <CampecheHeatmap data={heatmapData} />
-                        </Col>
-                    </Row>
+                                )}
+                            </Col>
+                        </Row>
+                        
+                        <Row>
+                            <Col lg={6} className="mb-4 mb-lg-0">
+                                <h6 className="fw-bold text-center mb-3">Distribución Geográfica</h6>
+                                <CampecheHeatmap 
+                                    data={heatmapData} 
+                                    selectedMunicipio={selectedMunicipio}
+                                    onMunicipioSelect={setSelectedMunicipio}
+                                />
+                                <p className="text-muted text-center mt-2 small">Da clic en un municipio para ver el detalle en la gráfica</p>
+                            </Col>
+                            <Col lg={6}>
+                                <h6 className="fw-bold text-center mb-3">
+                                    {selectedMunicipio ? `Detalle de ${selectedMunicipio}` : 'Detalle Estatal'}
+                                </h6>
+                                <DynamicChart 
+                                    dynamicData={selectedIndicator.metadata_dinamica || selectedIndicator.metadata_tabla_global || []} 
+                                    metadataTabla={selectedIndicator.metadata_tabla || []}
+                                    indicatorTitulo={selectedIndicator.titulo}
+                                    selectedMunicipio={selectedMunicipio}
+                                />
+                            </Col>
+                        </Row>
+                    </React.Fragment>
                 ) : selectedIndicatorId ? (
                     <div className="alert alert-warning">
                         El indicador seleccionado no cuenta con datos tabulares compatibles o estructurados para la vista de mapa de calor.
