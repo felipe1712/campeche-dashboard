@@ -152,7 +152,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
             if (years.size > 1 && years.has('General')) years.delete('General');
         }
 
-        let subCats = orderedKeys.filter(k => k !== categoryKey && k !== yearKey && !String(k).toLowerCase().includes('total') && !String(k).startsWith('col_') && isNaN(Number(k)));
+        let subCats = orderedKeys.filter(k => k !== categoryKey && k !== yearKey && !String(k).toLowerCase().includes('total') && !String(k).startsWith('col_') && !(queryMision === '5' && !isNaN(Number(k)) && String(k).length > 4));
         let customGroups: Record<string, string[]> | null = null;
 
         const title = selectedIndicator.titulo || '';
@@ -334,7 +334,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                             {parsedData.subCats.length > 1 && (
                                 <Col md="auto">
                                     <div className="d-flex align-items-center flex-wrap gap-2">
-                                        <h6 className="fw-bold mb-0 me-2">Filtrar por Categoría / Acción:</h6>
+                                        <h6 className="fw-bold mb-0 me-2">{parsedData.subCats.every((sc: string) => /^\d{4}$/.test(sc)) ? 'Filtrar por Año:' : 'Filtrar por Categoría / Acción:'}</h6>
                                         <Button 
                                             variant={selectedSubCat === 'Todos' ? 'primary' : 'outline-primary'} 
                                             size="sm"
