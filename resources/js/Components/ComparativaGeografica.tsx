@@ -279,58 +279,56 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
 
                 {parsedData && selectedIndicator ? (
                     <React.Fragment>
-                        <Row className="mb-4">
-                            <Col lg={12}>
-                                {parsedData.years.length > 0 && (
-                                    <div className="mb-3">
-                                        <h6 className="fw-bold mb-2">Filtrar por Año:</h6>
-                                        <div className="d-flex flex-wrap gap-2">
+                        <Row className="mb-4 align-items-center">
+                            {parsedData.years.length > 0 && (
+                                <Col md="auto" className="mb-3 mb-md-0">
+                                    <div className="d-flex align-items-center flex-wrap gap-2">
+                                        <h6 className="fw-bold mb-0 me-2">Filtrar por Año:</h6>
+                                        <Button 
+                                            variant={selectedYear === 'Todos' ? 'primary' : 'outline-primary'} 
+                                            size="sm"
+                                            onClick={() => setSelectedYear('Todos')}
+                                        >
+                                            Sumatoria (Todos)
+                                        </Button>
+                                        {parsedData.years.map(y => (
                                             <Button 
-                                                variant={selectedYear === 'Todos' ? 'primary' : 'outline-primary'} 
+                                                key={y}
+                                                variant={selectedYear === y ? 'primary' : 'outline-primary'} 
                                                 size="sm"
-                                                onClick={() => setSelectedYear('Todos')}
+                                                onClick={() => setSelectedYear(y)}
                                             >
-                                                Sumatoria (Todos)
+                                                {y}
                                             </Button>
-                                            {parsedData.years.map(y => (
-                                                <Button 
-                                                    key={y}
-                                                    variant={selectedYear === y ? 'primary' : 'outline-primary'} 
-                                                    size="sm"
-                                                    onClick={() => setSelectedYear(y)}
-                                                >
-                                                    {y}
-                                                </Button>
-                                            ))}
-                                        </div>
+                                        ))}
                                     </div>
-                                )}
+                                </Col>
+                            )}
 
-                                {parsedData.subCats.length > 1 && (
-                                    <div>
-                                        <h6 className="fw-bold mb-2">Filtrar por Categoría / Acción:</h6>
-                                        <div className="d-flex flex-wrap gap-2">
+                            {parsedData.subCats.length > 1 && (
+                                <Col md="auto">
+                                    <div className="d-flex align-items-center flex-wrap gap-2">
+                                        <h6 className="fw-bold mb-0 me-2">Filtrar por Categoría / Acción:</h6>
+                                        <Button 
+                                            variant={selectedSubCat === 'Todos' ? 'primary' : 'outline-primary'} 
+                                            size="sm"
+                                            onClick={() => setSelectedSubCat('Todos')}
+                                        >
+                                            Sumatoria de todas las acciones
+                                        </Button>
+                                        {parsedData.subCats.map(sc => (
                                             <Button 
-                                                variant={selectedSubCat === 'Todos' ? 'primary' : 'outline-primary'} 
+                                                key={sc}
+                                                variant={selectedSubCat === sc ? 'primary' : 'outline-primary'} 
                                                 size="sm"
-                                                onClick={() => setSelectedSubCat('Todos')}
+                                                onClick={() => setSelectedSubCat(sc)}
                                             >
-                                                Sumatoria de todas las acciones
+                                                {sc}
                                             </Button>
-                                            {parsedData.subCats.map(sc => (
-                                                <Button 
-                                                    key={sc}
-                                                    variant={selectedSubCat === sc ? 'primary' : 'outline-primary'} 
-                                                    size="sm"
-                                                    onClick={() => setSelectedSubCat(sc)}
-                                                >
-                                                    {sc}
-                                                </Button>
-                                            ))}
-                                        </div>
+                                        ))}
                                     </div>
-                                )}
-                            </Col>
+                                </Col>
+                            )}
                         </Row>
                         
                         <Row>
@@ -357,9 +355,8 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                         </Row>
                     </React.Fragment>
                 ) : indicators.length === 0 ? (
-                    <div className="text-center p-5 bg-light rounded text-muted">
-                        <i className="ri-error-warning-line fs-1 mb-2 d-block"></i>
-                        Misión sin indicadores para mostrar geográficamente
+                    <div className="text-center p-5 bg-light rounded text-muted my-5">
+                        <h4 className="fw-bold text-secondary">Misión sin indicadores para mostrar geográficamente</h4>
                     </div>
                 ) : selectedIndicatorId ? (
                     <div className="alert alert-warning">
