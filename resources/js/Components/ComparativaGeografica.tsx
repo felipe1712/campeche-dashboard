@@ -18,15 +18,26 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         }
     }, [url]);
 
-    const [selectedIndicatorId, setSelectedIndicatorId] = useState<number | ''>('');
+    const [selectedIndicatorId, setSelectedIndicatorId] = useState<number | ''>(indicators.length > 0 ? indicators[0].id : '');
     const [selectedYear, setSelectedYear] = useState<string>('Todos');
     const [selectedSubCat, setSelectedSubCat] = useState<string>('Todos');
     const [selectedMunicipio, setSelectedMunicipio] = useState<string | null>(null);
 
     const handleMisionChange = (val: string) => {
-        setSelectedIndicatorId(''); // Reset selected indicator
         router.get(window.location.pathname, { mision: val }, { preserveState: true, preserveScroll: true });
     };
+
+    // Auto-select first indicator when mission changes and reset filters
+    useEffect(() => {
+        if (indicators.length > 0) {
+            const exists = indicators.find(i => i.id === selectedIndicatorId);
+            if (!exists) {
+                setSelectedIndicatorId(indicators[0].id);
+            }
+        } else {
+            setSelectedIndicatorId('');
+        }
+    }, [indicators]);
 
     // Reset filters when indicator changes
     useEffect(() => {
@@ -43,6 +54,12 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         if (!selectedIndicator) return null;
 
         let dynamicData = selectedIndicator.metadata_dinamica || selectedIndicator.metadata_tabla_global || [];
+        
+        // If empty, check if it's an M3 indicator that stores its data in metadata_tabla
+        if ((!dynamicData || dynamicData.length === 0) && selectedIndicator.metadata_tabla && selectedIndicator.metadata_tabla.length > 0) {
+            dynamicData = selectedIndicator.metadata_tabla;
+        }
+
         if (!Array.isArray(dynamicData) || dynamicData.length === 0) return null;
 
         // Flatten nested complex tables (like those in M3)

@@ -34,7 +34,7 @@ export default function LandingComparativa({ indicators = [], filters = {} }: an
                     <div className="collapse navbar-collapse d-flex ms-4">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 fw-bold">
                             <li className="nav-item me-3">
-                                <Link className="nav-link" href={route('landing.index')}>Inicio</Link>
+                                <Link className="nav-link text-dark" href={route('landing.index')}>Inicio</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link active text-primary" aria-current="page" href={route('landing.comparativa')}>Comparativa Geográfica</Link>

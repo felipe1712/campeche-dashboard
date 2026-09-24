@@ -65,7 +65,7 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                 <Link className="nav-link active text-primary" aria-current="page" href={route('landing.index')}>Inicio</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" href={route('landing.comparativa')}>Comparativa Geográfica</Link>
+                                <Link className="nav-link text-dark" href={route('landing.comparativa')}>Comparativa Geográfica</Link>
                             </li>
                         </ul>
                     </div>
