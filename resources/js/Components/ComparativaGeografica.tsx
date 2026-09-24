@@ -42,15 +42,28 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
     const parsedData = useMemo(() => {
         if (!selectedIndicator) return null;
 
-        const dynamicData = selectedIndicator.metadata_dinamica || selectedIndicator.metadata_tabla_global || [];
+        let dynamicData = selectedIndicator.metadata_dinamica || selectedIndicator.metadata_tabla_global || [];
         if (!Array.isArray(dynamicData) || dynamicData.length === 0) return null;
 
-        // Ensure we are working with a flat structure
+        // Flatten nested complex tables (like those in M3)
         if (dynamicData[0] && typeof dynamicData[0] === 'object' && ('headers' in dynamicData[0] || 'rows' in dynamicData[0])) {
-            return null; // Custom M3 complex tables not supported generically yet
+            let flattened: any[] = [];
+            dynamicData.forEach((table: any) => {
+                if (table.headers && table.rows) {
+                    table.rows.forEach((rowArr: any[]) => {
+                        let obj: any = {};
+                        table.headers.forEach((h: string, i: number) => {
+                            obj[h] = rowArr[i];
+                        });
+                        flattened.push(obj);
+                    });
+                }
+            });
+            dynamicData = flattened;
+            if (dynamicData.length === 0) return null;
         }
 
-        const dataKeys = Object.keys(dynamicData[0]);
+        const dataKeys = Array.from(new Set(dynamicData.flatMap(r => Object.keys(r))));
         let orderedKeys = dataKeys;
         if (selectedIndicator.metadata_tabla && selectedIndicator.metadata_tabla.length > 0 && selectedIndicator.metadata_tabla[0].headers) {
             orderedKeys = selectedIndicator.metadata_tabla[0].headers.filter((h: string) => dataKeys.includes(h));
@@ -62,7 +75,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         let categoryKey = orderedKeys[0];
         for (const key of orderedKeys) {
             if (key.startsWith('col_')) continue;
-            const hasTextContent = dynamicData.some(r => {
+            const hasTextContent = dynamicData.some((r: any) => {
                 const rawVal = r[key];
                 if (rawVal === null || rawVal === '' || rawVal === undefined) return false;
                 const cleanVal = typeof rawVal === 'string' ? String(rawVal).replace(/,/g, '').trim() : rawVal;
@@ -83,7 +96,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         const hasPerRowYear = yearKey && categoryKey !== yearKey;
 
         if (hasPerRowYear && yearKey) {
-            dynamicData.forEach(row => {
+            dynamicData.forEach((row: any) => {
                 if (row[yearKey]) years.add(String(row[yearKey]));
             });
             if (years.size > 1 && years.has('General')) years.delete('General');
@@ -172,16 +185,11 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                                 size="lg"
                             >
                                 <option value="">-- Seleccionar --</option>
-                                {indicators.map(ind => {
-                                    const title = ind.titulo.toLowerCase().startsWith('indicador') || ind.titulo.includes(ind.clave)
-                                        ? ind.titulo
-                                        : `${ind.clave} - ${ind.titulo}`;
-                                    return (
-                                        <option key={ind.id} value={ind.id}>
-                                            {title}
-                                        </option>
-                                    );
-                                })}
+                                {indicators.map(ind => (
+                                    <option key={ind.id} value={ind.id}>
+                                        {ind.titulo}
+                                    </option>
+                                ))}
                             </Form.Select>
                         </Form.Group>
                     </Col>
