@@ -55,6 +55,36 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
 
         let dynamicData = selectedIndicator.metadata_dinamica || selectedIndicator.metadata_tabla_global || [];
         
+        // If it's an object with keys like "2023", "2024" (M3 custom tables)
+        if (dynamicData && typeof dynamicData === 'object' && !Array.isArray(dynamicData)) {
+            let flattened: any[] = [];
+            Object.keys(dynamicData).forEach(year => {
+                const yearData = (dynamicData as any)[year];
+                if (yearData && yearData.tabla && Array.isArray(yearData.tabla) && yearData.tabla.length > 1) {
+                    let headerIndex = 0;
+                    for (let i = 0; i < Math.min(3, yearData.tabla.length); i++) {
+                        const row = yearData.tabla[i];
+                        if (Array.isArray(row) && row.some((c: any) => typeof c === 'string' && (c.toUpperCase().includes('MUNICIPIO') || c.toUpperCase().includes('LOCALIDAD') || c.toUpperCase().includes('RACIONES') || c.toUpperCase().includes('CONVENIOS')))) {
+                            headerIndex = i;
+                            break;
+                        }
+                    }
+                    const headers = yearData.tabla[headerIndex];
+                    const rows = yearData.tabla.slice(headerIndex + 1);
+                    
+                    rows.forEach((rowArr: any[]) => {
+                        let obj: any = {};
+                        headers.forEach((h: string, i: number) => {
+                            if (h) obj[h] = rowArr[i];
+                        });
+                        obj['Año'] = year;
+                        flattened.push(obj);
+                    });
+                }
+            });
+            dynamicData = flattened;
+        }
+
         // If empty, check if it's an M3 indicator that stores its data in metadata_tabla
         if ((!dynamicData || dynamicData.length === 0) && selectedIndicator.metadata_tabla && selectedIndicator.metadata_tabla.length > 0) {
             dynamicData = selectedIndicator.metadata_tabla;
@@ -233,11 +263,15 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                                 size="lg"
                             >
                                 <option value="">-- Seleccionar --</option>
-                                {indicators.map(ind => (
-                                    <option key={ind.id} value={ind.id}>
-                                        {ind.titulo}
-                                    </option>
-                                ))}
+                                {indicators.map(ind => {
+                                    // Remove 'Indicador MX-XXX - ' prefix if it's baked into the database string
+                                    const cleanTitle = ind.titulo.replace(new RegExp(`^(Indicador\\s*)?${ind.clave}\\s*-\\s*`, 'i'), '');
+                                    return (
+                                        <option key={ind.id} value={ind.id}>
+                                            {cleanTitle}
+                                        </option>
+                                    );
+                                })}
                             </Form.Select>
                         </Form.Group>
                     </Col>
@@ -322,6 +356,11 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                             </Col>
                         </Row>
                     </React.Fragment>
+                ) : indicators.length === 0 ? (
+                    <div className="text-center p-5 bg-light rounded text-muted">
+                        <i className="ri-error-warning-line fs-1 mb-2 d-block"></i>
+                        Misión sin indicadores para mostrar geográficamente
+                    </div>
                 ) : selectedIndicatorId ? (
                     <div className="alert alert-warning">
                         El indicador seleccionado no cuenta con datos tabulares compatibles o estructurados para la vista de mapa de calor.
