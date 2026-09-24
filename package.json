@@ -87,7 +87,7 @@
     "react-table": "^7.8.0",
     "react-toastify": "^10.0.6",
     "redux": "^5.0.1",
-    "sass": "1.69.7",
+    "sass": "^1.105.0",
     "simplebar-react": "^3.2.6",
     "swiper": "^11.1.14",
     "yup": "^1.4.0"
