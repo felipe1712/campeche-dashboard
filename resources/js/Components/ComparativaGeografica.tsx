@@ -230,7 +230,33 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         });
     }, [parsedData, selectedYear, selectedSubCat]);
 
+
+    const filteredChartData = useMemo(() => {
+        if (!selectedIndicator || !parsedData) return [];
+        let raw = selectedIndicator.metadata_dinamica || selectedIndicator.metadata_tabla_global || [];
+        if (queryMision === '5') {
+            return raw.map((row) => {
+                const newRow = { ...row };
+                if (selectedSubCat !== 'Todos') {
+                    parsedData.subCats.forEach((sc) => {
+                        if (sc !== selectedSubCat) delete newRow[sc];
+                    });
+                } else {
+                    let sum = 0;
+                    parsedData.subCats.forEach((sc) => {
+                        sum += Number(row[sc]) || 0;
+                        delete newRow[sc];
+                    });
+                    newRow['Sumatoria'] = sum;
+                }
+                return newRow;
+            });
+        }
+        return raw;
+    }, [selectedIndicator, queryMision, selectedSubCat, parsedData]);
+
     return (
+
         <Card>
             <Card.Header className="bg-light">
                 <h5 className="card-title mb-0">Comparativa Geográfica Municipal</h5>
@@ -346,7 +372,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                                     {selectedMunicipio ? `Detalle de ${selectedMunicipio}` : 'Detalle Estatal'}
                                 </h6>
                                 <DynamicChart 
-                                    dynamicData={selectedIndicator.metadata_dinamica || selectedIndicator.metadata_tabla_global || []} 
+                                    dynamicData={filteredChartData} 
                                     metadataTabla={selectedIndicator.metadata_tabla || []}
                                     indicatorTitulo={selectedIndicator.titulo}
                                     selectedMunicipio={selectedMunicipio}
