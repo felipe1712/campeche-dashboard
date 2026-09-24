@@ -77,7 +77,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                         headers.forEach((h: string, i: number) => {
                             if (h) obj[h] = rowArr[i];
                         });
-                        obj['Año'] = year;
+                        obj['AÃ±o'] = year;
                         flattened.push(obj);
                     });
                 }
@@ -102,8 +102,8 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                         table.headers.forEach((h: string, i: number) => {
                             obj[h] = rowArr[i];
                         });
-                        if (table.title && !obj['Año'] && !obj['Ao'] && !obj['Ao'] && !obj['A\u00f1o']) {
-                            obj['Año'] = table.title;
+                        if (table.title && !obj['AÃ±o'] && !obj['Ao'] && !obj['Ao'] && !obj['A\u00f1o']) {
+                            obj['AÃ±o'] = table.title;
                         }
                         flattened.push(obj);
                     });
@@ -142,7 +142,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         }
 
         const years = new Set<string>();
-        let yearKey = dataKeys.find(k => { const up = String(k).toUpperCase(); return up === 'AÑO' || up === 'A\u00D1O' || up === 'ANO' || up === 'YEAR' || (up.startsWith('A') && up.endsWith('O') && up.length === 3); });
+        let yearKey = dataKeys.find(k => { const up = String(k).toUpperCase(); return up.includes('A') && (up.includes('O') || up.includes('0')) && up.length === 3 || up === 'YEAR'; });
         const hasPerRowYear = yearKey && categoryKey !== yearKey;
 
         if (hasPerRowYear && yearKey) {
@@ -152,19 +152,25 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
             if (years.size > 1 && years.has('General')) years.delete('General');
         }
 
-        let subCats = orderedKeys.filter(k => k !== categoryKey && k !== yearKey && !k.toLowerCase().includes('total') && !k.startsWith('col_'));
+        let subCats = orderedKeys.filter(k => 
+            k !== categoryKey && 
+            k !== yearKey && 
+            !k.toLowerCase().includes('total') && 
+            !k.startsWith('col_') &&
+            isNaN(Number(k))
+        );
         let customGroups: Record<string, string[]> | null = null;
 
         const title = selectedIndicator.titulo || '';
         if (title.includes('Jaguar') || title.includes('stiles Jaguar')) {
             customGroups = {
                 'Localidades y Escuelas': ['Localidad', 'Escuela'],
-                'Beneficiarios': ['Nias', 'Nios', 'Niñas', 'Niños']
+                'Beneficiarios': ['Nias', 'Nios', 'NiÃ±as', 'NiÃ±os']
             };
         } else if (title.toLowerCase().includes('raciones alimentarias')) {
             customGroups = {
-                'Raciones Distribuidas': ['RACION', 'RACIN', 'RACIÓN'],
-                'Número de beneficiarios': ['BENEFICIARIO']
+                'Raciones Distribuidas': ['RACION', 'RACIN', 'RACIÃ“N'],
+                'NÃºmero de beneficiarios': ['BENEFICIARIO']
             };
         }
 
@@ -180,8 +186,8 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
         const { dynamicData, categoryKey, hasPerRowYear, yearKey } = parsedData;
 
         const municipalities = [
-            'Calkiní', 'Campeche', 'Carmen', 'Champotón', 'Hecelchakán', 'Hopelchén', 
-            'Palizada', 'Tenabo', 'Escárcega', 'Calakmul', 'Candelaria', 'Seybaplaya', 'Dzitbalché'
+            'CalkinÃ­', 'Campeche', 'Carmen', 'ChampotÃ³n', 'HecelchakÃ¡n', 'HopelchÃ©n', 
+            'Palizada', 'Tenabo', 'EscÃ¡rcega', 'Calakmul', 'Candelaria', 'Seybaplaya', 'DzitbalchÃ©'
         ];
         
         const normalizeStr = (str: string) => String(str).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
@@ -197,7 +203,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
             let hasData = false;
 
             rows.forEach((r: any) => {
-                if (hasPerRowYear && yearKey && selectedYear !== 'Todos' && queryMision !== '4') {
+                if (hasPerRowYear && yearKey && selectedYear !== 'Todos' && queryMision !== '4' && queryMision !== '5') {
                     if (String(r[yearKey]) !== selectedYear) return;
                 }
 
@@ -233,22 +239,22 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
     return (
         <Card>
             <Card.Header className="bg-light">
-                <h5 className="card-title mb-0">Comparativa Geográfica Municipal</h5>
+                <h5 className="card-title mb-0">Comparativa GeogrÃ¡fica Municipal</h5>
             </Card.Header>
             <Card.Body>
                 <Row className="mb-4">
                     <Col lg={4}>
                         <Form.Group>
-                            <Form.Label className="fw-bold">Misión</Form.Label>
+                            <Form.Label className="fw-bold">MisiÃ³n</Form.Label>
                             <Form.Select 
                                 value={queryMision} 
                                 onChange={(e) => handleMisionChange(e.target.value)}
                                 size="lg"
                             >
                                 {Object.entries(missions || {}).map(([num, name]: any) => {
-                                    const title = typeof name === 'string' && name.toLowerCase().includes('misión') 
+                                    const title = typeof name === 'string' && name.toLowerCase().includes('misiÃ³n') 
                                         ? name 
-                                        : `Misión ${num}: ${name}`;
+                                        : `MisiÃ³n ${num}: ${name}`;
                                     return <option key={num} value={num}>{title}</option>;
                                 })}
                             </Form.Select>
@@ -280,10 +286,10 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                 {parsedData && selectedIndicator ? (
                     <React.Fragment>
                         <Row className="mb-4 align-items-center">
-                            {parsedData.years.length > 0 && queryMision !== '4' && (
+                            {parsedData.years.length > 0 && queryMision !== '4' && queryMision !== '5' && (
                                 <Col md="auto" className="mb-3 mb-md-0">
                                     <div className="d-flex align-items-center flex-wrap gap-2">
-                                        <h6 className="fw-bold mb-0 me-2">Filtrar por Año:</h6>
+                                        <h6 className="fw-bold mb-0 me-2">Filtrar por AÃ±o:</h6>
                                         <Button 
                                             variant={selectedYear === 'Todos' ? 'primary' : 'outline-primary'} 
                                             size="sm"
@@ -308,7 +314,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                             {parsedData.subCats.length > 1 && (
                                 <Col md="auto">
                                     <div className="d-flex align-items-center flex-wrap gap-2">
-                                        <h6 className="fw-bold mb-0 me-2">Filtrar por Categoría / Acción:</h6>
+                                        <h6 className="fw-bold mb-0 me-2">Filtrar por CategorÃ­a / AcciÃ³n:</h6>
                                         <Button 
                                             variant={selectedSubCat === 'Todos' ? 'primary' : 'outline-primary'} 
                                             size="sm"
@@ -333,13 +339,13 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                         
                         <Row>
                             <Col lg={6} className="mb-4 mb-lg-0">
-                                <h6 className="fw-bold text-center mb-3">Distribución Geográfica</h6>
+                                <h6 className="fw-bold text-center mb-3">DistribuciÃ³n GeogrÃ¡fica</h6>
                                 <CampecheHeatmap 
                                     data={heatmapData} 
                                     selectedMunicipio={selectedMunicipio}
                                     onMunicipioSelect={setSelectedMunicipio}
                                 />
-                                <p className="text-muted text-center mt-2 small">Da clic en un municipio para ver el detalle en la gráfica</p>
+                                <p className="text-muted text-center mt-2 small">Da clic en un municipio para ver el detalle en la grÃ¡fica</p>
                             </Col>
                             <Col lg={6}>
                                 <h6 className="fw-bold text-center mb-3">
@@ -356,7 +362,7 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                     </React.Fragment>
                 ) : indicators.length === 0 ? (
                     <div className="text-center p-5 bg-light rounded text-muted my-5">
-                        <h4 className="fw-bold text-secondary">Misión sin indicadores para mostrar geográficamente</h4>
+                        <h4 className="fw-bold text-secondary">MisiÃ³n sin indicadores para mostrar geogrÃ¡ficamente</h4>
                     </div>
                 ) : selectedIndicatorId ? (
                     <div className="alert alert-warning">
@@ -365,10 +371,12 @@ export default function ComparativaGeografica({ indicators }: { indicators: any[
                 ) : (
                     <div className="text-center p-5 bg-light rounded text-muted">
                         <i className="ri-map-pin-line fs-1 mb-2 d-block"></i>
-                        Selecciona un indicador de la lista para visualizar su distribución geográfica.
+                        Selecciona un indicador de la lista para visualizar su distribuciÃ³n geogrÃ¡fica.
                     </div>
                 )}
             </Card.Body>
         </Card>
     );
 }
+
+
