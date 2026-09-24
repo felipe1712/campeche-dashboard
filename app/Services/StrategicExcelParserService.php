@@ -50,7 +50,7 @@ class StrategicExcelParserService
                     $valNum = str_replace(',', '', $rowVal2);
                     $tableRows[] = [$rowVal1, is_numeric($valNum) ? (float)$valNum : $rowVal2];
                     
-                    if (str_starts_with(strtoupper($rowVal1), 'TOTAL')) {
+                    if (str_contains(strtoupper($rowVal1), 'TOTAL')) {
                         $tableTotal = is_numeric($valNum) ? (float)$valNum : 0;
                         break;
                     }
@@ -59,7 +59,7 @@ class StrategicExcelParserService
                 }
                 
                 $metadata_dinamica[] = [
-                    'PODER Y/U ORGANISMO' => $currentYear,
+                    'PODER Y/U ORGANISMO' => (string)$currentYear,
                     'PETICIONES' => $tableTotal
                 ];
                 

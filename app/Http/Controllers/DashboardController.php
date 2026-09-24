@@ -72,4 +72,21 @@ class DashboardController extends Controller
             ]
         ]);
     }
+
+    public function comparativa(Request $request)
+    {
+        $mision = $request->input('mision', '1');
+
+        $indicators = Indicator::with('tema')
+                          ->where('desglose_municipal', true)
+                          ->where('mision', $mision)
+                          ->get();
+
+        return Inertia::render('Dashboard/Comparativa', [
+            'indicators' => $indicators,
+            'filters' => [
+                'mision' => $mision
+            ]
+        ]);
+    }
 }

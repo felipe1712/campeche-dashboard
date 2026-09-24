@@ -35,6 +35,7 @@ use Inertia\Inertia;
 // Route::get("/apps-ecommerce-orders", [ProfileController::class, 'index'])->name('order-list');
 
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+Route::get('/comparativa', [LandingController::class, 'comparativa'])->name('landing.comparativa');
 Route::middleware('auth')->group(function () {
     // Gestor de Carga (Importación de Excel)
     Route::get('/import', [ImportController::class, 'index'])->name('import.index');
@@ -77,6 +78,7 @@ Route::middleware('auth')->group(function () {
 
     // Dashboard Principal
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/comparativa', [\App\Http\Controllers\DashboardController::class, 'comparativa'])->name('dashboard.comparativa');
 
     Route::controller(VelzonRoutesController::class)->group(function () {
 

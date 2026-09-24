@@ -26,6 +26,12 @@ const Navdata = () => {
             link: "/dashboard",
         },
         {
+            id: "comparativa",
+            label: "Comparativa Geográfica",
+            icon: "ri-map-pin-line",
+            link: "/dashboard/comparativa",
+        },
+        {
             label: "Administración",
             isHeader: true,
         },

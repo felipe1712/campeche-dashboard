@@ -26,4 +26,21 @@ class LandingController extends Controller
             ]
         ]);
     }
+
+    public function comparativa(Request $request)
+    {
+        $mision = $request->input('mision', '1');
+
+        $indicators = Indicator::with('tema')
+                          ->where('desglose_municipal', true)
+                          ->where('mision', $mision)
+                          ->get();
+
+        return Inertia::render('Landing/Comparativa', [
+            'indicators' => $indicators,
+            'filters' => [
+                'mision' => $mision
+            ]
+        ]);
+    }
 }

@@ -52,13 +52,23 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
             {/* Top Navigation */}
             <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
                 <Container style={{ maxWidth: '1200px' }}>
-                    <a className="navbar-brand d-flex align-items-center" href="/">
+                    <Link className="navbar-brand d-flex align-items-center" href="/">
                         <img src={campecheLogo} alt="Logo Campeche" height="65" className="me-3 rounded shadow-sm" />
                         <div className="d-flex flex-column">
                             <span className="fw-bold fs-18 text-primary" style={{ lineHeight: '1.2' }}>Indicadores Estratégicos</span>
-                            <span className="text-muted fs-12">5º Informe de Gobierno</span>
+                            <span className="text-muted fs-12">5° Informe de Gobierno</span>
                         </div>
-                    </a>
+                    </Link>
+                    <div className="collapse navbar-collapse d-flex ms-4">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 fw-bold">
+                            <li className="nav-item me-3">
+                                <Link className="nav-link active text-primary" aria-current="page" href={route('landing.index')}>Inicio</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" href={route('landing.comparativa')}>Comparativa Geográfica</Link>
+                            </li>
+                        </ul>
+                    </div>
                     <div className="ms-auto">
                         <Link href={route('login')} className="btn btn-primary btn-sm px-3 rounded-pill shadow-sm">
                             <i className="ri-user-settings-line align-middle me-1"></i> Acceso a Servidores Públicos
