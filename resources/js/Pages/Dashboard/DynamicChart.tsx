@@ -276,26 +276,27 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
     }
 
     
+    
     const renderSemaforo = () => {
         if (!metadataSemaforo || !metadataSemaforo.color) return null;
         
         let bgColor = '#6c757d'; // Gris
         let label = 'Sin Dato';
-        let icon = '⚪';
+        let icon = '\u26AA';
         
         const c = String(metadataSemaforo.color).toUpperCase().trim();
         if (c === 'VERDE') {
             bgColor = '#198754';
             label = 'Crecimiento';
-            icon = '🟢';
+            icon = '\uD83D\uDFE2';
         } else if (c === 'AMARILLO') {
             bgColor = '#ffc107';
             label = 'Estable';
-            icon = '🟡';
+            icon = '\uD83D\uDFE1';
         } else if (c === 'ROJO') {
             bgColor = '#dc3545';
             label = 'Decremento';
-            icon = '🔴';
+            icon = '\uD83D\uDD34';
         }
         
         const tooltip = (
@@ -1687,9 +1688,12 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
     return (
         <div className="dynamic-chart-wrapper">
             {!hideTitle && (
-                <h5 className="fw-bold mb-3" style={{ lineHeight: '1.4', color: '#9D2449' }}>
-                    {cleanTitle(indicatorTitulo || '')}{indicatorTitulo?.includes('Áreas destinadas voluntariamente') && !indicatorTitulo?.includes('Hectáreas') && !indicatorTitulo?.includes('Hectareas') ? ' (Hectáreas)' : ''}
-                </h5>
+                <div className="d-flex align-items-center flex-wrap mb-3">
+                    <h5 className="fw-bold mb-0 me-2" style={{ lineHeight: '1.4', color: '#9D2449' }}>
+                        {cleanTitle(indicatorTitulo || '')}{indicatorTitulo?.includes('reas destinadas voluntariamente') && !indicatorTitulo?.includes('Hect') ? ' (Hectáreas)' : ''}
+                    </h5>
+                    {renderSemaforo()}
+                </div>
             )}
 
             <Row className="mb-4 justify-content-between align-items-center">
