@@ -277,6 +277,7 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
 
     
     
+    
     const renderSemaforo = () => {
         if (!metadataSemaforo || !metadataSemaforo.color) return null;
         
@@ -285,30 +286,34 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
         let icon = '\u26AA';
         
         const c = String(metadataSemaforo.color).toUpperCase().trim();
+        const pct = metadataSemaforo.porcentaje_variacion !== null ? metadataSemaforo.porcentaje_variacion + '% ' : '';
+
         if (c === 'VERDE') {
             bgColor = '#198754';
-            label = 'Crecimiento';
+            label = pct + 'Crecimiento';
             icon = '\uD83D\uDFE2';
         } else if (c === 'AMARILLO') {
             bgColor = '#ffc107';
-            label = 'Estable';
+            label = pct + 'Estancamiento';
             icon = '\uD83D\uDFE1';
+            // Darken text for yellow background readability
         } else if (c === 'ROJO') {
             bgColor = '#dc3545';
-            label = 'Decremento';
+            label = pct + 'Decremento';
             icon = '\uD83D\uDD34';
         }
         
+        const textColor = c === 'AMARILLO' ? '#000' : '#fff';
+
         const tooltip = (
             <Tooltip id="semaforo-tooltip">
-                <strong>Avance: {metadataSemaforo.porcentaje_variacion !== null ? metadataSemaforo.porcentaje_variacion + '%' : 'N/D'}</strong><br/>
                 <span style={{ fontSize: '0.85em' }}>{metadataSemaforo.descripcion_regla}</span>
             </Tooltip>
         );
 
         return (
             <OverlayTrigger placement="top" overlay={tooltip}>
-                <span className="badge rounded-pill ms-2" style={{ backgroundColor: bgColor, cursor: 'help', fontSize: '0.8rem', fontWeight: 'normal', display: 'inline-flex', alignItems: 'center', gap: '4px', verticalAlign: 'middle' }}>
+                <span className="badge rounded-pill ms-2" style={{ backgroundColor: bgColor, color: textColor, cursor: 'help', fontSize: '0.85rem', fontWeight: 'normal', display: 'inline-flex', alignItems: 'center', gap: '4px', verticalAlign: 'middle', padding: '0.35em 0.85em' }}>
                     <span style={{ fontSize: '1rem' }}>{icon}</span> {label}
                 </span>
             </OverlayTrigger>
