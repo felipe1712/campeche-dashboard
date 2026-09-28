@@ -27,6 +27,7 @@ class Indicator extends Model
 
     protected $casts = [
         'metadata_dinamica' => 'array',
+        'metadata_semaforo' => 'array',
         'metadata_tabla' => 'array',
     ];
 
