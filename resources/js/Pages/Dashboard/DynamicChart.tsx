@@ -311,9 +311,16 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
         
         const textColor = c === 'AMARILLO' ? '#000' : '#fff';
         
-        const tooltipText = absPct !== null && verb !== ''
-            ? `${absPct}% de ${verb} con respecto al a\u00F1o anterior 2025`
-            : 'Sin dato comparable con respecto al a\u00F1o anterior 2025';
+        let tooltipText = 'Sin dato comparable con respecto al a\u00F1o anterior';
+        if (absPct !== null) {
+            if (c === 'VERDE') {
+                tooltipText = `${absPct}% de crecimiento con respecto al a\u00F1o anterior`;
+            } else if (c === 'AMARILLO') {
+                tooltipText = `${absPct}% de crecimiento con respecto al a\u00F1o anterior, muestra un estancamiento del crecimiento`;
+            } else if (c === 'ROJO') {
+                tooltipText = `${absPct}% de decremento con respecto al a\u00F1o anterior`;
+            }
+        }
 
         const tooltip = (
             <Tooltip id="semaforo-tooltip">
