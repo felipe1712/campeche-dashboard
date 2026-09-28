@@ -278,36 +278,46 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
     
     
     
+    
     const renderSemaforo = () => {
         if (!metadataSemaforo || !metadataSemaforo.color) return null;
         
         let bgColor = '#6c757d'; // Gris
         let label = 'Sin Dato';
         let icon = '\u26AA';
+        let verb = '';
         
         const c = String(metadataSemaforo.color).toUpperCase().trim();
-        const pct = metadataSemaforo.porcentaje_variacion !== null ? metadataSemaforo.porcentaje_variacion + '% ' : '';
+        const rawPct = metadataSemaforo.porcentaje_variacion;
+        const pctText = rawPct !== null ? rawPct + '% ' : '';
+        const absPct = rawPct !== null ? Math.abs(rawPct) : null;
 
         if (c === 'VERDE') {
             bgColor = '#198754';
-            label = pct + 'Crecimiento';
+            label = pctText + 'Crecimiento';
             icon = '\uD83D\uDFE2';
+            verb = 'crecimiento';
         } else if (c === 'AMARILLO') {
             bgColor = '#ffc107';
-            label = pct + 'Estancamiento';
+            label = pctText + 'Estancamiento';
             icon = '\uD83D\uDFE1';
-            // Darken text for yellow background readability
+            verb = 'estancamiento';
         } else if (c === 'ROJO') {
             bgColor = '#dc3545';
-            label = pct + 'Decremento';
+            label = pctText + 'Decremento';
             icon = '\uD83D\uDD34';
+            verb = 'decremento';
         }
         
         const textColor = c === 'AMARILLO' ? '#000' : '#fff';
+        
+        const tooltipText = absPct !== null && verb !== ''
+            ? `${absPct}% de ${verb} con respecto al a\u00F1o anterior 2025`
+            : 'Sin dato comparable con respecto al a\u00F1o anterior 2025';
 
         const tooltip = (
             <Tooltip id="semaforo-tooltip">
-                <span style={{ fontSize: '0.85em' }}>{metadataSemaforo.descripcion_regla}</span>
+                <span style={{ fontSize: '0.85em' }}>{tooltipText}</span>
             </Tooltip>
         );
 
