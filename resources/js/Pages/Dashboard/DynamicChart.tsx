@@ -1703,11 +1703,13 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
     return (
         <div className="dynamic-chart-wrapper">
             {!hideTitle && (
-                <div className="d-flex align-items-center flex-wrap mb-3">
-                    <h5 className="fw-bold mb-0 me-2" style={{ lineHeight: '1.4', color: '#9D2449' }}>
+                <div className="mb-4">
+                    <h5 className="fw-bold mb-3" style={{ lineHeight: '1.4', color: '#9D2449' }}>
                         {cleanTitle(indicatorTitulo || '')}{indicatorTitulo?.includes('reas destinadas voluntariamente') && !indicatorTitulo?.includes('Hect') ? ' (Hectáreas)' : ''}
                     </h5>
-                    {renderSemaforo()}
+                    <div className="text-center w-100 mb-2">
+                      {renderSemaforo()}
+                  </div>
                 </div>
             )}
 
