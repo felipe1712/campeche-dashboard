@@ -160,6 +160,7 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                             <Card className="shadow-sm border-0 h-100" style={{ borderRadius: '12px' }}>
                                                 <Card.Body>
                                                     <DynamicChart 
+                                                        metadataSemaforo={indicator.metadata_semaforo}
                                                         dynamicData={indicator.metadata_dinamica || []}
                                                         metadataTabla={indicator.metadata_tabla}
                                                         indicatorTitulo={indicator.titulo}
@@ -227,7 +228,8 @@ export default function LandingIndex({ indicators = [], filters = {} }: any) {
                                     <Card className="shadow-sm border-0 h-100" style={{ borderRadius: '12px', background: '#f8f9fa' }}>
                                         <Card.Body>
                                             <DynamicChart 
-                                                dynamicData={indicator.metadata_dinamica || []}
+                                                        metadataSemaforo={indicator.metadata_semaforo}
+                                                        dynamicData={indicator.metadata_dinamica || []}
                                                 metadataTabla={indicator.metadata_tabla}
                                                 indicatorTitulo={indicator.titulo}
                                                 selectedMunicipio={indicator.clave === 'M5-009' ? 'ESTADO' : null} 

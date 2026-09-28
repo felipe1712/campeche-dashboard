@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 const ChartComponent = (ReactApexChart as any).default || ReactApexChart;
-import { Table, Form, Row, Col, ButtonGroup, Button, Modal, Card } from 'react-bootstrap';
+import { Table, Form, Row, Col, ButtonGroup, Button, Modal, Card, OverlayTrigger, Tooltip, Badge } from 'react-bootstrap';
 type ChartType = 'bar' | 'bar-horizontal' | 'line' | 'area' | 'pie' | 'donut' | 'table';
 interface Props {
     dynamicData: any[];
@@ -13,7 +13,7 @@ interface Props {
     hideTitle?: boolean;
 }
 
-const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTitulo, selectedMunicipio, isMunicipal, defaultChartType, hideTitle }: Props) => {
+const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTitulo, selectedMunicipio, isMunicipal, defaultChartType, hideTitle, metadataSemaforo }: Props) => {
     
     // Fix garbage first row from broken Excel imports
     const dynamicData = useMemo(() => {
@@ -274,6 +274,45 @@ const DynamicChart = ({ dynamicData: rawDynamicData, metadataTabla, indicatorTit
     if (indicatorTitulo && indicatorTitulo.startsWith('M1-')) {
         PALETTE = ['#8D5821', '#575756', '#BE8B63', '#A86A28', '#6E6E6D', '#D1A37B', '#70461B', '#414141', '#A67956'];
     }
+
+    
+    const renderSemaforo = () => {
+        if (!metadataSemaforo || !metadataSemaforo.color) return null;
+        
+        let bgColor = '#6c757d'; // Gris
+        let label = 'Sin Dato';
+        let icon = '⚪';
+        
+        const c = String(metadataSemaforo.color).toUpperCase().trim();
+        if (c === 'VERDE') {
+            bgColor = '#198754';
+            label = 'Crecimiento';
+            icon = '🟢';
+        } else if (c === 'AMARILLO') {
+            bgColor = '#ffc107';
+            label = 'Estable';
+            icon = '🟡';
+        } else if (c === 'ROJO') {
+            bgColor = '#dc3545';
+            label = 'Decremento';
+            icon = '🔴';
+        }
+        
+        const tooltip = (
+            <Tooltip id="semaforo-tooltip">
+                <strong>Avance: {metadataSemaforo.porcentaje_variacion !== null ? metadataSemaforo.porcentaje_variacion + '%' : 'N/D'}</strong><br/>
+                <span style={{ fontSize: '0.85em' }}>{metadataSemaforo.descripcion_regla}</span>
+            </Tooltip>
+        );
+
+        return (
+            <OverlayTrigger placement="top" overlay={tooltip}>
+                <span className="badge rounded-pill ms-2" style={{ backgroundColor: bgColor, cursor: 'help', fontSize: '0.8rem', fontWeight: 'normal', display: 'inline-flex', alignItems: 'center', gap: '4px', verticalAlign: 'middle' }}>
+                    <span style={{ fontSize: '1rem' }}>{icon}</span> {label}
+                </span>
+            </OverlayTrigger>
+        );
+    };
 
     const cleanTitle = (title: string) => {
         return title.replace(/,?\s*(?<!-)\b20\d{2}\.?$/, '').trim();
